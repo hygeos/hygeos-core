@@ -597,8 +597,10 @@ class CompoundProcessor(BlockProcessor):
         self.output_tags = outputs_tags
         self.output_names = outputs_names
         self._preserve_attrs = preserve_attrs
-        assert (outputs_names is not None) == (outputs == 'named')
-        assert (outputs_tags is not None) == (outputs == 'tags')
+        if outputs == 'named':
+            assert outputs_names is not None
+        if outputs == 'tags':
+            assert outputs_tags is not None
 
     def get_required_processors(self) -> list[BlockProcessor]:
         """
