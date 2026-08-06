@@ -24,6 +24,9 @@ default = { features = ["sys", "test"], solve-group = "default" }
 [tool.pixi.tasks]
 tests = "pytest tests"
 build_docs = "sphinx-build -b html docs/source docs/build"
+docs-build = "quartodoc build --config docs/_quarto.yml"
+docs-render = { cmd = "quarto render docs/", depends-on = ["docs-build"] }
+docs-preview = { cmd = "quarto preview docs/", depends-on = ["docs-build"] }
 
 [tool.pixi.dependencies]
 tqdm = "*"
@@ -38,6 +41,11 @@ lxml = "*"
 sphinx = "*"
 ipykernel = "*"
 zarr = "*"
+quartodoc = "*"
+nbformat = "*"
+nbclient = "*"
+jupyter-cache = "*"
+griffe = ">=1.0,<2.0"
 
 [tool.pixi.feature.test.dependencies]
 pytest = "*"

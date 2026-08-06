@@ -1,0 +1,191 @@
+---
+title: "Getting Started"
+description: "Quick guide to using core"
+---
+
+## Installation
+
+Install `core` from the GitHub repository:
+
+```bash
+pip install --no-cache-dir git+https://github.com/hygeos/core.git
+```
+
+## Core concepts
+
+The `core` library is organized around several key utilities:
+
+### Logging
+
+The `log` module provides color-aware, level-based logging:
+
+```python
+from core import log
+
+log.info("Processing started")
+log.debug("Variable details: shape=(100, 200)")
+log.warning("File already exists, overwriting")
+log.error("Something went wrong", e=ValueError)
+```
+
+### Safe file operations
+
+Use `filegen` for atomic file writes with temporary files and locking:
+
+```python
+from core.files.fileutils import filegen
+from pathlib import Path
+
+@filegen(verbose=True, if_exists='overwrite')
+def save_results(output_path):
+    # Write to a temporary file first, then atomically move
+    with open(output_path, 'w') as f:
+        f.write("results data")
+    return output_path
+
+save_results(Path("/data/output.nc"))
+```
+
+Write xarray datasets with compression and safety features:
+
+```python
+from core.files.save import to_netcdf
+import xarray as xr
+
+ds = xr.Dataset(...)
+to_netcdf(ds, Path("/data/output.nc"), zlib=True, complevel=5)
+```
+
+### Managed directories
+
+Track directory metadata (creation date, git commit, project info):
+
+```python
+from core.files.fileutils import mdir
+
+data_dir = mdir("/data/project/", project="my_project", version="1.0")
+```
+
+### Caching
+
+Cache function results to avoid redundant computation:
+
+```python
+from core.files.cache import cache_dataframe, cache_json, cache_pickle
+
+# Cache a DataFrame
+df = cache_dataframe("/cache/data.parquet")
+
+# Cache any Python object
+obj = cache_pickle("/cache/results.pkl")
+```
+
+### Block processing
+
+Process large xarray datasets in chunks using `BlockProcessor`:
+
+```python
+from core.process.blockwise import BlockProcessor
+from core.tools import Var
+
+class AddProcessor(BlockProcessor):
+    def input_vars(self):
+        return [Var('a'), Var('b')]
+    
+    def created_vars(self):
+        return [Var('sum', 'float64', ('x', 'y'))]
+    
+    def process_block(self, block):
+        block['sum'] = block['a'] + block['b']
+
+result = AddProcessor().map_blocks(dataset)
+```
+
+### xarray utilities
+
+The `tools` module provides many xarray helpers:
+
+```python
+from core import tools
+
+# Spatial subsetting
+ds_subset = tools.sub_pt(ds, lat=45.0, lon=2.0, rad=100000)  # 100km radius
+
+# Flag handling
+flagged = tools.getflag(data_array, 'cloudy')
+
+# Date ranges
+from core.dates import date_range, time_range
+from datetime import date, datetime, timedelta
+days = date_range(date(2024, 1, 1), date(2024, 1, 31))
+```
+
+### Static decorators
+
+Design patterns for class hierarchies:
+
+```python
+from core.static import abstract, singleton, interface
+
+@abstract
+class BaseProcessor:
+    @abstract
+    def process(self, data):
+        pass
+
+@singleton
+class ConfigManager:
+    def __init__(self):
+        self.settings = {}
+
+@interface
+def get_instance():
+    """Mark as a public interface method"""
+    pass
+```
+
+### Environment & configuration
+
+Load environment variables from `.env` files:
+
+```python
+from core.env import load_dotenvs
+
+load_dotenvs()  # Loads all .env files from CWD up to root
+```
+
+Parse TOML configuration:
+
+```python
+from core.config import Config
+from pathlib import Path
+
+config = Config.new_from_toml(Path("config.toml"))
+section = config.get_subsection("processing")
+```
+
+### Network operations
+
+Download files with progress tracking:
+
+```python
+from core.network.download import download_url
+from pathlib import Path
+
+download_url("https://example.com/data.zip", Path("/downloads/"))
+```
+
+FTP transfers with `.netrc` authentication:
+
+```python
+from core.network.ftp import ftp_download
+from core.network.auth import get_auth
+
+auth = get_auth("my_server")
+# auth = {'user': ..., 'password': ..., 'url': ...}
+```
+
+## Next steps
+
+- Explore the [API Reference](../reference/) for detailed function documentation.
+- Check out the source code on [GitHub](https://github.com/hygeos/Core).

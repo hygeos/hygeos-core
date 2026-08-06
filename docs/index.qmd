@@ -1,0 +1,45 @@
+---
+title: CORE
+subtitle: "Common Operations for Robust Engineering"
+---
+
+## What is `core`?
+
+`core` is a Python library that provides common utilities for robust, production-grade engineering workflows — especially around scientific data processing with [xarray](https://docs.xarray.dev/) and [dask](https://www.dask.org/).
+
+It includes tools for:
+
+- **File I/O** — Safe file generation, NetCDF writing, caching, compression, and directory management.
+- **Data processing** — Block-wise processing pipelines for large xarray datasets with lazy dask evaluation.
+- **xarray helpers** — Spatial subsetting, flag handling, dimension alignment, interpolation, and more.
+- **Logging & progress** — Color-aware logging with configurable levels, progress bars, and ASCII tables.
+- **Environment & config** — Dotenv loading, TOML configuration parsing, and credential management.
+- **Static patterns** — Decorators for abstract classes, singletons, interfaces, and parametrized decorators.
+- **Network** — URL downloading, FTP transfers, and `.netrc` authentication.
+- **Geo utilities** — Product naming conventions, pattern matching, and coordinate conversions.
+
+
+## Installation
+
+Install from GitHub:
+
+```bash
+pip install --no-cache-dir git+https://github.com/hygeos/core.git
+```
+
+Or in editable mode from a local clone:
+
+```bash
+pip install -e /path/to/core/
+```
+
+## Modules at a glance
+
+| Section | Description |
+|---------|-------------|
+| [Files](#files) | `filegen`, `mdir`, `to_netcdf`, caching, uncompression, file locking |
+| [Process](#process) | `BlockProcessor`, `CompoundProcessor` for chunked xarray pipelines |
+| [Static](#static) | `@abstract`, `@singleton`, `@interface`, `@virtual` decorators |
+| [Geo](#geo) | Product naming, pattern retrieval, coordinate conversion |
+| [Network](#network) | HTTP downloading, FTP, `.netrc` authentication |
+| [Tools](#tools) | xarray helpers, dates, environment, logging, fuzzy search, interpolation |

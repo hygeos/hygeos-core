@@ -1,7 +1,0 @@
-core.download
-====================
-
-.. automodule:: core.download
-   :members:
-   :show-inheritance:
-   :undoc-members:

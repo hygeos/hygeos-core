@@ -1,7 +1,0 @@
-core.monitor
-===================
-
-.. automodule:: core.monitor
-   :members:
-   :show-inheritance:
-   :undoc-members:
