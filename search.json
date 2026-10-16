@@ -1,0 +1,1002 @@
+[
+  {
+    "objectID": "reference/network.auth.html",
+    "href": "reference/network.auth.html",
+    "title": "network.auth",
+    "section": "",
+    "text": "network.auth\n\n\n\n\n\nName\nDescription\n\n\n\n\nget_auth\nReturns a dictionary with credentials, using .netrc\n\n\n\n\n\nnetwork.auth.get_auth(name)\nReturns a dictionary with credentials, using .netrc\nname is the identifier (= machine in .netrc). This allows for several accounts on a single machine. The url is returned as account",
+    "crumbs": [
+      "Network",
+      "network.auth"
+    ]
+  },
+  {
+    "objectID": "reference/network.auth.html#functions",
+    "href": "reference/network.auth.html#functions",
+    "title": "network.auth",
+    "section": "",
+    "text": "Name\nDescription\n\n\n\n\nget_auth\nReturns a dictionary with credentials, using .netrc\n\n\n\n\n\nnetwork.auth.get_auth(name)\nReturns a dictionary with credentials, using .netrc\nname is the identifier (= machine in .netrc). This allows for several accounts on a single machine. The url is returned as account",
+    "crumbs": [
+      "Network",
+      "network.auth"
+    ]
+  },
+  {
+    "objectID": "reference/geo.naming.html",
+    "href": "reference/geo.naming.html",
+    "title": "geo.naming",
+    "section": "",
+    "text": "geo.naming\ngeo.naming",
+    "crumbs": [
+      "Geo",
+      "geo.naming"
+    ]
+  },
+  {
+    "objectID": "reference/dates.html",
+    "href": "reference/dates.html",
+    "title": "dates",
+    "section": "",
+    "text": "dates\n\n\n\n\n\nName\nDescription\n\n\n\n\nclosest\nRound a date to the closest hour, by steps of h hours\n\n\ndate_range\nReturns a list of days starting from date_start, up to date_end included\n\n\nduration\nReturns a timedelta from a string s\n\n\nget_month_range\nReturns a couple of date corresponding to start and end of the month\n\n\nnow_isofmt\nReturns now in iso format\n\n\nround_date\nRound a date to the bracketing hours, by steps of h hours\n\n\ntime_range\nReturns a list of datetime starting from start, up to end included\n\n\n\n\n\ndates.closest(date, h)\nRound a date to the closest hour, by steps of h hours\n\n\n\ndates.date_range(date_start, date_end)\nReturns a list of days starting from date_start, up to date_end included\n\n\n\ndates.duration(s)\nReturns a timedelta from a string s\n\n\n\ndates.get_month_range(year, month)\nReturns a couple of date corresponding to start and end of the month\n\n\n\ndates.now_isofmt()\nReturns now in iso format\n\n\n\ndates.round_date(date, h)\nRound a date to the bracketing hours, by steps of h hours\n\n\n\ndates.time_range(start, end, step)\nReturns a list of datetime starting from start, up to end included",
+    "crumbs": [
+      "Tools",
+      "dates"
+    ]
+  },
+  {
+    "objectID": "reference/dates.html#functions",
+    "href": "reference/dates.html#functions",
+    "title": "dates",
+    "section": "",
+    "text": "Name\nDescription\n\n\n\n\nclosest\nRound a date to the closest hour, by steps of h hours\n\n\ndate_range\nReturns a list of days starting from date_start, up to date_end included\n\n\nduration\nReturns a timedelta from a string s\n\n\nget_month_range\nReturns a couple of date corresponding to start and end of the month\n\n\nnow_isofmt\nReturns now in iso format\n\n\nround_date\nRound a date to the bracketing hours, by steps of h hours\n\n\ntime_range\nReturns a list of datetime starting from start, up to end included\n\n\n\n\n\ndates.closest(date, h)\nRound a date to the closest hour, by steps of h hours\n\n\n\ndates.date_range(date_start, date_end)\nReturns a list of days starting from date_start, up to date_end included\n\n\n\ndates.duration(s)\nReturns a timedelta from a string s\n\n\n\ndates.get_month_range(year, month)\nReturns a couple of date corresponding to start and end of the month\n\n\n\ndates.now_isofmt()\nReturns now in iso format\n\n\n\ndates.round_date(date, h)\nRound a date to the bracketing hours, by steps of h hours\n\n\n\ndates.time_range(start, end, step)\nReturns a list of datetime starting from start, up to end included",
+    "crumbs": [
+      "Tools",
+      "dates"
+    ]
+  },
+  {
+    "objectID": "reference/xrtags.html",
+    "href": "reference/xrtags.html",
+    "title": "xrtags",
+    "section": "",
+    "text": "xrtags\n\n\n\n\n\nName\nDescription\n\n\n\n\ntag_add\nAdd one or several tags to DataArray A\n\n\ntag_filter\nReturns the filtered Dataset, containing variables tagged with any of the\n\n\n\n\n\nxrtags.tag_add(da, tag)\nAdd one or several tags to DataArray A\ntag: either a single tag (ex: “level2”) or multiple tags (ex: [“level2”, “ancillary”])\n\n\n\nxrtags.tag_filter(ds, tag)\nReturns the filtered Dataset, containing variables tagged with any of the tag(s) provided",
+    "crumbs": [
+      "Tools",
+      "xrtags"
+    ]
+  },
+  {
+    "objectID": "reference/xrtags.html#functions",
+    "href": "reference/xrtags.html#functions",
+    "title": "xrtags",
+    "section": "",
+    "text": "Name\nDescription\n\n\n\n\ntag_add\nAdd one or several tags to DataArray A\n\n\ntag_filter\nReturns the filtered Dataset, containing variables tagged with any of the\n\n\n\n\n\nxrtags.tag_add(da, tag)\nAdd one or several tags to DataArray A\ntag: either a single tag (ex: “level2”) or multiple tags (ex: [“level2”, “ancillary”])\n\n\n\nxrtags.tag_filter(ds, tag)\nReturns the filtered Dataset, containing variables tagged with any of the tag(s) provided",
+    "crumbs": [
+      "Tools",
+      "xrtags"
+    ]
+  },
+  {
+    "objectID": "reference/tests.conftest.html",
+    "href": "reference/tests.conftest.html",
+    "title": "tests.conftest",
+    "section": "",
+    "text": "tests.conftest\nThis module facilitates the inclusion of images in pytest-html reports.\nGenerate images with matplotlib and use conftest.savefig(request) instead of matplotlib’s savefig. Example:\nimport conftest\nfrom matplotlib import pyplot as plt\n\ndef test_html_report(request):\n    plt.figure()\n    plt.plot()\n    conftest.savefig(request)\n\n\n\nTo use this module, please create the file tests/conftest.py in your repository, with the following content: from core.conftest import *\nRun pytest with the following options (can be added to pytest.ini): –html=tests/test_report.html –self-contained-html\nSample pytest.ini: [pytest] addopts= -n auto –html=test_report.html –self-contained-html\n\nNote: this requires pytest-html\n\n\n\n\nIf you generate an image as a ByteIO buffer, you can add it to the report like so:\ndef test_with_image(request): plt.plot(…) fp = io.BytesIO() plt.savefig(fp) conftest.add_image_to_report(request, fp)\nIf you generate a file in your test, you can link it in the report using:\nconftest.add_link_to_report(request, path)\nThe images embedded in the html file can be dragged in a browser to view them in full size.\n\n\n\n\n\n\n\n\n\n\n\n\n\nName\nType\nDescription\nDefault\n\n\n\n\nBy\n\n\nrequired\n\n\nimg_collapsible\n\nWhether to use a collapsible section to embed the images (default true). Ex: true, false Otherwise, the standard image integration is used.\nrequired\n\n\nimg_size\n\nImage size, when using img_collapsible mode Ex: 100%, 250px (default)\nrequired\n\n\ndark_mode\n\nWhether to enable dark mode theme in HTML reports (default false). Ex: true, false (default)\nrequired\n\n\nmonitor_peak_memory\n\nWhether to monitor and report peak RSS memory usage (default false). Ex: true, false (default)\nrequired\n\n\n\n\n\n\n\n\n\nName\nDescription\n\n\n\n\nadd_extra_to_report\nAdd extra content to pytest-html report (through request.node.extras)\n\n\nadd_image_to_report\nAppends image data to request.node.images\n\n\nadd_link_to_report\nAdd a link to a local file path\n\n\npytest_configure\nStore config for later use in hooks.\n\n\npytest_html_results_summary\nAdd embedded dark theme CSS to the HTML report if dark_mode is enabled.\n\n\npytest_html_results_table_header\nInsert per-test memory columns in pytest-html results table.\n\n\npytest_html_results_table_row\nRender per-test memory values in pytest-html results table.\n\n\nsavefig\nWraps matplotlib’s savefig to add image data to request.node.images\n\n\n\n\n\ntests.conftest.add_extra_to_report(request, *args)\nAdd extra content to pytest-html report (through request.node.extras)\nExamples: add_extra_to_report(request, ‘sample text’, ‘text’) add_extra_to_report(request, ‘sample html’, ‘html’) add_extra_to_report(request, ‘https://www.wikipedia.org/’, ‘url’, ‘Link text’)\n\n\n\ntests.conftest.add_image_to_report(request, fp)\nAppends image data to request.node.images\nrequest: pytest request fixture\nfp: BytesIO\n\n\n\ntests.conftest.add_link_to_report(request, path, name='Link')\nAdd a link to a local file path\nMakes the link relative to the directory of html output\n\n\n\ntests.conftest.pytest_configure(config)\nStore config for later use in hooks.\n\n\n\ntests.conftest.pytest_html_results_summary(prefix, summary, postfix)\nAdd embedded dark theme CSS to the HTML report if dark_mode is enabled.\n\n\n\ntests.conftest.pytest_html_results_table_header(cells)\nInsert per-test memory columns in pytest-html results table.\n\n\n\ntests.conftest.pytest_html_results_table_row(report, cells)\nRender per-test memory values in pytest-html results table.\n\n\n\ntests.conftest.savefig(request, **kwargs)\nWraps matplotlib’s savefig to add image data to request.node.images\nkwargs are passed to plt.savefig",
+    "crumbs": [
+      "Tests",
+      "tests.conftest"
+    ]
+  },
+  {
+    "objectID": "reference/tests.conftest.html#how-to-use-it",
+    "href": "reference/tests.conftest.html#how-to-use-it",
+    "title": "tests.conftest",
+    "section": "",
+    "text": "To use this module, please create the file tests/conftest.py in your repository, with the following content: from core.conftest import *\nRun pytest with the following options (can be added to pytest.ini): –html=tests/test_report.html –self-contained-html\nSample pytest.ini: [pytest] addopts= -n auto –html=test_report.html –self-contained-html\n\nNote: this requires pytest-html",
+    "crumbs": [
+      "Tests",
+      "tests.conftest"
+    ]
+  },
+  {
+    "objectID": "reference/tests.conftest.html#other-features",
+    "href": "reference/tests.conftest.html#other-features",
+    "title": "tests.conftest",
+    "section": "",
+    "text": "If you generate an image as a ByteIO buffer, you can add it to the report like so:\ndef test_with_image(request): plt.plot(…) fp = io.BytesIO() plt.savefig(fp) conftest.add_image_to_report(request, fp)\nIf you generate a file in your test, you can link it in the report using:\nconftest.add_link_to_report(request, path)\nThe images embedded in the html file can be dragged in a browser to view them in full size.",
+    "crumbs": [
+      "Tests",
+      "tests.conftest"
+    ]
+  },
+  {
+    "objectID": "reference/tests.conftest.html#parameters",
+    "href": "reference/tests.conftest.html#parameters",
+    "title": "tests.conftest",
+    "section": "",
+    "text": "Name\nType\nDescription\nDefault\n\n\n\n\nBy\n\n\nrequired\n\n\nimg_collapsible\n\nWhether to use a collapsible section to embed the images (default true). Ex: true, false Otherwise, the standard image integration is used.\nrequired\n\n\nimg_size\n\nImage size, when using img_collapsible mode Ex: 100%, 250px (default)\nrequired\n\n\ndark_mode\n\nWhether to enable dark mode theme in HTML reports (default false). Ex: true, false (default)\nrequired\n\n\nmonitor_peak_memory\n\nWhether to monitor and report peak RSS memory usage (default false). Ex: true, false (default)\nrequired",
+    "crumbs": [
+      "Tests",
+      "tests.conftest"
+    ]
+  },
+  {
+    "objectID": "reference/tests.conftest.html#functions",
+    "href": "reference/tests.conftest.html#functions",
+    "title": "tests.conftest",
+    "section": "",
+    "text": "Name\nDescription\n\n\n\n\nadd_extra_to_report\nAdd extra content to pytest-html report (through request.node.extras)\n\n\nadd_image_to_report\nAppends image data to request.node.images\n\n\nadd_link_to_report\nAdd a link to a local file path\n\n\npytest_configure\nStore config for later use in hooks.\n\n\npytest_html_results_summary\nAdd embedded dark theme CSS to the HTML report if dark_mode is enabled.\n\n\npytest_html_results_table_header\nInsert per-test memory columns in pytest-html results table.\n\n\npytest_html_results_table_row\nRender per-test memory values in pytest-html results table.\n\n\nsavefig\nWraps matplotlib’s savefig to add image data to request.node.images\n\n\n\n\n\ntests.conftest.add_extra_to_report(request, *args)\nAdd extra content to pytest-html report (through request.node.extras)\nExamples: add_extra_to_report(request, ‘sample text’, ‘text’) add_extra_to_report(request, ‘sample html’, ‘html’) add_extra_to_report(request, ‘https://www.wikipedia.org/’, ‘url’, ‘Link text’)\n\n\n\ntests.conftest.add_image_to_report(request, fp)\nAppends image data to request.node.images\nrequest: pytest request fixture\nfp: BytesIO\n\n\n\ntests.conftest.add_link_to_report(request, path, name='Link')\nAdd a link to a local file path\nMakes the link relative to the directory of html output\n\n\n\ntests.conftest.pytest_configure(config)\nStore config for later use in hooks.\n\n\n\ntests.conftest.pytest_html_results_summary(prefix, summary, postfix)\nAdd embedded dark theme CSS to the HTML report if dark_mode is enabled.\n\n\n\ntests.conftest.pytest_html_results_table_header(cells)\nInsert per-test memory columns in pytest-html results table.\n\n\n\ntests.conftest.pytest_html_results_table_row(report, cells)\nRender per-test memory values in pytest-html results table.\n\n\n\ntests.conftest.savefig(request, **kwargs)\nWraps matplotlib’s savefig to add image data to request.node.images\nkwargs are passed to plt.savefig",
+    "crumbs": [
+      "Tests",
+      "tests.conftest"
+    ]
+  },
+  {
+    "objectID": "reference/monitor.html",
+    "href": "reference/monitor.html",
+    "title": "monitor",
+    "section": "",
+    "text": "monitor\n\n\n\n\n\nName\nDescription\n\n\n\n\nChrono\n- name: str\n\n\nMonitor\nMeta-structure to monitor some variables in a script\n\n\nRAM\n- name: str\n\n\n\n\n\nmonitor.Chrono(name='chrono object', unit='m')\n\nname: str\nunit “m” | “s” | “ms” | “us”\n\n\n\n\nmonitor.Monitor(name='monitor object', time=None, ram=None)\nMeta-structure to monitor some variables in a script\n\n\n\nmonitor.RAM(name='ram object')\n\nname: str\n\n\n\n\n\n\n\n\nName\nDescription\n\n\n\n\ndask_graph_stats\nGet statistics about the dask graph for each variable in the dataset ds.\n\n\n\n\n\nmonitor.dask_graph_stats(ds)\nGet statistics about the dask graph for each variable in the dataset ds.\nReturns a pandas DataFrame with the following columns: - var: The name of the variable. - graph_len: The length of the dask graph for the variable. - n_chunks: The number of chunks in the dask graph for the variable. - per_chunk: graph_len/n_chunks.\nExample: &gt;&gt;&gt; print(dask_graph_stats(ds).to_string(index=False))",
+    "crumbs": [
+      "Tools",
+      "monitor"
+    ]
+  },
+  {
+    "objectID": "reference/monitor.html#classes",
+    "href": "reference/monitor.html#classes",
+    "title": "monitor",
+    "section": "",
+    "text": "Name\nDescription\n\n\n\n\nChrono\n- name: str\n\n\nMonitor\nMeta-structure to monitor some variables in a script\n\n\nRAM\n- name: str\n\n\n\n\n\nmonitor.Chrono(name='chrono object', unit='m')\n\nname: str\nunit “m” | “s” | “ms” | “us”\n\n\n\n\nmonitor.Monitor(name='monitor object', time=None, ram=None)\nMeta-structure to monitor some variables in a script\n\n\n\nmonitor.RAM(name='ram object')\n\nname: str",
+    "crumbs": [
+      "Tools",
+      "monitor"
+    ]
+  },
+  {
+    "objectID": "reference/monitor.html#functions",
+    "href": "reference/monitor.html#functions",
+    "title": "monitor",
+    "section": "",
+    "text": "Name\nDescription\n\n\n\n\ndask_graph_stats\nGet statistics about the dask graph for each variable in the dataset ds.\n\n\n\n\n\nmonitor.dask_graph_stats(ds)\nGet statistics about the dask graph for each variable in the dataset ds.\nReturns a pandas DataFrame with the following columns: - var: The name of the variable. - graph_len: The length of the dask graph for the variable. - n_chunks: The number of chunks in the dask graph for the variable. - per_chunk: graph_len/n_chunks.\nExample: &gt;&gt;&gt; print(dask_graph_stats(ds).to_string(index=False))",
+    "crumbs": [
+      "Tools",
+      "monitor"
+    ]
+  },
+  {
+    "objectID": "reference/network.download.html",
+    "href": "reference/network.download.html",
+    "title": "network.download",
+    "section": "",
+    "text": "network.download\n\n\n\n\n\nName\nDescription\n\n\n\n\ndownload_url\nDownload url to dirname\n\n\n\n\n\nnetwork.download.download_url(\n    url,\n    dirname,\n    wget_opts=None,\n    check_function=None,\n    verbose=True,\n    if_exists='skip',\n    **kwargs,\n)\nDownload url to dirname\nUses wget when wget_opts is provided, otherwise uses urllib.request Options wget_opts are added to wget command Uses a filegen wrapper Other kwargs are passed to filegen (lock_timeout, tmpdir, if_exists)\nReturns the path to the downloaded file",
+    "crumbs": [
+      "Network",
+      "network.download"
+    ]
+  },
+  {
+    "objectID": "reference/network.download.html#functions",
+    "href": "reference/network.download.html#functions",
+    "title": "network.download",
+    "section": "",
+    "text": "Name\nDescription\n\n\n\n\ndownload_url\nDownload url to dirname\n\n\n\n\n\nnetwork.download.download_url(\n    url,\n    dirname,\n    wget_opts=None,\n    check_function=None,\n    verbose=True,\n    if_exists='skip',\n    **kwargs,\n)\nDownload url to dirname\nUses wget when wget_opts is provided, otherwise uses urllib.request Options wget_opts are added to wget command Uses a filegen wrapper Other kwargs are passed to filegen (lock_timeout, tmpdir, if_exists)\nReturns the path to the downloaded file",
+    "crumbs": [
+      "Network",
+      "network.download"
+    ]
+  },
+  {
+    "objectID": "reference/config.html",
+    "href": "reference/config.html",
+    "title": "config",
+    "section": "",
+    "text": "config\nconfig",
+    "crumbs": [
+      "Tools",
+      "config"
+    ]
+  },
+  {
+    "objectID": "reference/masks.html",
+    "href": "reference/masks.html",
+    "title": "masks",
+    "section": "",
+    "text": "masks\n\n\n\n\n\nName\nDescription\n\n\n\n\nexplicit_bitmask\nRetrieve masks used to generate the provided bitmask\n\n\ngen_bitmask\nConcatenate several boolean masks into a single bitmask\n\n\n\n\n\nmasks.explicit_bitmask(bitmask)\nRetrieve masks used to generate the provided bitmask\nArgs: bit_mask (xr.DataArray): Bitmask obtained using gen_bitmask\n\n\n\nmasks.gen_bitmask(*masks, bit_index=None)\nConcatenate several boolean masks into a single bitmask\nArgs: bit_index (list, optional): Index of the bit to fill. If not specified, it completes the bits in order. Defaults to None.",
+    "crumbs": [
+      "Tools",
+      "masks"
+    ]
+  },
+  {
+    "objectID": "reference/masks.html#functions",
+    "href": "reference/masks.html#functions",
+    "title": "masks",
+    "section": "",
+    "text": "Name\nDescription\n\n\n\n\nexplicit_bitmask\nRetrieve masks used to generate the provided bitmask\n\n\ngen_bitmask\nConcatenate several boolean masks into a single bitmask\n\n\n\n\n\nmasks.explicit_bitmask(bitmask)\nRetrieve masks used to generate the provided bitmask\nArgs: bit_mask (xr.DataArray): Bitmask obtained using gen_bitmask\n\n\n\nmasks.gen_bitmask(*masks, bit_index=None)\nConcatenate several boolean masks into a single bitmask\nArgs: bit_index (list, optional): Index of the bit to fill. If not specified, it completes the bits in order. Defaults to None.",
+    "crumbs": [
+      "Tools",
+      "masks"
+    ]
+  },
+  {
+    "objectID": "reference/files.uncompress.html",
+    "href": "reference/files.uncompress.html",
+    "title": "files.uncompress",
+    "section": "",
+    "text": "files.uncompress\n\n\n\n\n\nName\nDescription\n\n\n\n\nget_compression_ext\nDetect the compression format of a file using the system ‘file’ command.\n\n\nuncompress\nUncompress filename to dirname\n\n\nuncompress_decorator\nA decorator that uncompresses the result of function f\n\n\nuncompress_single\nDecompress a single compressed file (not an archive).\n\n\n\n\n\nfiles.uncompress.get_compression_ext(f)\nDetect the compression format of a file using the system ‘file’ command.\nThis function uses the Unix ‘file’ command to determine the compression format of a file based on its content (magic numbers), not just its extension.\n\n\nf : str or Path Path to the file to analyze\n\n\n\nstr or None The detected compression extension (‘.zip’, ‘.tar’, ‘.tar.gz’, ‘.tgz’, ‘.gz’, ‘.bz2’, ‘.Z’) or None if no compression is detected\n\n\n\n\nfiles.uncompress.uncompress(\n    filename,\n    target_dir,\n    create_out_dir=True,\n    extract_to='auto',\n    verbose=False,\n)\nUncompress filename to dirname\n\n\n\n\n\n\n\n\n\n\n\nName\nType\nDescription\nDefault\n\n\n\n\nfilename\nstr or Path\nPath to the file to uncompress\nrequired\n\n\ntarget_dir\nstr or Path\nDirectory to uncompress the file to\nrequired\n\n\ncreate_out_dir\nbool\nIf True, create the output directory if it does not exist. Default is True.\nTrue\n\n\nextract_to\n(auto, subdir, target_dir)\n‘auto’: if the root of the archive contains a single file or directory, uncompress it to target_dir. Otherwise uncompress it to /, where archivefolder is a directory named after filename but without the extension. ‘subdir’: Uncompress the content of the archive to /, where archivefolder is a directory named after filename but without the extension. ‘target_dir’: uncompress the content of the archive to  regardless of the content of the archive.\n'auto'\n\n\nverbose\nbool\nIf True, print verbose output. Default is False.\nFalse\n\n\n\n\n\n\n\n\n\nName\nType\nDescription\n\n\n\n\n\nPath\nPath to the uncompressed file or directory\n\n\n\n\n\n\n\nfiles.uncompress.uncompress_decorator(target_name_func=None, verbose=True)\nA decorator that uncompresses the result of function f\nSignature of f is assumed to be as follows: f(identifier: str, dirname: Path, *args, **kwargs)\nThe file returned by f is uncompressed to dirname\n\n\ntarget_name_func : callable, optional A function that takes an identifier and returns the target name/path for the uncompressed file. The identifier can be a URL or any string. If None, defaults to using Path(identifier).stem. verbose : bool Whether to display verbose output during uncompression\n\n\n\n\nfiles.uncompress.uncompress_single(filename, output_path, verbose=False)\nDecompress a single compressed file (not an archive).\n\n\nfilename : Path Path to the compressed file output_path : Path\nPath where the decompressed file should be written verbose : bool Whether to display verbose output\n\n\n\nPath Path to the decompressed file",
+    "crumbs": [
+      "Files",
+      "files.uncompress"
+    ]
+  },
+  {
+    "objectID": "reference/files.uncompress.html#functions",
+    "href": "reference/files.uncompress.html#functions",
+    "title": "files.uncompress",
+    "section": "",
+    "text": "Name\nDescription\n\n\n\n\nget_compression_ext\nDetect the compression format of a file using the system ‘file’ command.\n\n\nuncompress\nUncompress filename to dirname\n\n\nuncompress_decorator\nA decorator that uncompresses the result of function f\n\n\nuncompress_single\nDecompress a single compressed file (not an archive).\n\n\n\n\n\nfiles.uncompress.get_compression_ext(f)\nDetect the compression format of a file using the system ‘file’ command.\nThis function uses the Unix ‘file’ command to determine the compression format of a file based on its content (magic numbers), not just its extension.\n\n\nf : str or Path Path to the file to analyze\n\n\n\nstr or None The detected compression extension (‘.zip’, ‘.tar’, ‘.tar.gz’, ‘.tgz’, ‘.gz’, ‘.bz2’, ‘.Z’) or None if no compression is detected\n\n\n\n\nfiles.uncompress.uncompress(\n    filename,\n    target_dir,\n    create_out_dir=True,\n    extract_to='auto',\n    verbose=False,\n)\nUncompress filename to dirname\n\n\n\n\n\n\n\n\n\n\n\nName\nType\nDescription\nDefault\n\n\n\n\nfilename\nstr or Path\nPath to the file to uncompress\nrequired\n\n\ntarget_dir\nstr or Path\nDirectory to uncompress the file to\nrequired\n\n\ncreate_out_dir\nbool\nIf True, create the output directory if it does not exist. Default is True.\nTrue\n\n\nextract_to\n(auto, subdir, target_dir)\n‘auto’: if the root of the archive contains a single file or directory, uncompress it to target_dir. Otherwise uncompress it to /, where archivefolder is a directory named after filename but without the extension. ‘subdir’: Uncompress the content of the archive to /, where archivefolder is a directory named after filename but without the extension. ‘target_dir’: uncompress the content of the archive to  regardless of the content of the archive.\n'auto'\n\n\nverbose\nbool\nIf True, print verbose output. Default is False.\nFalse\n\n\n\n\n\n\n\n\n\nName\nType\nDescription\n\n\n\n\n\nPath\nPath to the uncompressed file or directory\n\n\n\n\n\n\n\nfiles.uncompress.uncompress_decorator(target_name_func=None, verbose=True)\nA decorator that uncompresses the result of function f\nSignature of f is assumed to be as follows: f(identifier: str, dirname: Path, *args, **kwargs)\nThe file returned by f is uncompressed to dirname\n\n\ntarget_name_func : callable, optional A function that takes an identifier and returns the target name/path for the uncompressed file. The identifier can be a URL or any string. If None, defaults to using Path(identifier).stem. verbose : bool Whether to display verbose output during uncompression\n\n\n\n\nfiles.uncompress.uncompress_single(filename, output_path, verbose=False)\nDecompress a single compressed file (not an archive).\n\n\nfilename : Path Path to the compressed file output_path : Path\nPath where the decompressed file should be written verbose : bool Whether to display verbose output\n\n\n\nPath Path to the decompressed file",
+    "crumbs": [
+      "Files",
+      "files.uncompress"
+    ]
+  },
+  {
+    "objectID": "reference/log.html",
+    "href": "reference/log.html",
+    "title": "log",
+    "section": "",
+    "text": "log\nModule Shadowed by API function of same name log\nusage:\nfrom core import log\n\n\n\n\n\nName\nDescription\n\n\n\n\ncheck\nlog assertion with level ERROR\n\n\ndebug\nlog with defaul level DEBUG\n\n\nerror\nlog with defaul level ERROR\n\n\ninfo\nlog with default level INFO\n\n\nlog\nlog with specified level\n\n\nprompt\nprompt user with log format\n\n\nset_format\nvalid keys:\n\n\nwarning\nlog with defaul level WARNING\n\n\n\n\n\nlog.check(condition, *args, e=AssertionError)\nlog assertion with level ERROR\n\n\n\nlog.debug(*args, **kwargs)\nlog with defaul level DEBUG\n\n\n\nlog.error(*args, e=RuntimeError, **kwargs)\nlog with defaul level ERROR will raise e if passed\n\n\n\nlog.info(*args, **kwargs)\nlog with default level INFO\n\n\n\nlog.log(lvl, *args, **kwargs)\nlog with specified level\n\n\n\nlog.prompt(*args, **kwargs)\nprompt user with log format\n\n\n\nlog.set_format(fmt)\nvalid keys:\n\n\n\nlog.warning(*args, w=None, **kwargs)\nlog with defaul level WARNING",
+    "crumbs": [
+      "Tools",
+      "log"
+    ]
+  },
+  {
+    "objectID": "reference/log.html#functions",
+    "href": "reference/log.html#functions",
+    "title": "log",
+    "section": "",
+    "text": "Name\nDescription\n\n\n\n\ncheck\nlog assertion with level ERROR\n\n\ndebug\nlog with defaul level DEBUG\n\n\nerror\nlog with defaul level ERROR\n\n\ninfo\nlog with default level INFO\n\n\nlog\nlog with specified level\n\n\nprompt\nprompt user with log format\n\n\nset_format\nvalid keys:\n\n\nwarning\nlog with defaul level WARNING\n\n\n\n\n\nlog.check(condition, *args, e=AssertionError)\nlog assertion with level ERROR\n\n\n\nlog.debug(*args, **kwargs)\nlog with defaul level DEBUG\n\n\n\nlog.error(*args, e=RuntimeError, **kwargs)\nlog with defaul level ERROR will raise e if passed\n\n\n\nlog.info(*args, **kwargs)\nlog with default level INFO\n\n\n\nlog.log(lvl, *args, **kwargs)\nlog with specified level\n\n\n\nlog.prompt(*args, **kwargs)\nprompt user with log format\n\n\n\nlog.set_format(fmt)\nvalid keys:\n\n\n\nlog.warning(*args, w=None, **kwargs)\nlog with defaul level WARNING",
+    "crumbs": [
+      "Tools",
+      "log"
+    ]
+  },
+  {
+    "objectID": "reference/files.fileutils.html",
+    "href": "reference/files.fileutils.html",
+    "title": "files.fileutils",
+    "section": "",
+    "text": "files.fileutils\n\n\n\n\n\nName\nDescription\n\n\n\n\nPersistentList\nA list that saves its content in filename on each modification. The extension\n\n\n\n\n\nfiles.fileutils.PersistentList(filename, timeout=0, concurrent=True)\nA list that saves its content in filename on each modification. The extension must be .json.\nconcurrent: whether to activate concurrent mode. In this mode, the file is also read before each access.\n\n\n\n\n\n\n\nName\nDescription\n\n\n\n\nget_git_commit\nReturns the current git commit hash, or a placeholder if it cannot be obtained.\n\n\nmdir\nCreate or access a managed directory with path directory\n\n\nsafe_move\nMove src file to dst\n\n\nskip\nUtility function to check whether to skip an existing file\n\n\ntemporary_copy\nContext manager to copy a file/folder to a temporary directory.\n\n\n\n\n\nfiles.fileutils.get_git_commit()\nReturns the current git commit hash, or a placeholder if it cannot be obtained. Captures both stdout and stderr to handle cases where the command fails (e.g., not a git repository).\n\n\n\nfiles.fileutils.mdir(\n    directory,\n    mdir_filename='mdir.json',\n    strict=False,\n    create=True,\n    **kwargs,\n)\nCreate or access a managed directory with path directory Returns the directory path, so that it can be used in directories definition: dir_data = mdir(‘/path/to/data/’)\ntag it with a file mdir.json, containing: - The creation date - The last access date - The python file and module that was run during access - The username - The current git commit if available - Any other kwargs, such as: - project - version - description - etc\nmdir_filename: default=‘mdir.json’\nstrict: boolean False: metadata is updated True: metadata is checked or added (default) (remove file content to override)\ncreate: whether directory is automatically created (default True)\n\n\n\nfiles.fileutils.safe_move(src, dst, makedirs=True, verbose=True)\nMove src file to dst\nif makedirs: create directory if necessary\n\n\n\nfiles.fileutils.skip(filename, if_exists='skip')\nUtility function to check whether to skip an existing file\nif_exists: ‘skip’: skip the existing file ‘error’: raise an error on existing file ‘overwrite’: overwrite existing file ‘backup’: move existing file to a backup ‘.1’, ’.2’…\n\n\n\nfiles.fileutils.temporary_copy(src, enable=True, **kwargs)\nContext manager to copy a file/folder to a temporary directory.\nArgs: src (Path): Path to the source file/folder to copy. enable (bool): whether to enable the copy, otherwise returns the input Other **kwargs are passed to TemporaryDirectory\nYields: Path: Path to the temporary file/folder",
+    "crumbs": [
+      "Files",
+      "files.fileutils"
+    ]
+  },
+  {
+    "objectID": "reference/files.fileutils.html#classes",
+    "href": "reference/files.fileutils.html#classes",
+    "title": "files.fileutils",
+    "section": "",
+    "text": "Name\nDescription\n\n\n\n\nPersistentList\nA list that saves its content in filename on each modification. The extension\n\n\n\n\n\nfiles.fileutils.PersistentList(filename, timeout=0, concurrent=True)\nA list that saves its content in filename on each modification. The extension must be .json.\nconcurrent: whether to activate concurrent mode. In this mode, the file is also read before each access.",
+    "crumbs": [
+      "Files",
+      "files.fileutils"
+    ]
+  },
+  {
+    "objectID": "reference/files.fileutils.html#functions",
+    "href": "reference/files.fileutils.html#functions",
+    "title": "files.fileutils",
+    "section": "",
+    "text": "Name\nDescription\n\n\n\n\nget_git_commit\nReturns the current git commit hash, or a placeholder if it cannot be obtained.\n\n\nmdir\nCreate or access a managed directory with path directory\n\n\nsafe_move\nMove src file to dst\n\n\nskip\nUtility function to check whether to skip an existing file\n\n\ntemporary_copy\nContext manager to copy a file/folder to a temporary directory.\n\n\n\n\n\nfiles.fileutils.get_git_commit()\nReturns the current git commit hash, or a placeholder if it cannot be obtained. Captures both stdout and stderr to handle cases where the command fails (e.g., not a git repository).\n\n\n\nfiles.fileutils.mdir(\n    directory,\n    mdir_filename='mdir.json',\n    strict=False,\n    create=True,\n    **kwargs,\n)\nCreate or access a managed directory with path directory Returns the directory path, so that it can be used in directories definition: dir_data = mdir(‘/path/to/data/’)\ntag it with a file mdir.json, containing: - The creation date - The last access date - The python file and module that was run during access - The username - The current git commit if available - Any other kwargs, such as: - project - version - description - etc\nmdir_filename: default=‘mdir.json’\nstrict: boolean False: metadata is updated True: metadata is checked or added (default) (remove file content to override)\ncreate: whether directory is automatically created (default True)\n\n\n\nfiles.fileutils.safe_move(src, dst, makedirs=True, verbose=True)\nMove src file to dst\nif makedirs: create directory if necessary\n\n\n\nfiles.fileutils.skip(filename, if_exists='skip')\nUtility function to check whether to skip an existing file\nif_exists: ‘skip’: skip the existing file ‘error’: raise an error on existing file ‘overwrite’: overwrite existing file ‘backup’: move existing file to a backup ‘.1’, ’.2’…\n\n\n\nfiles.fileutils.temporary_copy(src, enable=True, **kwargs)\nContext manager to copy a file/folder to a temporary directory.\nArgs: src (Path): Path to the source file/folder to copy. enable (bool): whether to enable the copy, otherwise returns the input Other **kwargs are passed to TemporaryDirectory\nYields: Path: Path to the temporary file/folder",
+    "crumbs": [
+      "Files",
+      "files.fileutils"
+    ]
+  },
+  {
+    "objectID": "reference/static.singleton.html",
+    "href": "reference/static.singleton.html",
+    "title": "static.singleton",
+    "section": "",
+    "text": "static.singleton\n\n\n\n\n\nName\nDescription\n\n\n\n\nsingleton\nDeclare a Class as a singleton, which can only have a single instance at the same time\n\n\n\n\n\nstatic.singleton.singleton(myclass)\nDeclare a Class as a singleton, which can only have a single instance at the same time - adds a instance() class method which returns the current instanced object",
+    "crumbs": [
+      "Static",
+      "static.singleton"
+    ]
+  },
+  {
+    "objectID": "reference/static.singleton.html#functions",
+    "href": "reference/static.singleton.html#functions",
+    "title": "static.singleton",
+    "section": "",
+    "text": "Name\nDescription\n\n\n\n\nsingleton\nDeclare a Class as a singleton, which can only have a single instance at the same time\n\n\n\n\n\nstatic.singleton.singleton(myclass)\nDeclare a Class as a singleton, which can only have a single instance at the same time - adds a instance() class method which returns the current instanced object",
+    "crumbs": [
+      "Static",
+      "static.singleton"
+    ]
+  },
+  {
+    "objectID": "reference/static.abstract.html",
+    "href": "reference/static.abstract.html",
+    "title": "static.abstract",
+    "section": "",
+    "text": "static.abstract\n\n\n\n\n\nName\nDescription\n\n\n\n\nabstract\nDeclare a Class or method as abstract\n\n\n\n\n\nstatic.abstract.abstract(myclass_or_method)\nDeclare a Class or method as abstract Raise an error if trying to call init() or the method - Abstract Classes are meant to be derived in subclasses - Abstract Methods are meant to be overriden in subclasses",
+    "crumbs": [
+      "Static",
+      "static.abstract"
+    ]
+  },
+  {
+    "objectID": "reference/static.abstract.html#functions",
+    "href": "reference/static.abstract.html#functions",
+    "title": "static.abstract",
+    "section": "",
+    "text": "Name\nDescription\n\n\n\n\nabstract\nDeclare a Class or method as abstract\n\n\n\n\n\nstatic.abstract.abstract(myclass_or_method)\nDeclare a Class or method as abstract Raise an error if trying to call init() or the method - Abstract Classes are meant to be derived in subclasses - Abstract Methods are meant to be overriden in subclasses",
+    "crumbs": [
+      "Static",
+      "static.abstract"
+    ]
+  },
+  {
+    "objectID": "reference/progressbar.html",
+    "href": "reference/progressbar.html",
+    "title": "progressbar",
+    "section": "",
+    "text": "progressbar\nprogressbar",
+    "crumbs": [
+      "Tools",
+      "progressbar"
+    ]
+  },
+  {
+    "objectID": "reference/index.html",
+    "href": "reference/index.html",
+    "title": "API Reference",
+    "section": "",
+    "text": "File utilities, caching, and I/O helpers\n\n\n\nfiles.fileutils\n\n\n\nfiles.save\n\n\n\nfiles.cache\n\n\n\nfiles.uncompress\n\n\n\nfiles.lock\n\n\n\n\n\n\n\nDecorators for class design patterns (abstract, singleton, interface, virtual)\n\n\n\nstatic.abstract\n\n\n\nstatic.singleton\n\n\n\nstatic.interface\n\n\n\nstatic.virtual\n\n\n\nstatic.parametrized\n\n\n\n\n\n\n\nBlock processing framework for xarray datasets\n\n\n\nprocess.blockwise\nBlock processing framework for xarray datasets with lazy evaluation support.\n\n\nprocess.condor\n\n\n\nprocess.deptree\n\n\n\n\n\n\n\nProduct naming, patterns, and coordinate conversion utilities\n\n\n\ngeo.product_name\n\n\n\ngeo.naming\n\n\n\ngeo.convert\n\n\n\n\n\n\n\nDownload, FTP, and authentication utilities\n\n\n\nnetwork.download\n\n\n\nnetwork.ftp\n\n\n\nnetwork.auth\n\n\n\n\n\n\n\nTest utilities and fixtures\n\n\n\ntests.pytest_utils\n\n\n\ntests.conftest\nThis module facilitates the inclusion of images in pytest-html reports.\n\n\ntests.graphics\n\n\n\n\n\n\n\nGeneral utility functions for xarray, dates, environment, and more\n\n\n\ntools\nVarious utility functions for modifying xarray object\n\n\ndates\n\n\n\nenv\n\n\n\nfuzzy\n\n\n\nxrtags\n\n\n\nimport_utils\n\n\n\nmonitor\n\n\n\nprogressbar\n\n\n\nascii_table\n\n\n\ninterpolate\n\n\n\nmasks\n\n\n\ntable\n\n\n\nconfig\n\n\n\nlog\nModule Shadowed by API function of same name log",
+    "crumbs": [
+      "API Reference"
+    ]
+  },
+  {
+    "objectID": "reference/index.html#files",
+    "href": "reference/index.html#files",
+    "title": "API Reference",
+    "section": "",
+    "text": "File utilities, caching, and I/O helpers\n\n\n\nfiles.fileutils\n\n\n\nfiles.save\n\n\n\nfiles.cache\n\n\n\nfiles.uncompress\n\n\n\nfiles.lock",
+    "crumbs": [
+      "API Reference"
+    ]
+  },
+  {
+    "objectID": "reference/index.html#static",
+    "href": "reference/index.html#static",
+    "title": "API Reference",
+    "section": "",
+    "text": "Decorators for class design patterns (abstract, singleton, interface, virtual)\n\n\n\nstatic.abstract\n\n\n\nstatic.singleton\n\n\n\nstatic.interface\n\n\n\nstatic.virtual\n\n\n\nstatic.parametrized",
+    "crumbs": [
+      "API Reference"
+    ]
+  },
+  {
+    "objectID": "reference/index.html#process",
+    "href": "reference/index.html#process",
+    "title": "API Reference",
+    "section": "",
+    "text": "Block processing framework for xarray datasets\n\n\n\nprocess.blockwise\nBlock processing framework for xarray datasets with lazy evaluation support.\n\n\nprocess.condor\n\n\n\nprocess.deptree",
+    "crumbs": [
+      "API Reference"
+    ]
+  },
+  {
+    "objectID": "reference/index.html#geo",
+    "href": "reference/index.html#geo",
+    "title": "API Reference",
+    "section": "",
+    "text": "Product naming, patterns, and coordinate conversion utilities\n\n\n\ngeo.product_name\n\n\n\ngeo.naming\n\n\n\ngeo.convert",
+    "crumbs": [
+      "API Reference"
+    ]
+  },
+  {
+    "objectID": "reference/index.html#network",
+    "href": "reference/index.html#network",
+    "title": "API Reference",
+    "section": "",
+    "text": "Download, FTP, and authentication utilities\n\n\n\nnetwork.download\n\n\n\nnetwork.ftp\n\n\n\nnetwork.auth",
+    "crumbs": [
+      "API Reference"
+    ]
+  },
+  {
+    "objectID": "reference/index.html#tests",
+    "href": "reference/index.html#tests",
+    "title": "API Reference",
+    "section": "",
+    "text": "Test utilities and fixtures\n\n\n\ntests.pytest_utils\n\n\n\ntests.conftest\nThis module facilitates the inclusion of images in pytest-html reports.\n\n\ntests.graphics",
+    "crumbs": [
+      "API Reference"
+    ]
+  },
+  {
+    "objectID": "reference/index.html#tools",
+    "href": "reference/index.html#tools",
+    "title": "API Reference",
+    "section": "",
+    "text": "General utility functions for xarray, dates, environment, and more\n\n\n\ntools\nVarious utility functions for modifying xarray object\n\n\ndates\n\n\n\nenv\n\n\n\nfuzzy\n\n\n\nxrtags\n\n\n\nimport_utils\n\n\n\nmonitor\n\n\n\nprogressbar\n\n\n\nascii_table\n\n\n\ninterpolate\n\n\n\nmasks\n\n\n\ntable\n\n\n\nconfig\n\n\n\nlog\nModule Shadowed by API function of same name log",
+    "crumbs": [
+      "API Reference"
+    ]
+  },
+  {
+    "objectID": "reference/geo.product_name.html",
+    "href": "reference/geo.product_name.html",
+    "title": "geo.product_name",
+    "section": "",
+    "text": "geo.product_name\n\n\n\n\n\nName\nDescription\n\n\n\n\ncheck\nCheck if name satisfies regular expression\n\n\ndecompose\nDecompose a string according to the list of regexp,\n\n\nget_fields\nReturns every field name that can be change in product name\n\n\nget_level\nReturns the level of a product based on its name\n\n\nget_pattern\nGet pattern that match product name\n\n\nretrieve_product\nFunction retrieve a product base on another one.\n\n\n\n\n\ngeo.product_name.check(name, regexp)\nCheck if name satisfies regular expression\n\n\n\ngeo.product_name.decompose(name, regexps, sep='_')\nDecompose a string according to the list of regexp, assumming that every regexp block are splitted by sep\n\n\n\ngeo.product_name.get_fields(name, out=[])\nReturns every field name that can be change in product name\n\n\n\ngeo.product_name.get_level(name, pattern)\nReturns the level of a product based on its name\n\n\n\ngeo.product_name.get_pattern(name)\nGet pattern that match product name\nArgs: name (str): Product name or id\nReturns: dict: Dictionary containing sensor name, pattern and regular expression\n\n\n\ngeo.product_name.retrieve_product(product_id, fields, pattern=None)\nFunction retrieve a product base on another one. For example, retrieve Level-2 product based on Level-1\nArgs: product_id (str): Product considered as base fields (dict): Fields to change pattern (tuple[str], optional): Pattern of . Defaults to None.\nReturns: str: New product id",
+    "crumbs": [
+      "Geo",
+      "geo.product_name"
+    ]
+  },
+  {
+    "objectID": "reference/geo.product_name.html#functions",
+    "href": "reference/geo.product_name.html#functions",
+    "title": "geo.product_name",
+    "section": "",
+    "text": "Name\nDescription\n\n\n\n\ncheck\nCheck if name satisfies regular expression\n\n\ndecompose\nDecompose a string according to the list of regexp,\n\n\nget_fields\nReturns every field name that can be change in product name\n\n\nget_level\nReturns the level of a product based on its name\n\n\nget_pattern\nGet pattern that match product name\n\n\nretrieve_product\nFunction retrieve a product base on another one.\n\n\n\n\n\ngeo.product_name.check(name, regexp)\nCheck if name satisfies regular expression\n\n\n\ngeo.product_name.decompose(name, regexps, sep='_')\nDecompose a string according to the list of regexp, assumming that every regexp block are splitted by sep\n\n\n\ngeo.product_name.get_fields(name, out=[])\nReturns every field name that can be change in product name\n\n\n\ngeo.product_name.get_level(name, pattern)\nReturns the level of a product based on its name\n\n\n\ngeo.product_name.get_pattern(name)\nGet pattern that match product name\nArgs: name (str): Product name or id\nReturns: dict: Dictionary containing sensor name, pattern and regular expression\n\n\n\ngeo.product_name.retrieve_product(product_id, fields, pattern=None)\nFunction retrieve a product base on another one. For example, retrieve Level-2 product based on Level-1\nArgs: product_id (str): Product considered as base fields (dict): Fields to change pattern (tuple[str], optional): Pattern of . Defaults to None.\nReturns: str: New product id",
+    "crumbs": [
+      "Geo",
+      "geo.product_name"
+    ]
+  },
+  {
+    "objectID": "reference/network.ftp.html",
+    "href": "reference/network.ftp.html",
+    "title": "network.ftp",
+    "section": "",
+    "text": "network.ftp\n\n\n\n\n\nName\nDescription\n\n\n\n\nftp_download\nDownloads file_local on ftp, from server directory dir_server\n\n\nftp_list\nReturns the list of fles matching pattern on dir_server\n\n\nftp_upload\nFTP upload function\n\n\nget_auth_ftp\nget netrc credentials for use with pyfilesystem’s\n\n\nget_url_ftpfs\nget netrc credentials for use with pyfilesystem’s fs.open_fs\n\n\n\n\n\nnetwork.ftp.ftp_download(ftp, file_local, dir_server, verbose=True)\nDownloads file_local on ftp, from server directory dir_server\nThe file name on the server is determined by file_local.name\nExample: ftp = FTP(**get_auth_ftp(‘my_server’)) local_file = Path(‘./data.txt’) ftp_download(ftp, local_file, ‘/remote/folder’) ftp.quit()\nRefs: https://stackoverflow.com/questions/19692739/ https://stackoverflow.com/questions/73534659/\n\n\n\nnetwork.ftp.ftp_list(ftp, dir_server, pattern='*')\nReturns the list of fles matching pattern on dir_server\n\n\n\nnetwork.ftp.ftp_upload(\n    ftp,\n    file_local,\n    dir_server,\n    if_exists='skip',\n    blocksize=8192,\n    verbose=True,\n)\nFTP upload function\n\nUse temporary files\nCreate remote directories\nif_exists: ‘skip’: skip the existing file ‘error’: raise an error on existing file ‘overwrite’: overwrite existing file\n\n\n\n\nnetwork.ftp.get_auth_ftp(name)\nget netrc credentials for use with pyfilesystem’s FTPFS or ftplib’s FTP\nEx: FTP(**get_auth_ftp())\n\n\n\nnetwork.ftp.get_url_ftpfs(name)\nget netrc credentials for use with pyfilesystem’s fs.open_fs\nEx: fs.open_fs(get_url_ftpfs())",
+    "crumbs": [
+      "Network",
+      "network.ftp"
+    ]
+  },
+  {
+    "objectID": "reference/network.ftp.html#functions",
+    "href": "reference/network.ftp.html#functions",
+    "title": "network.ftp",
+    "section": "",
+    "text": "Name\nDescription\n\n\n\n\nftp_download\nDownloads file_local on ftp, from server directory dir_server\n\n\nftp_list\nReturns the list of fles matching pattern on dir_server\n\n\nftp_upload\nFTP upload function\n\n\nget_auth_ftp\nget netrc credentials for use with pyfilesystem’s\n\n\nget_url_ftpfs\nget netrc credentials for use with pyfilesystem’s fs.open_fs\n\n\n\n\n\nnetwork.ftp.ftp_download(ftp, file_local, dir_server, verbose=True)\nDownloads file_local on ftp, from server directory dir_server\nThe file name on the server is determined by file_local.name\nExample: ftp = FTP(**get_auth_ftp(‘my_server’)) local_file = Path(‘./data.txt’) ftp_download(ftp, local_file, ‘/remote/folder’) ftp.quit()\nRefs: https://stackoverflow.com/questions/19692739/ https://stackoverflow.com/questions/73534659/\n\n\n\nnetwork.ftp.ftp_list(ftp, dir_server, pattern='*')\nReturns the list of fles matching pattern on dir_server\n\n\n\nnetwork.ftp.ftp_upload(\n    ftp,\n    file_local,\n    dir_server,\n    if_exists='skip',\n    blocksize=8192,\n    verbose=True,\n)\nFTP upload function\n\nUse temporary files\nCreate remote directories\nif_exists: ‘skip’: skip the existing file ‘error’: raise an error on existing file ‘overwrite’: overwrite existing file\n\n\n\n\nnetwork.ftp.get_auth_ftp(name)\nget netrc credentials for use with pyfilesystem’s FTPFS or ftplib’s FTP\nEx: FTP(**get_auth_ftp())\n\n\n\nnetwork.ftp.get_url_ftpfs(name)\nget netrc credentials for use with pyfilesystem’s fs.open_fs\nEx: fs.open_fs(get_url_ftpfs())",
+    "crumbs": [
+      "Network",
+      "network.ftp"
+    ]
+  },
+  {
+    "objectID": "reference/table.html",
+    "href": "reference/table.html",
+    "title": "table",
+    "section": "",
+    "text": "table\n\n\n\n\n\nName\nDescription\n\n\n\n\nread_csv\nFunction to read csv file without taking care of tabulation and whitespaces\n\n\nread_xml\nFunction to read xml file\n\n\nselect\nSelection function in a pandas DataFrame with a condition\n\n\nselect_cell\nFunction for selecting a single cell value in a pandas DataFrame with a condition\n\n\n\n\n\ntable.read_csv(path, **kwargs)\nFunction to read csv file without taking care of tabulation and whitespaces\nArgs: path (str | Path): Path of csv file kwargs: Keyword arguments of read_csv function from pandas\nReturns: DataFrame: Output table in pandas DataFrame format\n\n\n\ntable.read_xml(path)\nFunction to read xml file\nArgs: path (str | Path): Path of xml file\n\n\n\ntable.select(table, where, cols=None)\nSelection function in a pandas DataFrame with a condition\nArgs: dataframe (pd.DataFrame): Input table from which to select where (tuple): Condition to use for the selection cols (str | list): Name of the columns to return\nExample: select(df, (‘col_1’,‘=’,20), [‘col_2’,‘col_3’])\n\n\n\ntable.select_cell(table, where, col)\nFunction for selecting a single cell value in a pandas DataFrame with a condition\nArgs: dataframe (pd.DataFrame): Input table from which to select where (tuple): Condition to use for the selection col (str | list): Name of the column to return\nExample: select_cell(df, (‘col_1’,‘=’,20), ‘col_2’)",
+    "crumbs": [
+      "Tools",
+      "table"
+    ]
+  },
+  {
+    "objectID": "reference/table.html#functions",
+    "href": "reference/table.html#functions",
+    "title": "table",
+    "section": "",
+    "text": "Name\nDescription\n\n\n\n\nread_csv\nFunction to read csv file without taking care of tabulation and whitespaces\n\n\nread_xml\nFunction to read xml file\n\n\nselect\nSelection function in a pandas DataFrame with a condition\n\n\nselect_cell\nFunction for selecting a single cell value in a pandas DataFrame with a condition\n\n\n\n\n\ntable.read_csv(path, **kwargs)\nFunction to read csv file without taking care of tabulation and whitespaces\nArgs: path (str | Path): Path of csv file kwargs: Keyword arguments of read_csv function from pandas\nReturns: DataFrame: Output table in pandas DataFrame format\n\n\n\ntable.read_xml(path)\nFunction to read xml file\nArgs: path (str | Path): Path of xml file\n\n\n\ntable.select(table, where, cols=None)\nSelection function in a pandas DataFrame with a condition\nArgs: dataframe (pd.DataFrame): Input table from which to select where (tuple): Condition to use for the selection cols (str | list): Name of the columns to return\nExample: select(df, (‘col_1’,‘=’,20), [‘col_2’,‘col_3’])\n\n\n\ntable.select_cell(table, where, col)\nFunction for selecting a single cell value in a pandas DataFrame with a condition\nArgs: dataframe (pd.DataFrame): Input table from which to select where (tuple): Condition to use for the selection col (str | list): Name of the column to return\nExample: select_cell(df, (‘col_1’,‘=’,20), ‘col_2’)",
+    "crumbs": [
+      "Tools",
+      "table"
+    ]
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "CORE",
+    "section": "",
+    "text": "core is a Python library that provides common utilities for robust, production-grade engineering workflows — especially around scientific data processing with xarray and dask.\nIt includes tools for:\n\nFile I/O — Safe file generation, NetCDF writing, caching, compression, and directory management.\nData processing — Block-wise processing pipelines for large xarray datasets with lazy dask evaluation.\nxarray helpers — Spatial subsetting, flag handling, dimension alignment, interpolation, and more.\nLogging & progress — Color-aware logging with configurable levels, progress bars, and ASCII tables.\nEnvironment & config — Dotenv loading, TOML configuration parsing, and credential management.\nStatic patterns — Decorators for abstract classes, singletons, interfaces, and parametrized decorators.\nNetwork — URL downloading, FTP transfers, and .netrc authentication.\nGeo utilities — Product naming conventions, pattern matching, and coordinate conversions.",
+    "crumbs": [
+      "Home",
+      "CORE"
+    ]
+  },
+  {
+    "objectID": "index.html#what-is-core",
+    "href": "index.html#what-is-core",
+    "title": "CORE",
+    "section": "",
+    "text": "core is a Python library that provides common utilities for robust, production-grade engineering workflows — especially around scientific data processing with xarray and dask.\nIt includes tools for:\n\nFile I/O — Safe file generation, NetCDF writing, caching, compression, and directory management.\nData processing — Block-wise processing pipelines for large xarray datasets with lazy dask evaluation.\nxarray helpers — Spatial subsetting, flag handling, dimension alignment, interpolation, and more.\nLogging & progress — Color-aware logging with configurable levels, progress bars, and ASCII tables.\nEnvironment & config — Dotenv loading, TOML configuration parsing, and credential management.\nStatic patterns — Decorators for abstract classes, singletons, interfaces, and parametrized decorators.\nNetwork — URL downloading, FTP transfers, and .netrc authentication.\nGeo utilities — Product naming conventions, pattern matching, and coordinate conversions.",
+    "crumbs": [
+      "Home",
+      "CORE"
+    ]
+  },
+  {
+    "objectID": "index.html#installation",
+    "href": "index.html#installation",
+    "title": "CORE",
+    "section": "Installation",
+    "text": "Installation\nInstall from GitHub:\npip install --no-cache-dir git+https://github.com/hygeos/core.git\nOr in editable mode from a local clone:\npip install -e /path/to/core/",
+    "crumbs": [
+      "Home",
+      "CORE"
+    ]
+  },
+  {
+    "objectID": "index.html#modules-at-a-glance",
+    "href": "index.html#modules-at-a-glance",
+    "title": "CORE",
+    "section": "Modules at a glance",
+    "text": "Modules at a glance\n\n\n\nSection\nDescription\n\n\n\n\nFiles\nfilegen, mdir, to_netcdf, caching, uncompression, file locking\n\n\nProcess\nBlockProcessor, CompoundProcessor for chunked xarray pipelines\n\n\nStatic\n@abstract, @singleton, @interface, @virtual decorators\n\n\nGeo\nProduct naming, pattern retrieval, coordinate conversion\n\n\nNetwork\nHTTP downloading, FTP, .netrc authentication\n\n\nTools\nxarray helpers, dates, environment, logging, fuzzy search, interpolation",
+    "crumbs": [
+      "Home",
+      "CORE"
+    ]
+  },
+  {
+    "objectID": "articles/getting-started.html",
+    "href": "articles/getting-started.html",
+    "title": "Getting Started",
+    "section": "",
+    "text": "Install core from the GitHub repository:\npip install --no-cache-dir git+https://github.com/hygeos/core.git",
+    "crumbs": [
+      "Getting Started"
+    ]
+  },
+  {
+    "objectID": "articles/getting-started.html#installation",
+    "href": "articles/getting-started.html#installation",
+    "title": "Getting Started",
+    "section": "",
+    "text": "Install core from the GitHub repository:\npip install --no-cache-dir git+https://github.com/hygeos/core.git",
+    "crumbs": [
+      "Getting Started"
+    ]
+  },
+  {
+    "objectID": "articles/getting-started.html#core-concepts",
+    "href": "articles/getting-started.html#core-concepts",
+    "title": "Getting Started",
+    "section": "Core concepts",
+    "text": "Core concepts\nThe core library is organized around several key utilities:\n\nLogging\nThe log module provides color-aware, level-based logging:\nfrom core import log\n\nlog.info(\"Processing started\")\nlog.debug(\"Variable details: shape=(100, 200)\")\nlog.warning(\"File already exists, overwriting\")\nlog.error(\"Something went wrong\", e=ValueError)\n\n\nSafe file operations\nUse filegen for atomic file writes with temporary files and locking:\nfrom core.files.fileutils import filegen\nfrom pathlib import Path\n\n@filegen(verbose=True, if_exists='overwrite')\ndef save_results(output_path):\n    # Write to a temporary file first, then atomically move\n    with open(output_path, 'w') as f:\n        f.write(\"results data\")\n    return output_path\n\nsave_results(Path(\"/data/output.nc\"))\nWrite xarray datasets with compression and safety features:\nfrom core.files.save import to_netcdf\nimport xarray as xr\n\nds = xr.Dataset(...)\nto_netcdf(ds, Path(\"/data/output.nc\"), zlib=True, complevel=5)\n\n\nManaged directories\nTrack directory metadata (creation date, git commit, project info):\nfrom core.files.fileutils import mdir\n\ndata_dir = mdir(\"/data/project/\", project=\"my_project\", version=\"1.0\")\n\n\nCaching\nCache function results to avoid redundant computation:\nfrom core.files.cache import cache_dataframe, cache_json, cache_pickle\n\n# Cache a DataFrame\ndf = cache_dataframe(\"/cache/data.parquet\")\n\n# Cache any Python object\nobj = cache_pickle(\"/cache/results.pkl\")\n\n\nBlock processing\nProcess large xarray datasets in chunks using BlockProcessor:\nfrom core.process.blockwise import BlockProcessor\nfrom core.tools import Var\n\nclass AddProcessor(BlockProcessor):\n    def input_vars(self):\n        return [Var('a'), Var('b')]\n    \n    def created_vars(self):\n        return [Var('sum', 'float64', ('x', 'y'))]\n    \n    def process_block(self, block):\n        block['sum'] = block['a'] + block['b']\n\nresult = AddProcessor().map_blocks(dataset)\n\n\nxarray utilities\nThe tools module provides many xarray helpers:\nfrom core import tools\n\n# Spatial subsetting\nds_subset = tools.sub_pt(ds, lat=45.0, lon=2.0, rad=100000)  # 100km radius\n\n# Flag handling\nflagged = tools.getflag(data_array, 'cloudy')\n\n# Date ranges\nfrom core.dates import date_range, time_range\nfrom datetime import date, datetime, timedelta\ndays = date_range(date(2024, 1, 1), date(2024, 1, 31))\n\n\nStatic decorators\nDesign patterns for class hierarchies:\nfrom core.static import abstract, singleton, interface\n\n@abstract\nclass BaseProcessor:\n    @abstract\n    def process(self, data):\n        pass\n\n@singleton\nclass ConfigManager:\n    def __init__(self):\n        self.settings = {}\n\n@interface\ndef get_instance():\n    \"\"\"Mark as a public interface method\"\"\"\n    pass\n\n\nEnvironment & configuration\nLoad environment variables from .env files:\nfrom core.env import load_dotenvs\n\nload_dotenvs()  # Loads all .env files from CWD up to root\nParse TOML configuration:\nfrom core.config import Config\nfrom pathlib import Path\n\nconfig = Config.new_from_toml(Path(\"config.toml\"))\nsection = config.get_subsection(\"processing\")\n\n\nNetwork operations\nDownload files with progress tracking:\nfrom core.network.download import download_url\nfrom pathlib import Path\n\ndownload_url(\"https://example.com/data.zip\", Path(\"/downloads/\"))\nFTP transfers with .netrc authentication:\nfrom core.network.ftp import ftp_download\nfrom core.network.auth import get_auth\n\nauth = get_auth(\"my_server\")\n# auth = {'user': ..., 'password': ..., 'url': ...}",
+    "crumbs": [
+      "Getting Started"
+    ]
+  },
+  {
+    "objectID": "articles/getting-started.html#next-steps",
+    "href": "articles/getting-started.html#next-steps",
+    "title": "Getting Started",
+    "section": "Next steps",
+    "text": "Next steps\n\nExplore the API Reference for detailed function documentation.\nCheck out the source code on GitHub.",
+    "crumbs": [
+      "Getting Started"
+    ]
+  },
+  {
+    "objectID": "reference/geo.convert.html",
+    "href": "reference/geo.convert.html",
+    "title": "geo.convert",
+    "section": "",
+    "text": "geo.convert\n\n\n\n\n\nName\nDescription\n\n\n\n\ncenter_longitude\nCenter longitudes from [0, 360] to [-180, 180] or from [-180, 180] to [0, 360]\n\n\nconvert_latlon_2D\nConvert latitude and longitude vectors into 2D representation\n\n\n\n\n\ngeo.convert.center_longitude(ds, center=0, lon_name=names.lon)\nCenter longitudes from [0, 360] to [-180, 180] or from [-180, 180] to [0, 360]\n\n\n\ngeo.convert.convert_latlon_2D(lat, lon)\nConvert latitude and longitude vectors into 2D representation",
+    "crumbs": [
+      "Geo",
+      "geo.convert"
+    ]
+  },
+  {
+    "objectID": "reference/geo.convert.html#functions",
+    "href": "reference/geo.convert.html#functions",
+    "title": "geo.convert",
+    "section": "",
+    "text": "Name\nDescription\n\n\n\n\ncenter_longitude\nCenter longitudes from [0, 360] to [-180, 180] or from [-180, 180] to [0, 360]\n\n\nconvert_latlon_2D\nConvert latitude and longitude vectors into 2D representation\n\n\n\n\n\ngeo.convert.center_longitude(ds, center=0, lon_name=names.lon)\nCenter longitudes from [0, 360] to [-180, 180] or from [-180, 180] to [0, 360]\n\n\n\ngeo.convert.convert_latlon_2D(lat, lon)\nConvert latitude and longitude vectors into 2D representation",
+    "crumbs": [
+      "Geo",
+      "geo.convert"
+    ]
+  },
+  {
+    "objectID": "reference/files.lock.html",
+    "href": "reference/files.lock.html",
+    "title": "files.lock",
+    "section": "",
+    "text": "files.lock\n\n\n\n\n\nName\nDescription\n\n\n\n\nLockFile\nCreate a blocking context with a lock file\n\n\n\n\n\nfiles.lock.LockFile(\n    locked_file,\n    ext='.lock',\n    interval=1,\n    timeout=0,\n    create_dir=True,\n)\nCreate a blocking context with a lock file\ntimeout: timeout in seconds, waiting to the lock to be released. If negative, disable lock files entirely.\ninterval: interval in seconds\nExample: with LockFile(‘/dir/to/file.txt’): # create a file ‘/dir/to/file.txt.lock’ including a filesystem lock # the context will enter once the lock is released",
+    "crumbs": [
+      "Files",
+      "files.lock"
+    ]
+  },
+  {
+    "objectID": "reference/files.lock.html#functions",
+    "href": "reference/files.lock.html#functions",
+    "title": "files.lock",
+    "section": "",
+    "text": "Name\nDescription\n\n\n\n\nLockFile\nCreate a blocking context with a lock file\n\n\n\n\n\nfiles.lock.LockFile(\n    locked_file,\n    ext='.lock',\n    interval=1,\n    timeout=0,\n    create_dir=True,\n)\nCreate a blocking context with a lock file\ntimeout: timeout in seconds, waiting to the lock to be released. If negative, disable lock files entirely.\ninterval: interval in seconds\nExample: with LockFile(‘/dir/to/file.txt’): # create a file ‘/dir/to/file.txt.lock’ including a filesystem lock # the context will enter once the lock is released",
+    "crumbs": [
+      "Files",
+      "files.lock"
+    ]
+  },
+  {
+    "objectID": "reference/tests.graphics.html",
+    "href": "reference/tests.graphics.html",
+    "title": "tests.graphics",
+    "section": "",
+    "text": "tests.graphics\n\n\n\n\n\nName\nDescription\n\n\n\n\ndownsample\nDownsample a DataArray by striding so that its smallest\n\n\nxrimshow\nPlot a 2D DataArray using imshow with consistent absolute margins.\n\n\n\n\n\ntests.graphics.downsample(da, size=500)\nDownsample a DataArray by striding so that its smallest dimension has between size and 2 x size elements.\nAssigns arange coordinates to any dimension that lacks them, so that the strided result preserves meaningful axis values.\n\n\n\n\n\n\n\n\n\n\n\nName\nType\nDescription\nDefault\n\n\n\n\nda\nxr.DataArray\nInput array of any number of dimensions.\nrequired\n\n\nsize\nint\nTarget approximate number of elements along the smallest dimension.\n500\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nName\nType\nDescription\n\n\n\n\n\nxr.DataArray\nStrided view of the input with reduced resolution.\n\n\n\n\n\n\n\ntests.graphics.xrimshow(\n    da,\n    title=None,\n    vmin=None,\n    vmax=None,\n    cmap=None,\n    display_size=3.0,\n    margin_top=0.1,\n    margin_left=0.6,\n    margin_bottom=0.5,\n    margin_right=0.1,\n    cbar_thickness=0.15,\n    cbar_length=0.5,\n    cbar_gap_horizontal=0.5,\n    cbar_gap_vertical=0.2,\n    cbar_label_space=0.5,\n    title_height=0.4,\n    yincrease=False,\n)\nPlot a 2D DataArray using imshow with consistent absolute margins.\nThe figure size adapts to the data aspect ratio while maintaining constant image area (width * height = display_size²). A square image is therefore display_size × display_size.\nThe colorbar is placed below the image for wide data (aspect &gt;= 1) and to the right for tall data (aspect &lt; 1). All margins, gaps and the colorbar thickness are specified in inches and stay constant regardless of data shape, ensuring a visually consistent layout.\n\n\n\n\n\n\n\n\n\n\n\nName\nType\nDescription\nDefault\n\n\n\n\nda\nxarray.DataArray\n2D DataArray to plot.\nrequired\n\n\ntitle\nstr\nTitle for the plot.\nNone\n\n\nvmin\nfloat\nColormap range.\nNone\n\n\nvmax\nfloat\nColormap range.\nNone\n\n\ncmap\nstr\nColormap name (e.g., ‘viridis’, ‘plasma’). If None, uses xarray’s default colormap.\nNone\n\n\ndisplay_size\nfloat\nControls display size. The image area in inches² equals display_size², so a square image would be display_size × display_size.\n3.\n\n\nmargin_top\nfloat\nTop margin in inches (used when there is no title).\n0.1\n\n\nmargin_left\nfloat\nLeft margin in inches.\n0.5\n\n\nmargin_bottom\nfloat\nBottom margin in inches.\n0.3\n\n\nmargin_right\nfloat\nRight margin in inches.\n0.1\n\n\ncbar_thickness\nfloat\nColorbar thickness in inches.\n0.15\n\n\ncbar_length\nfloat\nColorbar length as a fraction of the image extent along the same axis (0 to 1). The colorbar is centered.\n0.5\n\n\ncbar_gap_horizontal\nfloat\nGap between the image and a horizontal colorbar (below) in inches.\n0.5\n\n\ncbar_gap_vertical\nfloat\nGap between the image and a vertical colorbar (right) in inches.\n0.2\n\n\ncbar_label_space\nfloat\nExtra space in inches reserved for colorbar tick labels. Added to the right for vertical colorbars, to the bottom for horizontal colorbars.\n0.4\n\n\ntitle_height\nfloat\nSpace reserved for the title in inches (replaces margin_top when title is set).\n0.4\n\n\nyincrease\nbool\nIf True, the y-axis increases upward. If False, the y-axis increases downward.\nFalse\n\n\n\n\n\n\n\n\n\nName\nType\nDescription\n\n\n\n\nfig\nmatplotlib.figure.Figure\n\n\n\nax\nmatplotlib.axes.Axes\n\n\n\nim\nmatplotlib.image.AxesImage",
+    "crumbs": [
+      "Tests",
+      "tests.graphics"
+    ]
+  },
+  {
+    "objectID": "reference/tests.graphics.html#functions",
+    "href": "reference/tests.graphics.html#functions",
+    "title": "tests.graphics",
+    "section": "",
+    "text": "Name\nDescription\n\n\n\n\ndownsample\nDownsample a DataArray by striding so that its smallest\n\n\nxrimshow\nPlot a 2D DataArray using imshow with consistent absolute margins.\n\n\n\n\n\ntests.graphics.downsample(da, size=500)\nDownsample a DataArray by striding so that its smallest dimension has between size and 2 x size elements.\nAssigns arange coordinates to any dimension that lacks them, so that the strided result preserves meaningful axis values.\n\n\n\n\n\n\n\n\n\n\n\nName\nType\nDescription\nDefault\n\n\n\n\nda\nxr.DataArray\nInput array of any number of dimensions.\nrequired\n\n\nsize\nint\nTarget approximate number of elements along the smallest dimension.\n500\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nName\nType\nDescription\n\n\n\n\n\nxr.DataArray\nStrided view of the input with reduced resolution.\n\n\n\n\n\n\n\ntests.graphics.xrimshow(\n    da,\n    title=None,\n    vmin=None,\n    vmax=None,\n    cmap=None,\n    display_size=3.0,\n    margin_top=0.1,\n    margin_left=0.6,\n    margin_bottom=0.5,\n    margin_right=0.1,\n    cbar_thickness=0.15,\n    cbar_length=0.5,\n    cbar_gap_horizontal=0.5,\n    cbar_gap_vertical=0.2,\n    cbar_label_space=0.5,\n    title_height=0.4,\n    yincrease=False,\n)\nPlot a 2D DataArray using imshow with consistent absolute margins.\nThe figure size adapts to the data aspect ratio while maintaining constant image area (width * height = display_size²). A square image is therefore display_size × display_size.\nThe colorbar is placed below the image for wide data (aspect &gt;= 1) and to the right for tall data (aspect &lt; 1). All margins, gaps and the colorbar thickness are specified in inches and stay constant regardless of data shape, ensuring a visually consistent layout.\n\n\n\n\n\n\n\n\n\n\n\nName\nType\nDescription\nDefault\n\n\n\n\nda\nxarray.DataArray\n2D DataArray to plot.\nrequired\n\n\ntitle\nstr\nTitle for the plot.\nNone\n\n\nvmin\nfloat\nColormap range.\nNone\n\n\nvmax\nfloat\nColormap range.\nNone\n\n\ncmap\nstr\nColormap name (e.g., ‘viridis’, ‘plasma’). If None, uses xarray’s default colormap.\nNone\n\n\ndisplay_size\nfloat\nControls display size. The image area in inches² equals display_size², so a square image would be display_size × display_size.\n3.\n\n\nmargin_top\nfloat\nTop margin in inches (used when there is no title).\n0.1\n\n\nmargin_left\nfloat\nLeft margin in inches.\n0.5\n\n\nmargin_bottom\nfloat\nBottom margin in inches.\n0.3\n\n\nmargin_right\nfloat\nRight margin in inches.\n0.1\n\n\ncbar_thickness\nfloat\nColorbar thickness in inches.\n0.15\n\n\ncbar_length\nfloat\nColorbar length as a fraction of the image extent along the same axis (0 to 1). The colorbar is centered.\n0.5\n\n\ncbar_gap_horizontal\nfloat\nGap between the image and a horizontal colorbar (below) in inches.\n0.5\n\n\ncbar_gap_vertical\nfloat\nGap between the image and a vertical colorbar (right) in inches.\n0.2\n\n\ncbar_label_space\nfloat\nExtra space in inches reserved for colorbar tick labels. Added to the right for vertical colorbars, to the bottom for horizontal colorbars.\n0.4\n\n\ntitle_height\nfloat\nSpace reserved for the title in inches (replaces margin_top when title is set).\n0.4\n\n\nyincrease\nbool\nIf True, the y-axis increases upward. If False, the y-axis increases downward.\nFalse\n\n\n\n\n\n\n\n\n\nName\nType\nDescription\n\n\n\n\nfig\nmatplotlib.figure.Figure\n\n\n\nax\nmatplotlib.axes.Axes\n\n\n\nim\nmatplotlib.image.AxesImage",
+    "crumbs": [
+      "Tests",
+      "tests.graphics"
+    ]
+  },
+  {
+    "objectID": "reference/env.html",
+    "href": "reference/env.html",
+    "title": "env",
+    "section": "",
+    "text": "env\n\n\n\n\n\nName\nDescription\n\n\n\n\nfind_dotenvs\nFind all dotenv files named filename in the start directory and every\n\n\ngetdir\nReturns the value of environment variable envvar, assumed to represent a\n\n\ngetvar\nReturns the value of environment variable envvar. If this variable is not defined, returns default.\n\n\nload_dotenvs\nLoad all dotenv files found by :func:find_dotenvs, from the farthest\n\n\n\n\n\nenv.find_dotenvs(filename='.env', start_path=None)\nFind all dotenv files named filename in the start directory and every parent directory up to the filesystem root.\nUnlike :func:dotenv.find_dotenv, which stops at the first match, this function collects all matches along the directory tree, using :func:dotenv.find_dotenv to resolve the starting directory.\nArgs: filename: dotenv filename to look for (default: '.env'). usecwd: if True (default), start from the current working directory. Ignored when start_path is provided. Note: unlike :func:dotenv.find_dotenv, usecwd=False here is equivalent to usecwd=True because find_dotenv would otherwise use this module’s frame, not the caller’s. start_path: explicit starting directory, takes priority over usecwd.\nReturns: List of :class:~pathlib.Path objects for every dotenv file found, ordered from closest (start directory) to farthest (root).\n\n\n\nenv.getdir(envvar, default=None, create=None)\nReturns the value of environment variable envvar, assumed to represent a directory path. If this variable is not defined, returns default.\nThe environment variable can be defined in the users .bashrc, or in a file .env in the current working directory.\nArgs: envvar: the input environment variable default: the default path, if the environment variable is not defined default values are predefined for the following variables: - DIR_DATA : “data” (in current working directory) - DIR_STATIC : DIR_DATA/“static” - DIR_SAMPLES : DIR_DATA/“sample_products” - DIR_ANCILLARY : DIR_DATA/“ancillary” create: whether to silently create the directory if it does not exist. If not provided this parameter defaults to False except for DIR_STATIC, DIR_SAMPLES and DIR_ANCILLARY.\nReturns: the path to the directory.\n\n\n\nenv.getvar(envvar, default=None)\nReturns the value of environment variable envvar. If this variable is not defined, returns default.\nThe environment variable can be defined in the users .bashrc, or in a file .env in the current working directory.\nArgs: envvar: the input environment variable default: the default return, if the environment variable is not defined\nReturns: the requested environment variable or the default if the var is not defined and a default has been provided.\n\n\n\nenv.load_dotenvs(filename='.env', start_path=None, override=True)\nLoad all dotenv files found by :func:find_dotenvs, from the farthest ancestor to the closest directory so that inner .env files take precedence over outer ones.\nload_dotenv is called once per file found; variables already present in the environment are only overwritten when override=True (the default here, unlike the dotenv library default, to honour the closest-wins precedence).\nArgs: filename: dotenv filename to look for (default: '.env'). usecwd: if True, start from the current working directory. start_path: explicit starting directory. override: whether a closer file’s value overrides a value already loaded from a farther file (default: True).\nReturns: The list of dotenv files that were loaded, closest first.",
+    "crumbs": [
+      "Tools",
+      "env"
+    ]
+  },
+  {
+    "objectID": "reference/env.html#functions",
+    "href": "reference/env.html#functions",
+    "title": "env",
+    "section": "",
+    "text": "Name\nDescription\n\n\n\n\nfind_dotenvs\nFind all dotenv files named filename in the start directory and every\n\n\ngetdir\nReturns the value of environment variable envvar, assumed to represent a\n\n\ngetvar\nReturns the value of environment variable envvar. If this variable is not defined, returns default.\n\n\nload_dotenvs\nLoad all dotenv files found by :func:find_dotenvs, from the farthest\n\n\n\n\n\nenv.find_dotenvs(filename='.env', start_path=None)\nFind all dotenv files named filename in the start directory and every parent directory up to the filesystem root.\nUnlike :func:dotenv.find_dotenv, which stops at the first match, this function collects all matches along the directory tree, using :func:dotenv.find_dotenv to resolve the starting directory.\nArgs: filename: dotenv filename to look for (default: '.env'). usecwd: if True (default), start from the current working directory. Ignored when start_path is provided. Note: unlike :func:dotenv.find_dotenv, usecwd=False here is equivalent to usecwd=True because find_dotenv would otherwise use this module’s frame, not the caller’s. start_path: explicit starting directory, takes priority over usecwd.\nReturns: List of :class:~pathlib.Path objects for every dotenv file found, ordered from closest (start directory) to farthest (root).\n\n\n\nenv.getdir(envvar, default=None, create=None)\nReturns the value of environment variable envvar, assumed to represent a directory path. If this variable is not defined, returns default.\nThe environment variable can be defined in the users .bashrc, or in a file .env in the current working directory.\nArgs: envvar: the input environment variable default: the default path, if the environment variable is not defined default values are predefined for the following variables: - DIR_DATA : “data” (in current working directory) - DIR_STATIC : DIR_DATA/“static” - DIR_SAMPLES : DIR_DATA/“sample_products” - DIR_ANCILLARY : DIR_DATA/“ancillary” create: whether to silently create the directory if it does not exist. If not provided this parameter defaults to False except for DIR_STATIC, DIR_SAMPLES and DIR_ANCILLARY.\nReturns: the path to the directory.\n\n\n\nenv.getvar(envvar, default=None)\nReturns the value of environment variable envvar. If this variable is not defined, returns default.\nThe environment variable can be defined in the users .bashrc, or in a file .env in the current working directory.\nArgs: envvar: the input environment variable default: the default return, if the environment variable is not defined\nReturns: the requested environment variable or the default if the var is not defined and a default has been provided.\n\n\n\nenv.load_dotenvs(filename='.env', start_path=None, override=True)\nLoad all dotenv files found by :func:find_dotenvs, from the farthest ancestor to the closest directory so that inner .env files take precedence over outer ones.\nload_dotenv is called once per file found; variables already present in the environment are only overwritten when override=True (the default here, unlike the dotenv library default, to honour the closest-wins precedence).\nArgs: filename: dotenv filename to look for (default: '.env'). usecwd: if True, start from the current working directory. start_path: explicit starting directory. override: whether a closer file’s value overrides a value already loaded from a farther file (default: True).\nReturns: The list of dotenv files that were loaded, closest first.",
+    "crumbs": [
+      "Tools",
+      "env"
+    ]
+  },
+  {
+    "objectID": "reference/tools.html",
+    "href": "reference/tools.html",
+    "title": "tools",
+    "section": "",
+    "text": "tools\nVarious utility functions for modifying xarray object\n\n\n\n\n\nName\nDescription\n\n\n\n\nalign_lists\nAlign items from several lists into a single list that respects the order in each sublist.\n\n\nchunk\nApply rechunking to a xr.Dataset ds along dimensions provided as kwargs\n\n\nconform\nA method decorator which applies MapBlocksOutput.conform to the method output.\n\n\ndatetime\nParse datetime (in isoformat) from ds attributes\n\n\ndrop_unused_dims\nSimple function to remove unused dimensions in a xarray.Dataset\n\n\ngetflag\nReturn the binary flag with given name as a boolean array\n\n\ngetflags\nreturns the flags in attributes of A as a dictionary {meaning: value}\n\n\nhaversine\nCalculate the great circle distance between two points (specified in\n\n\nis_dask_backed\nCheck if data variables in a Dataset are dask-backed.\n\n\nis_numpy_backed\nCheck if an xarray Dataset or DataArray is backed by numpy arrays\n\n\nlocate\nLocate lat0, lon0 within lat, lon (xr.DataArrays)\n\n\nmerge\nMerge DataArrays in ds along dimension dim.\n\n\nonly\nIf iterable has only one item, return it.\n\n\nraiseflag\nRaise a flag in DataArray A with name flag_name, value flag_value and condition\n\n\nsplit\nReturns a Dataset where a given dimension is split into as many variables\n\n\nstr_to_bool\nConvert a string representation to a boolean value.\n\n\nsub\nCreates a Dataset based on the conditions passed in parameters\n\n\nsub_pt\nCreates a Dataset based on the circle specified in parameters\n\n\nsub_rect\nReturns a Dataset based on the coordinates of the rectangle passed in parameters\n\n\ntrim_dims\nTrim the dimensions of Dataset A\n\n\nwrap\nWrap and reorder a cyclic dimension between vmin and vmax.\n\n\nxr_filter\nExtracts a subset of the dataset where the condition is True, stacking the\n\n\nxr_filter_decorator\nA decorator which applies the decorated function only where the condition is True.\n\n\nxr_flat\nA method which flat a xarray.Dataset on a new dimension named ‘index’\n\n\nxr_sample\nA method to extract a subset of sample from a flat xarray.Dataset\n\n\nxr_unfilter\nReconstructs the original dataset from a subset dataset where the condition is True,\n\n\nxrcrop\nCrop a Dataset or DataArray along dimensions based on min/max values.\n\n\n\n\n\ntools.align_lists(lists)\nAlign items from several lists into a single list that respects the order in each sublist. Raises ValueError if the lists cannot be aligned (e.g., due to cycles).\nArgs: lists: List of lists, where each sublist defines a partial order.\nReturns: A single list with items aligned according to the partial orders.\nExample: align_lists([[‘x’], [‘x’, ‘y’], [‘y’, ‘z’]]) -&gt; [‘x’, ‘y’, ‘z’] align_lists([[‘x’, ‘y’], [‘y’, ‘x’]]) -&gt; ValueError\n\n\n\ntools.chunk(ds, **kwargs)\nApply rechunking to a xr.Dataset ds along dimensions provided as kwargs\nWorks like ds.chunk but works also for Datasets with repeated dimensions.\n\n\n\ntools.conform(attrname, transpose=True)\nA method decorator which applies MapBlocksOutput.conform to the method output.\nThe MapBlocksOutput should be an attribute attrname of the class.\n\n\n\ntools.datetime(ds)\nParse datetime (in isoformat) from ds attributes\n\n\n\ntools.drop_unused_dims(ds)\nSimple function to remove unused dimensions in a xarray.Dataset\n\n\n\ntools.getflag(A, name)\nReturn the binary flag with given name as a boolean array\nA: DataArray name: str\nexample: getflag(flags, ‘LAND’)\n\n\n\ntools.getflags(A=None, meanings=None, masks=None, sep=None)\nreturns the flags in attributes of A as a dictionary {meaning: value}\n\n\nprovide either: A: Dataarray or: meanings: flag meanings ‘FLAG1 FLAG2’ masks: flag values [1, 2] sep: string separator\n\n\n\n\ntools.haversine(lat1, lon1, lat2, lon2, radius=6371)\nCalculate the great circle distance between two points (specified in decimal degrees) on a sphere of a given radius\nReturns the distance in the same unit as radius (defaults to earth radius in km)\n\n\n\ntools.is_dask_backed(data, strict=False)\nCheck if data variables in a Dataset are dask-backed.\nReturns True if all variables are dask-backed, False if all are numpy-backed. In the mixed case (some dask, some numpy), returns True if strict=False (any variable is dask-backed), or raises ValueError if strict=True.\nArgs: data: The input Dataset to check. strict: If True, raise ValueError when the Dataset has a mix of dask-backed and numpy-backed variables. If False (default), return True if any variable is dask-backed.\nReturns: True if any/all variables are dask-backed, False if all are numpy-backed.\n\n\n\ntools.is_numpy_backed(obj)\nCheck if an xarray Dataset or DataArray is backed by numpy arrays (as opposed to dask arrays or other backends).\nFor Datasets, recursively checks all data variables and coordinates.\nNote: even when not dask-backed, DataArrays can be backed by ‘xarray.core.indexing.MemoryCachedArray’, which may be inefficient compared to np.ndarray.\nArgs: obj: An xarray Dataset or DataArray.\nReturns: True if all data variables are numpy-backed, False otherwise.\n\n\n\ntools.locate(lat, lon, lat0, lon0, dist_min_km=None, verbose=False)\nLocate lat0, lon0 within lat, lon (xr.DataArrays)\nif dist_min_km is specified and if the minimal distance exceeds it, a ValueError is raised\nreturns a dictionary of the pixel coordinates\n\n\n\ntools.merge(ds, dim=None, varname=None, pattern='(.+)_(\\\\d+)', dtype=int)\nMerge DataArrays in ds along dimension dim.\nds: xr.Dataset\ndim: str or None name of the new or existing dimension if None, use the attribute split_dimension\nvarname: str or None name of the variable to create if None, detect variable name from regular expression\npattern: str Regular expression for matching variable names and coordinates if varname is None: First group represents the new variable name. Second group represents the coordinate value Ex: r’(.+)_()’ First group matches all characters. Second group matches digits. r’(+)()’ First group matches non-digit. Second group matches digits. if varname is not None: Match a single group representing the coordinate value\ndtype: data type data type of the coordinate items\n\n\n\ntools.only(iterable)\nIf iterable has only one item, return it. Otherwise raise a ValueError\n\n\n\ntools.raiseflag(A, flag_name, flag_value, condition=None)\nRaise a flag in DataArray A with name flag_name, value flag_value and condition The name and value of the flag is recorded in the attributes of A\n\n\nA: DataArray of integers\nflag_name: str Name of the flag flag_value: int Value of the flag condition: boolean array-like of same shape as A Condition to raise flag. If None, the flag values are unchanged ; the flag is simple registered in the attributes.\n\n\n\n\ntools.split(d, dim, sep='_')\nReturns a Dataset where a given dimension is split into as many variables\nd: Dataset or DataArray\n\n\n\ntools.str_to_bool(value)\nConvert a string representation to a boolean value.\nArgs: value: String value to convert. Case-insensitive comparison with ‘true’.\nReturns: True if the lowercase value equals ‘true’, False otherwise.\nExample: &gt;&gt;&gt; str_to_bool(‘True’) True &gt;&gt;&gt; str_to_bool(‘false’) False &gt;&gt;&gt; str_to_bool(‘TRUE’) True\n\n\n\ntools.sub(ds, cond, drop_invalid=True, int_default_value=0)\nCreates a Dataset based on the conditions passed in parameters\ncond : a DataArray of booleans that defines which pixels are kept\ndrop_invalid, bool if True invalid pixels will be replace by nan for floats and int_default_value for other types\nint_default_value, int for DataArrays of type int, this value is assigned on non-valid pixels\n\n\n\ntools.sub_pt(ds, pt_lat, pt_lon, rad, drop_invalid=True, int_default_value=0)\nCreates a Dataset based on the circle specified in parameters\npt_lat, pt_lon : Coordonates of the center of the point\nrad : radius of the circle in km\ndrop_invalid, bool if True invalid pixels will be replace by nan for floats and int_default_value for other types\nint_default_value, int for DataArrays of type int, this value is assigned on non-valid pixels\n\n\n\ntools.sub_rect(\n    ds,\n    lat_min,\n    lon_min,\n    lat_max,\n    lon_max,\n    drop_invalid=True,\n    int_default_value=0,\n)\nReturns a Dataset based on the coordinates of the rectangle passed in parameters\nlat_min, lat_max, lon_min, lon_max : delimitations of the region of interest\ndrop_invalid, bool : if True, invalid pixels will be replace by nan for floats and int_default_value for other types\nint_default_value, int : for DataArrays of type int, this value is assigned on non-valid pixels\n\n\n\ntools.trim_dims(A)\nTrim the dimensions of Dataset A\nRename all possible dimensions to avoid duplicate dimensions with same sizes Avoid any DataArray with duplicate dimensions\n\n\n\ntools.wrap(ds, dim, vmin, vmax)\nWrap and reorder a cyclic dimension between vmin and vmax. The border value is duplicated at the edges. The period is (vmax-vmin)\nExample: * Dimension [0, 359] -&gt; [-180, 180] * Dimension [-180, 179] -&gt; [-180, 180] * Dimension [0, 359] -&gt; [0, 360]\n\n\nds: xarray.Dataset dim: str Name of the dimension to wrap vmin, vmax: float new values for the edges\n\n\n\n\ntools.xr_filter(ds, condition, stackdim=None, transparent=False)\nExtracts a subset of the dataset where the condition is True, stacking the condition dimensions. Equivalent to numpy’s boolean indexing, A[condition].\nParameters: ds (xr.Dataset): The input dataset. condition (xr.DataArray): A boolean DataArray indicating where the condition is True. stackdim (str, optional): The name of the new stacked dimension. If None, it will be determined automatically from the condition dimensions. transparent (bool, optional): whether to reassign the original dimension names to the Dataset (expanding with length-one dimensions).\nReturns: xr.Dataset: A new dataset with the subset of data where the condition is True.\n\n\n\ntools.xr_filter_decorator(\n    argpos,\n    condition,\n    fill_value_float=np.nan,\n    fill_value_int=0,\n    transparent=False,\n    stackdim=None,\n)\nA decorator which applies the decorated function only where the condition is True.\nArgs: argpos (int): Position index of the input dataset in the decorated function call. condition (Callable): A callable taking the Dataset as input and returning a boolean DataArray. fill_value_float (float, optional): Fill value for floating point data types. Default is np.nan. fill_value_int (int, optional): Fill value for integer data types. Default is 0 transparent (bool, optional): Whether to reassign the original dimension names to the Dataset (expanding with length-one dimensions). Default is False. stackdim (str | None, optional): The name of the new stacked dimension. If None, it will be determined automatically from the condition dimensions. Default is None.\nExample: @xr_filter_decorator(0, lambda x: x.flags == 0) def my_func(ds: xr.Dataset) -&gt; xr.Dataset: # my_func is applied only where ds.flags == 0 …\nThe decorator works by: 1. Extracting a subset of the dataset where the condition is True using xr_filter. 2. Applying the decorated function to the subset. 3. Reconstructing the original dataset from the subset using xr_unfilter.\nBehavior with in-place vs. non-in-place modifications: - If the decorated function returns a Dataset (non-in-place), the decorator returns the unfiltered result. - If the decorated function returns None (in-place modification), the decorator updates the original input dataset in-place with the unfiltered modified subset.\nNOTE: this decorator does not guarantee that the order of dimensions is maintained. When using this decorator with xr.apply_blocks, you may want to wrap your xr_filter_decorator decorated method with the conform decorator.\n\n\n\ntools.xr_flat(ds)\nA method which flat a xarray.Dataset on a new dimension named ‘index’\nArgs: ds (xr.Dataset): Dataset to flat\n\n\n\ntools.xr_sample(ds, nb_sample, seed=None)\nA method to extract a subset of sample from a flat xarray.Dataset\nArgs: ds (xr.Dataset): Input flat dataset nb_sample (int|float): Number or percentage of sample to extract seed (int, optional): Random seed to use. Defaults to None.\n\n\n\ntools.xr_unfilter(\n    sub,\n    condition,\n    stackdim=None,\n    fill_value_float=np.nan,\n    fill_value_int=0,\n    transparent=False,\n    ds_original=None,\n)\nReconstructs the original dataset from a subset dataset where the condition is True, unstacking the condition dimensions.\nParameters: sub (xr.Dataset): The subset dataset where the condition is True. condition (xr.DataArray): A boolean DataArray indicating where the condition is True. stackdim (str, optional): The name of the stacked dimension. If None, it will be determined automatically from the condition dimensions. fill_value_float (float, optional): The fill value for floating point data types. Default is np.nan. fill_value_int (int, optional): The fill value for integer data types. Default is 0. transparent (bool, optional): whether to revert the transparent compatibility conversion applied in xrwhere. ds_original (xr.Dataset, optional): The original dataset before filtering. If provided, variables present in both sub and ds_original will preserve their original values where condition is False, instead of being filled with fill_value_float/fill_value_int. This is important for pass-through variables (e.g. flags) that should not be overwritten.\nReturns: xr.DataArray: The reconstructed dataset with the specified dimensions unstacked.\n\n\n\ntools.xrcrop(A, **kwargs)\nCrop a Dataset or DataArray along dimensions based on min/max values.\nFor each dimension provided as kwarg, the min/max values along that dimension can be provided: - As a min/max tuple - As a DataArrat, for which the min/max are computed\nEx: crop dimensions latitude and longitude of gsw based on the min/max of ds.lat and ds.lon gsw = xrcrop( gsw, latitude=ds.lat, longitude=ds.lon, )\nNote: the purpose of this function is to make it possible to .compute() the result of the cropped data, thus allowing to perform a sel over large arrays (otherwise extremely slow with dask based arrays).",
+    "crumbs": [
+      "Tools",
+      "tools"
+    ]
+  },
+  {
+    "objectID": "reference/tools.html#functions",
+    "href": "reference/tools.html#functions",
+    "title": "tools",
+    "section": "",
+    "text": "Name\nDescription\n\n\n\n\nalign_lists\nAlign items from several lists into a single list that respects the order in each sublist.\n\n\nchunk\nApply rechunking to a xr.Dataset ds along dimensions provided as kwargs\n\n\nconform\nA method decorator which applies MapBlocksOutput.conform to the method output.\n\n\ndatetime\nParse datetime (in isoformat) from ds attributes\n\n\ndrop_unused_dims\nSimple function to remove unused dimensions in a xarray.Dataset\n\n\ngetflag\nReturn the binary flag with given name as a boolean array\n\n\ngetflags\nreturns the flags in attributes of A as a dictionary {meaning: value}\n\n\nhaversine\nCalculate the great circle distance between two points (specified in\n\n\nis_dask_backed\nCheck if data variables in a Dataset are dask-backed.\n\n\nis_numpy_backed\nCheck if an xarray Dataset or DataArray is backed by numpy arrays\n\n\nlocate\nLocate lat0, lon0 within lat, lon (xr.DataArrays)\n\n\nmerge\nMerge DataArrays in ds along dimension dim.\n\n\nonly\nIf iterable has only one item, return it.\n\n\nraiseflag\nRaise a flag in DataArray A with name flag_name, value flag_value and condition\n\n\nsplit\nReturns a Dataset where a given dimension is split into as many variables\n\n\nstr_to_bool\nConvert a string representation to a boolean value.\n\n\nsub\nCreates a Dataset based on the conditions passed in parameters\n\n\nsub_pt\nCreates a Dataset based on the circle specified in parameters\n\n\nsub_rect\nReturns a Dataset based on the coordinates of the rectangle passed in parameters\n\n\ntrim_dims\nTrim the dimensions of Dataset A\n\n\nwrap\nWrap and reorder a cyclic dimension between vmin and vmax.\n\n\nxr_filter\nExtracts a subset of the dataset where the condition is True, stacking the\n\n\nxr_filter_decorator\nA decorator which applies the decorated function only where the condition is True.\n\n\nxr_flat\nA method which flat a xarray.Dataset on a new dimension named ‘index’\n\n\nxr_sample\nA method to extract a subset of sample from a flat xarray.Dataset\n\n\nxr_unfilter\nReconstructs the original dataset from a subset dataset where the condition is True,\n\n\nxrcrop\nCrop a Dataset or DataArray along dimensions based on min/max values.\n\n\n\n\n\ntools.align_lists(lists)\nAlign items from several lists into a single list that respects the order in each sublist. Raises ValueError if the lists cannot be aligned (e.g., due to cycles).\nArgs: lists: List of lists, where each sublist defines a partial order.\nReturns: A single list with items aligned according to the partial orders.\nExample: align_lists([[‘x’], [‘x’, ‘y’], [‘y’, ‘z’]]) -&gt; [‘x’, ‘y’, ‘z’] align_lists([[‘x’, ‘y’], [‘y’, ‘x’]]) -&gt; ValueError\n\n\n\ntools.chunk(ds, **kwargs)\nApply rechunking to a xr.Dataset ds along dimensions provided as kwargs\nWorks like ds.chunk but works also for Datasets with repeated dimensions.\n\n\n\ntools.conform(attrname, transpose=True)\nA method decorator which applies MapBlocksOutput.conform to the method output.\nThe MapBlocksOutput should be an attribute attrname of the class.\n\n\n\ntools.datetime(ds)\nParse datetime (in isoformat) from ds attributes\n\n\n\ntools.drop_unused_dims(ds)\nSimple function to remove unused dimensions in a xarray.Dataset\n\n\n\ntools.getflag(A, name)\nReturn the binary flag with given name as a boolean array\nA: DataArray name: str\nexample: getflag(flags, ‘LAND’)\n\n\n\ntools.getflags(A=None, meanings=None, masks=None, sep=None)\nreturns the flags in attributes of A as a dictionary {meaning: value}\n\n\nprovide either: A: Dataarray or: meanings: flag meanings ‘FLAG1 FLAG2’ masks: flag values [1, 2] sep: string separator\n\n\n\n\ntools.haversine(lat1, lon1, lat2, lon2, radius=6371)\nCalculate the great circle distance between two points (specified in decimal degrees) on a sphere of a given radius\nReturns the distance in the same unit as radius (defaults to earth radius in km)\n\n\n\ntools.is_dask_backed(data, strict=False)\nCheck if data variables in a Dataset are dask-backed.\nReturns True if all variables are dask-backed, False if all are numpy-backed. In the mixed case (some dask, some numpy), returns True if strict=False (any variable is dask-backed), or raises ValueError if strict=True.\nArgs: data: The input Dataset to check. strict: If True, raise ValueError when the Dataset has a mix of dask-backed and numpy-backed variables. If False (default), return True if any variable is dask-backed.\nReturns: True if any/all variables are dask-backed, False if all are numpy-backed.\n\n\n\ntools.is_numpy_backed(obj)\nCheck if an xarray Dataset or DataArray is backed by numpy arrays (as opposed to dask arrays or other backends).\nFor Datasets, recursively checks all data variables and coordinates.\nNote: even when not dask-backed, DataArrays can be backed by ‘xarray.core.indexing.MemoryCachedArray’, which may be inefficient compared to np.ndarray.\nArgs: obj: An xarray Dataset or DataArray.\nReturns: True if all data variables are numpy-backed, False otherwise.\n\n\n\ntools.locate(lat, lon, lat0, lon0, dist_min_km=None, verbose=False)\nLocate lat0, lon0 within lat, lon (xr.DataArrays)\nif dist_min_km is specified and if the minimal distance exceeds it, a ValueError is raised\nreturns a dictionary of the pixel coordinates\n\n\n\ntools.merge(ds, dim=None, varname=None, pattern='(.+)_(\\\\d+)', dtype=int)\nMerge DataArrays in ds along dimension dim.\nds: xr.Dataset\ndim: str or None name of the new or existing dimension if None, use the attribute split_dimension\nvarname: str or None name of the variable to create if None, detect variable name from regular expression\npattern: str Regular expression for matching variable names and coordinates if varname is None: First group represents the new variable name. Second group represents the coordinate value Ex: r’(.+)_()’ First group matches all characters. Second group matches digits. r’(+)()’ First group matches non-digit. Second group matches digits. if varname is not None: Match a single group representing the coordinate value\ndtype: data type data type of the coordinate items\n\n\n\ntools.only(iterable)\nIf iterable has only one item, return it. Otherwise raise a ValueError\n\n\n\ntools.raiseflag(A, flag_name, flag_value, condition=None)\nRaise a flag in DataArray A with name flag_name, value flag_value and condition The name and value of the flag is recorded in the attributes of A\n\n\nA: DataArray of integers\nflag_name: str Name of the flag flag_value: int Value of the flag condition: boolean array-like of same shape as A Condition to raise flag. If None, the flag values are unchanged ; the flag is simple registered in the attributes.\n\n\n\n\ntools.split(d, dim, sep='_')\nReturns a Dataset where a given dimension is split into as many variables\nd: Dataset or DataArray\n\n\n\ntools.str_to_bool(value)\nConvert a string representation to a boolean value.\nArgs: value: String value to convert. Case-insensitive comparison with ‘true’.\nReturns: True if the lowercase value equals ‘true’, False otherwise.\nExample: &gt;&gt;&gt; str_to_bool(‘True’) True &gt;&gt;&gt; str_to_bool(‘false’) False &gt;&gt;&gt; str_to_bool(‘TRUE’) True\n\n\n\ntools.sub(ds, cond, drop_invalid=True, int_default_value=0)\nCreates a Dataset based on the conditions passed in parameters\ncond : a DataArray of booleans that defines which pixels are kept\ndrop_invalid, bool if True invalid pixels will be replace by nan for floats and int_default_value for other types\nint_default_value, int for DataArrays of type int, this value is assigned on non-valid pixels\n\n\n\ntools.sub_pt(ds, pt_lat, pt_lon, rad, drop_invalid=True, int_default_value=0)\nCreates a Dataset based on the circle specified in parameters\npt_lat, pt_lon : Coordonates of the center of the point\nrad : radius of the circle in km\ndrop_invalid, bool if True invalid pixels will be replace by nan for floats and int_default_value for other types\nint_default_value, int for DataArrays of type int, this value is assigned on non-valid pixels\n\n\n\ntools.sub_rect(\n    ds,\n    lat_min,\n    lon_min,\n    lat_max,\n    lon_max,\n    drop_invalid=True,\n    int_default_value=0,\n)\nReturns a Dataset based on the coordinates of the rectangle passed in parameters\nlat_min, lat_max, lon_min, lon_max : delimitations of the region of interest\ndrop_invalid, bool : if True, invalid pixels will be replace by nan for floats and int_default_value for other types\nint_default_value, int : for DataArrays of type int, this value is assigned on non-valid pixels\n\n\n\ntools.trim_dims(A)\nTrim the dimensions of Dataset A\nRename all possible dimensions to avoid duplicate dimensions with same sizes Avoid any DataArray with duplicate dimensions\n\n\n\ntools.wrap(ds, dim, vmin, vmax)\nWrap and reorder a cyclic dimension between vmin and vmax. The border value is duplicated at the edges. The period is (vmax-vmin)\nExample: * Dimension [0, 359] -&gt; [-180, 180] * Dimension [-180, 179] -&gt; [-180, 180] * Dimension [0, 359] -&gt; [0, 360]\n\n\nds: xarray.Dataset dim: str Name of the dimension to wrap vmin, vmax: float new values for the edges\n\n\n\n\ntools.xr_filter(ds, condition, stackdim=None, transparent=False)\nExtracts a subset of the dataset where the condition is True, stacking the condition dimensions. Equivalent to numpy’s boolean indexing, A[condition].\nParameters: ds (xr.Dataset): The input dataset. condition (xr.DataArray): A boolean DataArray indicating where the condition is True. stackdim (str, optional): The name of the new stacked dimension. If None, it will be determined automatically from the condition dimensions. transparent (bool, optional): whether to reassign the original dimension names to the Dataset (expanding with length-one dimensions).\nReturns: xr.Dataset: A new dataset with the subset of data where the condition is True.\n\n\n\ntools.xr_filter_decorator(\n    argpos,\n    condition,\n    fill_value_float=np.nan,\n    fill_value_int=0,\n    transparent=False,\n    stackdim=None,\n)\nA decorator which applies the decorated function only where the condition is True.\nArgs: argpos (int): Position index of the input dataset in the decorated function call. condition (Callable): A callable taking the Dataset as input and returning a boolean DataArray. fill_value_float (float, optional): Fill value for floating point data types. Default is np.nan. fill_value_int (int, optional): Fill value for integer data types. Default is 0 transparent (bool, optional): Whether to reassign the original dimension names to the Dataset (expanding with length-one dimensions). Default is False. stackdim (str | None, optional): The name of the new stacked dimension. If None, it will be determined automatically from the condition dimensions. Default is None.\nExample: @xr_filter_decorator(0, lambda x: x.flags == 0) def my_func(ds: xr.Dataset) -&gt; xr.Dataset: # my_func is applied only where ds.flags == 0 …\nThe decorator works by: 1. Extracting a subset of the dataset where the condition is True using xr_filter. 2. Applying the decorated function to the subset. 3. Reconstructing the original dataset from the subset using xr_unfilter.\nBehavior with in-place vs. non-in-place modifications: - If the decorated function returns a Dataset (non-in-place), the decorator returns the unfiltered result. - If the decorated function returns None (in-place modification), the decorator updates the original input dataset in-place with the unfiltered modified subset.\nNOTE: this decorator does not guarantee that the order of dimensions is maintained. When using this decorator with xr.apply_blocks, you may want to wrap your xr_filter_decorator decorated method with the conform decorator.\n\n\n\ntools.xr_flat(ds)\nA method which flat a xarray.Dataset on a new dimension named ‘index’\nArgs: ds (xr.Dataset): Dataset to flat\n\n\n\ntools.xr_sample(ds, nb_sample, seed=None)\nA method to extract a subset of sample from a flat xarray.Dataset\nArgs: ds (xr.Dataset): Input flat dataset nb_sample (int|float): Number or percentage of sample to extract seed (int, optional): Random seed to use. Defaults to None.\n\n\n\ntools.xr_unfilter(\n    sub,\n    condition,\n    stackdim=None,\n    fill_value_float=np.nan,\n    fill_value_int=0,\n    transparent=False,\n    ds_original=None,\n)\nReconstructs the original dataset from a subset dataset where the condition is True, unstacking the condition dimensions.\nParameters: sub (xr.Dataset): The subset dataset where the condition is True. condition (xr.DataArray): A boolean DataArray indicating where the condition is True. stackdim (str, optional): The name of the stacked dimension. If None, it will be determined automatically from the condition dimensions. fill_value_float (float, optional): The fill value for floating point data types. Default is np.nan. fill_value_int (int, optional): The fill value for integer data types. Default is 0. transparent (bool, optional): whether to revert the transparent compatibility conversion applied in xrwhere. ds_original (xr.Dataset, optional): The original dataset before filtering. If provided, variables present in both sub and ds_original will preserve their original values where condition is False, instead of being filled with fill_value_float/fill_value_int. This is important for pass-through variables (e.g. flags) that should not be overwritten.\nReturns: xr.DataArray: The reconstructed dataset with the specified dimensions unstacked.\n\n\n\ntools.xrcrop(A, **kwargs)\nCrop a Dataset or DataArray along dimensions based on min/max values.\nFor each dimension provided as kwarg, the min/max values along that dimension can be provided: - As a min/max tuple - As a DataArrat, for which the min/max are computed\nEx: crop dimensions latitude and longitude of gsw based on the min/max of ds.lat and ds.lon gsw = xrcrop( gsw, latitude=ds.lat, longitude=ds.lon, )\nNote: the purpose of this function is to make it possible to .compute() the result of the cropped data, thus allowing to perform a sel over large arrays (otherwise extremely slow with dask based arrays).",
+    "crumbs": [
+      "Tools",
+      "tools"
+    ]
+  },
+  {
+    "objectID": "reference/process.blockwise.html",
+    "href": "reference/process.blockwise.html",
+    "title": "process.blockwise",
+    "section": "",
+    "text": "process.blockwise\nBlock processing framework for xarray datasets with lazy evaluation support.\nThis module provides a framework for processing large xarray datasets in chunks using lazy evaluation, leveraging xarray’s map_blocks functionality and dask’s chunked arrays.\nKey components: - BlockProcessor: Abstract base class for defining individual processing operations that modify or create dataset variables within data blocks. - CompoundProcessor: Class for chaining multiple processors into optimized pipelines with flexible output selection\nThe framework supports: - Variable metadata management (dimensions, dtypes, attributes, flags) - Inputs and outputs description, with automatic validation - Performance optimization through processor chaining\n\n\nCreate a simple processor that adds two variables:\n\n\n\nclass AddProcessor(BlockProcessor): … def input_vars(self): … return [Var(‘a’), Var(‘b’)] … … def created_vars(self): … return [Var(‘sum’, ‘float64’, (‘x’, ‘y’))] … … def process_block(self, block): … block[‘sum’] = block[‘a’] + block[‘b’] … result = AddProcessor().map_blocks(dataset)\n\n\n\nChain multiple processors:\n\n\n\ncompound = CompoundProcessor([processor1, processor2]) result = compound.map_blocks(dataset)\n\n\n\n\n\n\n\n\n\nName\nDescription\n\n\n\n\nBlockProcessor\nAbstract base class for block processing operations. Processors are intended to be\n\n\nCompoundProcessor\nCombines multiple BlockProcessor instances into a single processor.\n\n\n\n\n\nprocess.blockwise.BlockProcessor()\nAbstract base class for block processing operations. Processors are intended to be executed by their method map_blocks. Use CompoundProcessor to combine multiple processors into a single processing pipeline and minimize dask graph management overhead.\nEach processor defines: - process_block: Method that performs the actual processing on a data block, by adding or modifying Dataset variables in place. - input_vars: List of variable names required as input (optional) - modified_vars: List of Var objects describing the variables to be modified (optional) - created_vars: List of Var objects describing newly created variables (optional) - output_vars: List of Var objects describing the variables to be output by the map_blocks method (optional) - created_dims: Dictionary of new dimensions to be created by this processor (optional) - global_attrs: Dictionary of the global attributes set by this processor (optional) - auto_template: Method that returns whether automatic templating should be activated (optional) - check: Method to validate the input dataset before processing (optional)\n\n\n&gt;&gt;&gt; class AddProcessor(BlockProcessor):\n...     def input_vars(self):\n...         return [Var('a'), Var('b')]\n...\n...     def created_vars(self):\n...         return [Var('sum', 'float64', ('x', 'y'))]\n...\n...     def process_block(self, block, **kwargs):\n...         block['sum'] = block['a'] + block['b']\n...\n&gt;&gt;&gt; result = AddProcessor().map_blocks(ds)\n\n\n\n\n\n\nName\nDescription\n\n\n\n\nauto_template\nReturns whether “automatic templating” should be activated\n\n\nbuild_template\nModifies a template dataset for xr.map_blocks operations.\n\n\ncheck\nValidate the input dataset for this processor.\n\n\ncreated_dims\nDescribes new dimensions to be created by this processor.\n\n\ncreated_vars\nVariables that this processor will create.\n\n\ndescribe\nPrint a description of this processor for logging/debugging.\n\n\nget_flag_mappings\nExtract flag bit mappings (var -&gt; flags) from modified_vars() and\n\n\nglobal_attrs\nReturn dictionary of global attributes to be set by this processor.\n\n\ninput_vars\nInput variables required by this processor.\n\n\nmap_blocks\nApply this processor to a dataset using xarray’s map_blocks.\n\n\nmodified_vars\nVariables to be modified in-place.\n\n\noutput_vars\nDefines the list of variables to be returned by map_blocks\n\n\nprocess_and_validate\nProcess a block and validate the created output variables.\n\n\nprocess_block\nProcess a single block of data (in place).\n\n\nraiseflag\nApply a flag to a variable in the block where condition is True.\n\n\nset_attributes\nSet attributes defined in created/modified vars in ds\n\n\nvalidate\nValidate that all advertised created output variables exist with correct specs\n\n\n\n\n\nprocess.blockwise.BlockProcessor.auto_template()\nReturns whether “automatic templating” should be activated\nAutomatic templating calls process_block on mocked up (empty) data to determine the output variables types and dimensions.\nauto_template is disactivated by default.\n\n\n\nprocess.blockwise.BlockProcessor.build_template(ds_template)\nModifies a template dataset for xr.map_blocks operations.\nThis method builds a template dataset that defines the structure and metadata of the output dataset after processing. The template includes: - All output variables (created and modified) - Appropriate data types and dimensions for created variables - Flag metadata for variables with defined flags - Global attributes from the processor\nIf some dimensions are not fully described, the method runs the processing code on mockup data to assess the data types and dimensions of created variables.\n\n\n\n\n\n\n\n\n\n\n\nName\nType\nDescription\nDefault\n\n\n\n\nds_template\nxr.Dataset\nInput template, modified in place.\nrequired\n\n\n\n\n\n\n\n\n\nName\nType\nDescription\n\n\n\n\n\nNone\nThe input dataset is modified in place.\n\n\n\n\n\n\n\nprocess.blockwise.BlockProcessor.check(ds)\nValidate the input dataset for this processor.\nThis method can be overridden by subclasses to perform custom validation on the input dataset before processing. By default, it does nothing.\n\n\n\n\n\nName\nType\nDescription\nDefault\n\n\n\n\nds\nxr.Dataset\nThe input dataset to validate.\nrequired\n\n\n\n\n\n\n\nprocess.blockwise.BlockProcessor.created_dims()\nDescribes new dimensions to be created by this processor.\nEach dimension is defined either by: - An int: specifying the dimension size - An array-like: providing coordinates for the dimension\n\n\n\n\n\n\n\n\n\n\nName\nType\nDescription\n\n\n\n\n\nDict[str, int or array - like]\nDictionary mapping dimension names to their size (int) or coordinates (array-like)\n\n\n\n\n\n\n&gt;&gt;&gt; def created_dims(self):\n...     return {'z': 10, 'wavelength': [400, 500, 600, 700]}\n\n\n\n\nprocess.blockwise.BlockProcessor.created_vars()\nVariables that this processor will create.\nProvide Var definition: name, dtype, dims or dims_like (plus optionally flags or other attributes). Declare any new dims in created_dims(). If auto_template() returns True and dtype or dims/dims_like are not specified, they will be assessed by running process_block on mockup data.\nUse dims_like to specify that the dimensions should match those of an existing variable in the dataset (e.g., dims_like='input_var').\nExample: &gt;&gt;&gt; def created_vars(self): … return [Var(‘sum’, ‘float64’, (‘x’, ‘y’))]\n\n\n\nprocess.blockwise.BlockProcessor.describe()\nPrint a description of this processor for logging/debugging.\n\n\n\nprocess.blockwise.BlockProcessor.get_flag_mappings()\nExtract flag bit mappings (var -&gt; flags) from modified_vars() and created_vars(). Results are cached.\n\n\n\nprocess.blockwise.BlockProcessor.global_attrs()\nReturn dictionary of global attributes to be set by this processor. For variable attributes, use the attrs argument of the created/modified variables.\n\n\n\nprocess.blockwise.BlockProcessor.input_vars()\nInput variables required by this processor.\nExample: &gt;&gt;&gt; def input_vars(self): … return [Var(‘a’), Var(‘b’), Var(‘flags’)]\n\n\n\nprocess.blockwise.BlockProcessor.map_blocks(ds)\nApply this processor to a dataset using xarray’s map_blocks.\nThis method validates that all required input and modified variables are present in the dataset, creates a subset containing only the necessary variables, builds a template dataset defining the output structure, and applies the processor’s process_block method to each chunk using xr.map_blocks.\nThe output includes only the variables specified by output_vars() (by default, created and modified variables).\n\n\n\n\n\n\n\n\n\n\n\nName\nType\nDescription\nDefault\n\n\n\n\nds\nxr.Dataset\nInput dataset to process. Must contain all variables required by input_vars() and modified_vars().\nrequired\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nName\nType\nDescription\n\n\n\n\n\nxr.Dataset\nProcessed dataset containing the output variables as defined by output_vars().\n\n\n\n\n\n\n\nprocess.blockwise.BlockProcessor.modified_vars()\nVariables to be modified in-place.\nUse Var with only name (leave dims/dtype as None). Optionally provide other attributes or flags to register flag metadata used by raiseflag().\nExample: &gt;&gt;&gt; def modified_vars(self): … return [Var(‘flags’, flags={‘CLOUD’: 1})]\nNote: flags are raised like so: &gt;&gt;&gt; def process_block(self, block, **kwargs): … self.raiseflag(block, ‘flags’, ‘CLOUD’, block[‘rho_toa’] &gt; 0.2)\n\n\n\nprocess.blockwise.BlockProcessor.output_vars()\nDefines the list of variables to be returned by map_blocks\nBy default, the created and modified variables are included as output_vars.\nThis method can be overridden to adjust this behaviour.\n\n\n\nprocess.blockwise.BlockProcessor.process_and_validate(block)\nProcess a block and validate the created output variables.\nThis method wraps the call to process_block, and is called by xr.map_map_blocks\n\n\n\nprocess.blockwise.BlockProcessor.process_block(block)\nProcess a single block of data (in place).\n\n\n\n\n\n\n\n\n\n\n\nName\nType\nDescription\nDefault\n\n\n\n\nblock\nxr.Dataset\nInput data block containing the required input variables. This block is modified in place.\nrequired\n\n\n\n\n\n\n\nprocess.blockwise.BlockProcessor.raiseflag(\n    block,\n    var_name,\n    flag_name,\n    condition,\n)\nApply a flag to a variable in the block where condition is True.\nThis is a convenience wrapper around core.tools.raiseflag that automatically looks up the flag bit position from the processor’s flag definitions.\nNote that the flags must be registered in the Var definition for the variable in modified_vars() or created_vars().\n\n\n\n\n\n\n\n\n\n\n\nName\nType\nDescription\nDefault\n\n\n\n\nblock\nxr.Dataset\nDataset block containing the flag variable\nrequired\n\n\nvar_name\nstr\nName of the flag variable (e.g., ‘flags’, ‘quality_flags’)\nrequired\n\n\nflag_name\nstr\nName of the flag to raise (e.g., ‘CLOUDY’, ‘BAD_DATA’)\nrequired\n\n\ncondition\nxr.DataArray\nBoolean array indicating where to raise the flag\nrequired\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nName\nType\nDescription\n\n\n\n\n\nValueError\nIf the variable has no flags defined or the flag name is not defined\n\n\n\n\n\n\n&gt;&gt;&gt; def modified_vars(self):\n...     return [Var('flags', flags={'CLOUDY': 1})]\n&gt;&gt;&gt; def process_block(self, block, **kwargs):\n...     cloud_mask = block['reflectance'] &gt; 0.8\n...     self.raiseflag(block, 'flags', 'CLOUDY', cloud_mask)\n\n\n\n\nprocess.blockwise.BlockProcessor.set_attributes(ds)\nSet attributes defined in created/modified vars in ds\nThis method is called: - During the template creation - After each execution of process_block (in process_and_validate)\n\n\n\nprocess.blockwise.BlockProcessor.validate(block)\nValidate that all advertised created output variables exist with correct specs\n\n\n\n\n\nprocess.blockwise.CompoundProcessor(\n    list_processors,\n    outputs='created_modified',\n    outputs_tags=None,\n    outputs_names=None,\n    preserve_attrs=True,\n)\nCombines multiple BlockProcessor instances into a single processor.\nThis class allows chaining multiple processors together, automatically filtering out processors that are not required to produce the specified outputs. It provides flexible output selection based on variable roles (created/modified/input) or custom criteria like tags or specific names.\nThe compound processor optimizes execution by only running processors that contribute to the final output, reducing unnecessary computation in processing pipelines.\n\n\n\n\n\n\n\n\n\n\n\nName\nType\nDescription\nDefault\n\n\n\n\nlist_processors\nlist[BlockProcessor]\nList of processors to combine in execution order\nrequired\n\n\noutputs\nLiteral['created_modified', 'all', 'tags', 'named']\nHow to select output variables: - “created_modified”: output variables that are created or modified by the processors - “all”: output all variables (created, modified, and input variables) - “tags”: output variables that have tags matching outputs_tags - “named”: output variables with names matching outputs_names\n\"created_modified\"\n\n\noutputs_tags\nlist[str] | None\nRequired when outputs=“tags”. List of tags that variables must have to be included in the output. Variables are included if they have at least one matching tag.\nNone\n\n\noutputs_names\nlist[str] | None\nRequired when outputs=“named”. List of variable names to include in the output. All specified names must exist in the processor chain.\nNone\n\n\npreserve_attrs\nbool\nWhether to preserve global attributes from the input dataset in the output.\nTrue\n\n\n\n\n\n\nCombine two processors with default output (created and modified variables):\n&gt;&gt;&gt; p1 = CloudMaskProcessor()\n&gt;&gt;&gt; p2 = QualityFlagProcessor()\n&gt;&gt;&gt; compound = CompoundProcessor([p1, p2])\n&gt;&gt;&gt; result = compound.map_blocks(dataset)\nOutput only variables with specific tags:\n&gt;&gt;&gt; compound = CompoundProcessor([p1, p2],\n...                              outputs=\"tags\",\n...                              outputs_tags=[\"quality\"])\n&gt;&gt;&gt; result = compound.map_blocks(dataset)\nOutput specific named variables:\n&gt;&gt;&gt; compound = CompoundProcessor([p1, p2], outputs=\"named\", \n...                              outputs_names=[\"cloud_mask\", \"quality_flags\"])\n&gt;&gt;&gt; result = compound.map_blocks(dataset)\n\n\n\n\n\n\nName\nDescription\n\n\n\n\nbuild_template\nModifies a template dataset for xr.map_blocks operations for compound processors.\n\n\ncreated_vars\nReturn the list of variables created by the compound processor.\n\n\ndescribe\nPrint a detailed description of the compound processor.\n\n\nget_required_processors\nFilter the processor chain to keep only those required to produce allowed_vars.\n\n\nglobal_attrs\nSafe merge of the global attributes from all processors\n\n\ninput_vars\nReturn the list of input variables for the compound processor.\n\n\nmap_blocks\nApply processors to dataset blocks with optional chaining.\n\n\nmodified_vars\nReturn the list of variables modified by the compound processor.\n\n\nprocess_and_validate\nProcess a single block of data by applying all required processors, hereby\n\n\n\n\n\nprocess.blockwise.CompoundProcessor.build_template(ds_template)\nModifies a template dataset for xr.map_blocks operations for compound processors.\nThis method builds a template dataset that defines the structure and metadata of the output dataset after processing by all processors in the compound. The template includes: - All output variables (created and modified) from all processors - Appropriate data types and dimensions for created variables - Flag metadata for variables with defined flags - Global attributes from all processors\n\n\n\n\n\n\n\n\n\n\n\nName\nType\nDescription\nDefault\n\n\n\n\nds_template\nxr.Dataset\nInput dataset, modified in place.\nrequired\n\n\n\n\n\n\n\n\n\nName\nType\nDescription\n\n\n\n\n\nNone\nThe input dataset is modified in place.\n\n\n\n\n\n\n\nprocess.blockwise.CompoundProcessor.created_vars()\nReturn the list of variables created by the compound processor.\nThe compound created vars is the union of all created vars from sub-processors.\n\n\n\n\n\n\n\n\n\n\nName\nType\nDescription\n\n\n\n\n\nlist[Var]\nList of variables created by the compound processor\n\n\n\n\n\n\n\nprocess.blockwise.CompoundProcessor.describe()\nPrint a detailed description of the compound processor.\n\n\n\nprocess.blockwise.CompoundProcessor.get_required_processors()\nFilter the processor chain to keep only those required to produce allowed_vars.\nA processor is kept if: - It creates any variables in allowed_vars, OR - It modifies any variables in allowed_vars, OR - It creates variables needed by a later kept processor\nThis avoids running unnecessary processors that don’t contribute to the output.\n\n\n\n\n\n\n\n\n\n\n\nName\nType\nDescription\nDefault\n\n\n\n\nprocessors\nlist[BlockProcessor]\nFull list of processors\nrequired\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nName\nType\nDescription\n\n\n\n\n\nlist[BlockProcessor]\nFiltered list containing only required processors\n\n\n\n\n\n\n\nprocess.blockwise.CompoundProcessor.global_attrs()\nSafe merge of the global attributes from all processors\n\n\n\nprocess.blockwise.CompoundProcessor.input_vars()\nReturn the list of input variables for the compound processor.\nThe compound input vars are the variables being input in at least one processor, but not modified nor created by any processor.\n\n\n\n\n\n\n\n\n\n\nName\nType\nDescription\n\n\n\n\n\nlist[Var]\nList of input variables required by the compound processor\n\n\n\n\n\n\n\nprocess.blockwise.CompoundProcessor.map_blocks(ds, chained=True)\nApply processors to dataset blocks with optional chaining.\n\n\n\n\n\n\n\n\n\n\n\nName\nType\nDescription\nDefault\n\n\n\n\nds\nxr.Dataset\nInput xarray Dataset to process.\nrequired\n\n\nchained\nbool\nIf True, use processor chaining for efficient computation. If False, don’t chain processors; this may involve additional dask graph overhead.\nTrue\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nName\nType\nDescription\n\n\n\n\n\nxr.Dataset\nProcessed dataset containing only the output variables.\n\n\n\n\n\n\n\nprocess.blockwise.CompoundProcessor.modified_vars()\nReturn the list of variables modified by the compound processor.\nThe compound modified vars are the variables that are modified vars for all processors (not created, not input).\n\n\n\n\n\n\n\n\n\n\nName\nType\nDescription\n\n\n\n\n\nlist[Var]\nList of variables modified by the compound processor\n\n\n\n\n\n\n\nprocess.blockwise.CompoundProcessor.process_and_validate(block)\nProcess a single block of data by applying all required processors, hereby implementing the compound processor.\nThis method iterates through the list of required processors obtained from get_required_processors() and calls their process_block method on the provided block, modifying it in place.\n\n\n\n\n\n\n\n\n\n\n\nName\nType\nDescription\nDefault\n\n\n\n\nblock\nxr.Dataset\nThe xarray Dataset representing the block to be processed.\nrequired",
+    "crumbs": [
+      "Process",
+      "process.blockwise"
+    ]
+  },
+  {
+    "objectID": "reference/process.blockwise.html#example",
+    "href": "reference/process.blockwise.html#example",
+    "title": "process.blockwise",
+    "section": "",
+    "text": "Create a simple processor that adds two variables:\n\n\n\nclass AddProcessor(BlockProcessor): … def input_vars(self): … return [Var(‘a’), Var(‘b’)] … … def created_vars(self): … return [Var(‘sum’, ‘float64’, (‘x’, ‘y’))] … … def process_block(self, block): … block[‘sum’] = block[‘a’] + block[‘b’] … result = AddProcessor().map_blocks(dataset)\n\n\n\nChain multiple processors:\n\n\n\ncompound = CompoundProcessor([processor1, processor2]) result = compound.map_blocks(dataset)",
+    "crumbs": [
+      "Process",
+      "process.blockwise"
+    ]
+  },
+  {
+    "objectID": "reference/process.blockwise.html#classes",
+    "href": "reference/process.blockwise.html#classes",
+    "title": "process.blockwise",
+    "section": "",
+    "text": "Name\nDescription\n\n\n\n\nBlockProcessor\nAbstract base class for block processing operations. Processors are intended to be\n\n\nCompoundProcessor\nCombines multiple BlockProcessor instances into a single processor.\n\n\n\n\n\nprocess.blockwise.BlockProcessor()\nAbstract base class for block processing operations. Processors are intended to be executed by their method map_blocks. Use CompoundProcessor to combine multiple processors into a single processing pipeline and minimize dask graph management overhead.\nEach processor defines: - process_block: Method that performs the actual processing on a data block, by adding or modifying Dataset variables in place. - input_vars: List of variable names required as input (optional) - modified_vars: List of Var objects describing the variables to be modified (optional) - created_vars: List of Var objects describing newly created variables (optional) - output_vars: List of Var objects describing the variables to be output by the map_blocks method (optional) - created_dims: Dictionary of new dimensions to be created by this processor (optional) - global_attrs: Dictionary of the global attributes set by this processor (optional) - auto_template: Method that returns whether automatic templating should be activated (optional) - check: Method to validate the input dataset before processing (optional)\n\n\n&gt;&gt;&gt; class AddProcessor(BlockProcessor):\n...     def input_vars(self):\n...         return [Var('a'), Var('b')]\n...\n...     def created_vars(self):\n...         return [Var('sum', 'float64', ('x', 'y'))]\n...\n...     def process_block(self, block, **kwargs):\n...         block['sum'] = block['a'] + block['b']\n...\n&gt;&gt;&gt; result = AddProcessor().map_blocks(ds)\n\n\n\n\n\n\nName\nDescription\n\n\n\n\nauto_template\nReturns whether “automatic templating” should be activated\n\n\nbuild_template\nModifies a template dataset for xr.map_blocks operations.\n\n\ncheck\nValidate the input dataset for this processor.\n\n\ncreated_dims\nDescribes new dimensions to be created by this processor.\n\n\ncreated_vars\nVariables that this processor will create.\n\n\ndescribe\nPrint a description of this processor for logging/debugging.\n\n\nget_flag_mappings\nExtract flag bit mappings (var -&gt; flags) from modified_vars() and\n\n\nglobal_attrs\nReturn dictionary of global attributes to be set by this processor.\n\n\ninput_vars\nInput variables required by this processor.\n\n\nmap_blocks\nApply this processor to a dataset using xarray’s map_blocks.\n\n\nmodified_vars\nVariables to be modified in-place.\n\n\noutput_vars\nDefines the list of variables to be returned by map_blocks\n\n\nprocess_and_validate\nProcess a block and validate the created output variables.\n\n\nprocess_block\nProcess a single block of data (in place).\n\n\nraiseflag\nApply a flag to a variable in the block where condition is True.\n\n\nset_attributes\nSet attributes defined in created/modified vars in ds\n\n\nvalidate\nValidate that all advertised created output variables exist with correct specs\n\n\n\n\n\nprocess.blockwise.BlockProcessor.auto_template()\nReturns whether “automatic templating” should be activated\nAutomatic templating calls process_block on mocked up (empty) data to determine the output variables types and dimensions.\nauto_template is disactivated by default.\n\n\n\nprocess.blockwise.BlockProcessor.build_template(ds_template)\nModifies a template dataset for xr.map_blocks operations.\nThis method builds a template dataset that defines the structure and metadata of the output dataset after processing. The template includes: - All output variables (created and modified) - Appropriate data types and dimensions for created variables - Flag metadata for variables with defined flags - Global attributes from the processor\nIf some dimensions are not fully described, the method runs the processing code on mockup data to assess the data types and dimensions of created variables.\n\n\n\n\n\n\n\n\n\n\n\nName\nType\nDescription\nDefault\n\n\n\n\nds_template\nxr.Dataset\nInput template, modified in place.\nrequired\n\n\n\n\n\n\n\n\n\nName\nType\nDescription\n\n\n\n\n\nNone\nThe input dataset is modified in place.\n\n\n\n\n\n\n\nprocess.blockwise.BlockProcessor.check(ds)\nValidate the input dataset for this processor.\nThis method can be overridden by subclasses to perform custom validation on the input dataset before processing. By default, it does nothing.\n\n\n\n\n\nName\nType\nDescription\nDefault\n\n\n\n\nds\nxr.Dataset\nThe input dataset to validate.\nrequired\n\n\n\n\n\n\n\nprocess.blockwise.BlockProcessor.created_dims()\nDescribes new dimensions to be created by this processor.\nEach dimension is defined either by: - An int: specifying the dimension size - An array-like: providing coordinates for the dimension\n\n\n\n\n\n\n\n\n\n\nName\nType\nDescription\n\n\n\n\n\nDict[str, int or array - like]\nDictionary mapping dimension names to their size (int) or coordinates (array-like)\n\n\n\n\n\n\n&gt;&gt;&gt; def created_dims(self):\n...     return {'z': 10, 'wavelength': [400, 500, 600, 700]}\n\n\n\n\nprocess.blockwise.BlockProcessor.created_vars()\nVariables that this processor will create.\nProvide Var definition: name, dtype, dims or dims_like (plus optionally flags or other attributes). Declare any new dims in created_dims(). If auto_template() returns True and dtype or dims/dims_like are not specified, they will be assessed by running process_block on mockup data.\nUse dims_like to specify that the dimensions should match those of an existing variable in the dataset (e.g., dims_like='input_var').\nExample: &gt;&gt;&gt; def created_vars(self): … return [Var(‘sum’, ‘float64’, (‘x’, ‘y’))]\n\n\n\nprocess.blockwise.BlockProcessor.describe()\nPrint a description of this processor for logging/debugging.\n\n\n\nprocess.blockwise.BlockProcessor.get_flag_mappings()\nExtract flag bit mappings (var -&gt; flags) from modified_vars() and created_vars(). Results are cached.\n\n\n\nprocess.blockwise.BlockProcessor.global_attrs()\nReturn dictionary of global attributes to be set by this processor. For variable attributes, use the attrs argument of the created/modified variables.\n\n\n\nprocess.blockwise.BlockProcessor.input_vars()\nInput variables required by this processor.\nExample: &gt;&gt;&gt; def input_vars(self): … return [Var(‘a’), Var(‘b’), Var(‘flags’)]\n\n\n\nprocess.blockwise.BlockProcessor.map_blocks(ds)\nApply this processor to a dataset using xarray’s map_blocks.\nThis method validates that all required input and modified variables are present in the dataset, creates a subset containing only the necessary variables, builds a template dataset defining the output structure, and applies the processor’s process_block method to each chunk using xr.map_blocks.\nThe output includes only the variables specified by output_vars() (by default, created and modified variables).\n\n\n\n\n\n\n\n\n\n\n\nName\nType\nDescription\nDefault\n\n\n\n\nds\nxr.Dataset\nInput dataset to process. Must contain all variables required by input_vars() and modified_vars().\nrequired\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nName\nType\nDescription\n\n\n\n\n\nxr.Dataset\nProcessed dataset containing the output variables as defined by output_vars().\n\n\n\n\n\n\n\nprocess.blockwise.BlockProcessor.modified_vars()\nVariables to be modified in-place.\nUse Var with only name (leave dims/dtype as None). Optionally provide other attributes or flags to register flag metadata used by raiseflag().\nExample: &gt;&gt;&gt; def modified_vars(self): … return [Var(‘flags’, flags={‘CLOUD’: 1})]\nNote: flags are raised like so: &gt;&gt;&gt; def process_block(self, block, **kwargs): … self.raiseflag(block, ‘flags’, ‘CLOUD’, block[‘rho_toa’] &gt; 0.2)\n\n\n\nprocess.blockwise.BlockProcessor.output_vars()\nDefines the list of variables to be returned by map_blocks\nBy default, the created and modified variables are included as output_vars.\nThis method can be overridden to adjust this behaviour.\n\n\n\nprocess.blockwise.BlockProcessor.process_and_validate(block)\nProcess a block and validate the created output variables.\nThis method wraps the call to process_block, and is called by xr.map_map_blocks\n\n\n\nprocess.blockwise.BlockProcessor.process_block(block)\nProcess a single block of data (in place).\n\n\n\n\n\n\n\n\n\n\n\nName\nType\nDescription\nDefault\n\n\n\n\nblock\nxr.Dataset\nInput data block containing the required input variables. This block is modified in place.\nrequired\n\n\n\n\n\n\n\nprocess.blockwise.BlockProcessor.raiseflag(\n    block,\n    var_name,\n    flag_name,\n    condition,\n)\nApply a flag to a variable in the block where condition is True.\nThis is a convenience wrapper around core.tools.raiseflag that automatically looks up the flag bit position from the processor’s flag definitions.\nNote that the flags must be registered in the Var definition for the variable in modified_vars() or created_vars().\n\n\n\n\n\n\n\n\n\n\n\nName\nType\nDescription\nDefault\n\n\n\n\nblock\nxr.Dataset\nDataset block containing the flag variable\nrequired\n\n\nvar_name\nstr\nName of the flag variable (e.g., ‘flags’, ‘quality_flags’)\nrequired\n\n\nflag_name\nstr\nName of the flag to raise (e.g., ‘CLOUDY’, ‘BAD_DATA’)\nrequired\n\n\ncondition\nxr.DataArray\nBoolean array indicating where to raise the flag\nrequired\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nName\nType\nDescription\n\n\n\n\n\nValueError\nIf the variable has no flags defined or the flag name is not defined\n\n\n\n\n\n\n&gt;&gt;&gt; def modified_vars(self):\n...     return [Var('flags', flags={'CLOUDY': 1})]\n&gt;&gt;&gt; def process_block(self, block, **kwargs):\n...     cloud_mask = block['reflectance'] &gt; 0.8\n...     self.raiseflag(block, 'flags', 'CLOUDY', cloud_mask)\n\n\n\n\nprocess.blockwise.BlockProcessor.set_attributes(ds)\nSet attributes defined in created/modified vars in ds\nThis method is called: - During the template creation - After each execution of process_block (in process_and_validate)\n\n\n\nprocess.blockwise.BlockProcessor.validate(block)\nValidate that all advertised created output variables exist with correct specs\n\n\n\n\n\nprocess.blockwise.CompoundProcessor(\n    list_processors,\n    outputs='created_modified',\n    outputs_tags=None,\n    outputs_names=None,\n    preserve_attrs=True,\n)\nCombines multiple BlockProcessor instances into a single processor.\nThis class allows chaining multiple processors together, automatically filtering out processors that are not required to produce the specified outputs. It provides flexible output selection based on variable roles (created/modified/input) or custom criteria like tags or specific names.\nThe compound processor optimizes execution by only running processors that contribute to the final output, reducing unnecessary computation in processing pipelines.\n\n\n\n\n\n\n\n\n\n\n\nName\nType\nDescription\nDefault\n\n\n\n\nlist_processors\nlist[BlockProcessor]\nList of processors to combine in execution order\nrequired\n\n\noutputs\nLiteral['created_modified', 'all', 'tags', 'named']\nHow to select output variables: - “created_modified”: output variables that are created or modified by the processors - “all”: output all variables (created, modified, and input variables) - “tags”: output variables that have tags matching outputs_tags - “named”: output variables with names matching outputs_names\n\"created_modified\"\n\n\noutputs_tags\nlist[str] | None\nRequired when outputs=“tags”. List of tags that variables must have to be included in the output. Variables are included if they have at least one matching tag.\nNone\n\n\noutputs_names\nlist[str] | None\nRequired when outputs=“named”. List of variable names to include in the output. All specified names must exist in the processor chain.\nNone\n\n\npreserve_attrs\nbool\nWhether to preserve global attributes from the input dataset in the output.\nTrue\n\n\n\n\n\n\nCombine two processors with default output (created and modified variables):\n&gt;&gt;&gt; p1 = CloudMaskProcessor()\n&gt;&gt;&gt; p2 = QualityFlagProcessor()\n&gt;&gt;&gt; compound = CompoundProcessor([p1, p2])\n&gt;&gt;&gt; result = compound.map_blocks(dataset)\nOutput only variables with specific tags:\n&gt;&gt;&gt; compound = CompoundProcessor([p1, p2],\n...                              outputs=\"tags\",\n...                              outputs_tags=[\"quality\"])\n&gt;&gt;&gt; result = compound.map_blocks(dataset)\nOutput specific named variables:\n&gt;&gt;&gt; compound = CompoundProcessor([p1, p2], outputs=\"named\", \n...                              outputs_names=[\"cloud_mask\", \"quality_flags\"])\n&gt;&gt;&gt; result = compound.map_blocks(dataset)\n\n\n\n\n\n\nName\nDescription\n\n\n\n\nbuild_template\nModifies a template dataset for xr.map_blocks operations for compound processors.\n\n\ncreated_vars\nReturn the list of variables created by the compound processor.\n\n\ndescribe\nPrint a detailed description of the compound processor.\n\n\nget_required_processors\nFilter the processor chain to keep only those required to produce allowed_vars.\n\n\nglobal_attrs\nSafe merge of the global attributes from all processors\n\n\ninput_vars\nReturn the list of input variables for the compound processor.\n\n\nmap_blocks\nApply processors to dataset blocks with optional chaining.\n\n\nmodified_vars\nReturn the list of variables modified by the compound processor.\n\n\nprocess_and_validate\nProcess a single block of data by applying all required processors, hereby\n\n\n\n\n\nprocess.blockwise.CompoundProcessor.build_template(ds_template)\nModifies a template dataset for xr.map_blocks operations for compound processors.\nThis method builds a template dataset that defines the structure and metadata of the output dataset after processing by all processors in the compound. The template includes: - All output variables (created and modified) from all processors - Appropriate data types and dimensions for created variables - Flag metadata for variables with defined flags - Global attributes from all processors\n\n\n\n\n\n\n\n\n\n\n\nName\nType\nDescription\nDefault\n\n\n\n\nds_template\nxr.Dataset\nInput dataset, modified in place.\nrequired\n\n\n\n\n\n\n\n\n\nName\nType\nDescription\n\n\n\n\n\nNone\nThe input dataset is modified in place.\n\n\n\n\n\n\n\nprocess.blockwise.CompoundProcessor.created_vars()\nReturn the list of variables created by the compound processor.\nThe compound created vars is the union of all created vars from sub-processors.\n\n\n\n\n\n\n\n\n\n\nName\nType\nDescription\n\n\n\n\n\nlist[Var]\nList of variables created by the compound processor\n\n\n\n\n\n\n\nprocess.blockwise.CompoundProcessor.describe()\nPrint a detailed description of the compound processor.\n\n\n\nprocess.blockwise.CompoundProcessor.get_required_processors()\nFilter the processor chain to keep only those required to produce allowed_vars.\nA processor is kept if: - It creates any variables in allowed_vars, OR - It modifies any variables in allowed_vars, OR - It creates variables needed by a later kept processor\nThis avoids running unnecessary processors that don’t contribute to the output.\n\n\n\n\n\n\n\n\n\n\n\nName\nType\nDescription\nDefault\n\n\n\n\nprocessors\nlist[BlockProcessor]\nFull list of processors\nrequired\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nName\nType\nDescription\n\n\n\n\n\nlist[BlockProcessor]\nFiltered list containing only required processors\n\n\n\n\n\n\n\nprocess.blockwise.CompoundProcessor.global_attrs()\nSafe merge of the global attributes from all processors\n\n\n\nprocess.blockwise.CompoundProcessor.input_vars()\nReturn the list of input variables for the compound processor.\nThe compound input vars are the variables being input in at least one processor, but not modified nor created by any processor.\n\n\n\n\n\n\n\n\n\n\nName\nType\nDescription\n\n\n\n\n\nlist[Var]\nList of input variables required by the compound processor\n\n\n\n\n\n\n\nprocess.blockwise.CompoundProcessor.map_blocks(ds, chained=True)\nApply processors to dataset blocks with optional chaining.\n\n\n\n\n\n\n\n\n\n\n\nName\nType\nDescription\nDefault\n\n\n\n\nds\nxr.Dataset\nInput xarray Dataset to process.\nrequired\n\n\nchained\nbool\nIf True, use processor chaining for efficient computation. If False, don’t chain processors; this may involve additional dask graph overhead.\nTrue\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nName\nType\nDescription\n\n\n\n\n\nxr.Dataset\nProcessed dataset containing only the output variables.\n\n\n\n\n\n\n\nprocess.blockwise.CompoundProcessor.modified_vars()\nReturn the list of variables modified by the compound processor.\nThe compound modified vars are the variables that are modified vars for all processors (not created, not input).\n\n\n\n\n\n\n\n\n\n\nName\nType\nDescription\n\n\n\n\n\nlist[Var]\nList of variables modified by the compound processor\n\n\n\n\n\n\n\nprocess.blockwise.CompoundProcessor.process_and_validate(block)\nProcess a single block of data by applying all required processors, hereby implementing the compound processor.\nThis method iterates through the list of required processors obtained from get_required_processors() and calls their process_block method on the provided block, modifying it in place.\n\n\n\n\n\n\n\n\n\n\n\nName\nType\nDescription\nDefault\n\n\n\n\nblock\nxr.Dataset\nThe xarray Dataset representing the block to be processed.\nrequired",
+    "crumbs": [
+      "Process",
+      "process.blockwise"
+    ]
+  },
+  {
+    "objectID": "reference/import_utils.html",
+    "href": "reference/import_utils.html",
+    "title": "import_utils",
+    "section": "",
+    "text": "import_utils\n\n\n\n\n\nName\nDescription\n\n\n\n\nimport_module\nImport a module or attribute from a dotted module path.\n\n\n\n\n\nimport_utils.import_module(module_path)\nImport a module or attribute from a dotted module path.\nArgs: module_path (str): The dotted path to the module or attribute, e.g., ‘package.module.myclass’.\nReturns: The imported object (module, class, function, or any other attribute).",
+    "crumbs": [
+      "Tools",
+      "import_utils"
+    ]
+  },
+  {
+    "objectID": "reference/import_utils.html#functions",
+    "href": "reference/import_utils.html#functions",
+    "title": "import_utils",
+    "section": "",
+    "text": "Name\nDescription\n\n\n\n\nimport_module\nImport a module or attribute from a dotted module path.\n\n\n\n\n\nimport_utils.import_module(module_path)\nImport a module or attribute from a dotted module path.\nArgs: module_path (str): The dotted path to the module or attribute, e.g., ‘package.module.myclass’.\nReturns: The imported object (module, class, function, or any other attribute).",
+    "crumbs": [
+      "Tools",
+      "import_utils"
+    ]
+  },
+  {
+    "objectID": "reference/tests.pytest_utils.html",
+    "href": "reference/tests.pytest_utils.html",
+    "title": "tests.pytest_utils",
+    "section": "",
+    "text": "tests.pytest_utils\n\n\n\n\n\nName\nDescription\n\n\n\n\nparametrize_dict\nAllow passing args and ids to pytest.mark.parametrize with a dict syntax\n\n\n\n\n\ntests.pytest_utils.parametrize_dict(d)\nAllow passing args and ids to pytest.mark.parametrize with a dict syntax\n@pytest.mark.parametrize(‘a’, **parametrize_dict({ ‘first case’: 1, ‘second case’: 2, })) # equivalent to parametrize(‘a’, [1, 2], ids=[‘first_case’, ‘second case’]) def test(a): pass",
+    "crumbs": [
+      "Tests",
+      "tests.pytest_utils"
+    ]
+  },
+  {
+    "objectID": "reference/tests.pytest_utils.html#functions",
+    "href": "reference/tests.pytest_utils.html#functions",
+    "title": "tests.pytest_utils",
+    "section": "",
+    "text": "Name\nDescription\n\n\n\n\nparametrize_dict\nAllow passing args and ids to pytest.mark.parametrize with a dict syntax\n\n\n\n\n\ntests.pytest_utils.parametrize_dict(d)\nAllow passing args and ids to pytest.mark.parametrize with a dict syntax\n@pytest.mark.parametrize(‘a’, **parametrize_dict({ ‘first case’: 1, ‘second case’: 2, })) # equivalent to parametrize(‘a’, [1, 2], ids=[‘first_case’, ‘second case’]) def test(a): pass",
+    "crumbs": [
+      "Tests",
+      "tests.pytest_utils"
+    ]
+  },
+  {
+    "objectID": "reference/fuzzy.html",
+    "href": "reference/fuzzy.html",
+    "title": "fuzzy",
+    "section": "",
+    "text": "fuzzy\nfuzzy",
+    "crumbs": [
+      "Tools",
+      "fuzzy"
+    ]
+  },
+  {
+    "objectID": "reference/static.virtual.html",
+    "href": "reference/static.virtual.html",
+    "title": "static.virtual",
+    "section": "",
+    "text": "static.virtual\n\n\n\n\n\nName\nDescription\n\n\n\n\nvirtual\nDeclare a function or method as virtual (default python behavior)\n\n\n\n\n\nstatic.virtual.virtual(function)\nDeclare a function or method as virtual (default python behavior) Only has a documenting purpose",
+    "crumbs": [
+      "Static",
+      "static.virtual"
+    ]
+  },
+  {
+    "objectID": "reference/static.virtual.html#functions",
+    "href": "reference/static.virtual.html#functions",
+    "title": "static.virtual",
+    "section": "",
+    "text": "Name\nDescription\n\n\n\n\nvirtual\nDeclare a function or method as virtual (default python behavior)\n\n\n\n\n\nstatic.virtual.virtual(function)\nDeclare a function or method as virtual (default python behavior) Only has a documenting purpose",
+    "crumbs": [
+      "Static",
+      "static.virtual"
+    ]
+  },
+  {
+    "objectID": "reference/process.condor.html",
+    "href": "reference/process.condor.html",
+    "title": "process.condor",
+    "section": "",
+    "text": "process.condor\n\n\n\n\n\nName\nDescription\n\n\n\n\nget_htcondor_client\nGet a client for HTCondor cluster\n\n\nget_htcondor_logdir\nA default log directory for condor\n\n\nget_htcondor_params\nParameters passed to HTCondorCluster\n\n\nget_htcondor_runner\nInitialize a prefect DaskTaskRunner based on HTCondorCluster\n\n\n\n\n\nprocess.condor.get_htcondor_client(maximum_jobs=100, **kwargs)\nGet a client for HTCondor cluster\n\n\n\nprocess.condor.get_htcondor_logdir(logdir)\nA default log directory for condor\n\n\n\nprocess.condor.get_htcondor_params(\n    cores=1,\n    memory='1GB',\n    disk='1GB',\n    death_timeout='600',\n    logdir=None,\n)\nParameters passed to HTCondorCluster\n\n\n\nprocess.condor.get_htcondor_runner(maximum_jobs=100, **kwargs)\nInitialize a prefect DaskTaskRunner based on HTCondorCluster",
+    "crumbs": [
+      "Process",
+      "process.condor"
+    ]
+  },
+  {
+    "objectID": "reference/process.condor.html#functions",
+    "href": "reference/process.condor.html#functions",
+    "title": "process.condor",
+    "section": "",
+    "text": "Name\nDescription\n\n\n\n\nget_htcondor_client\nGet a client for HTCondor cluster\n\n\nget_htcondor_logdir\nA default log directory for condor\n\n\nget_htcondor_params\nParameters passed to HTCondorCluster\n\n\nget_htcondor_runner\nInitialize a prefect DaskTaskRunner based on HTCondorCluster\n\n\n\n\n\nprocess.condor.get_htcondor_client(maximum_jobs=100, **kwargs)\nGet a client for HTCondor cluster\n\n\n\nprocess.condor.get_htcondor_logdir(logdir)\nA default log directory for condor\n\n\n\nprocess.condor.get_htcondor_params(\n    cores=1,\n    memory='1GB',\n    disk='1GB',\n    death_timeout='600',\n    logdir=None,\n)\nParameters passed to HTCondorCluster\n\n\n\nprocess.condor.get_htcondor_runner(maximum_jobs=100, **kwargs)\nInitialize a prefect DaskTaskRunner based on HTCondorCluster",
+    "crumbs": [
+      "Process",
+      "process.condor"
+    ]
+  },
+  {
+    "objectID": "reference/static.parametrized.html",
+    "href": "reference/static.parametrized.html",
+    "title": "static.parametrized",
+    "section": "",
+    "text": "static.parametrized\n\n\n\n\n\nName\nDescription\n\n\n\n\nparametrized\nUtility to parametrize a decorator\n\n\n\n\n\nstatic.parametrized.parametrized(dec)\nUtility to parametrize a decorator",
+    "crumbs": [
+      "Static",
+      "static.parametrized"
+    ]
+  },
+  {
+    "objectID": "reference/static.parametrized.html#functions",
+    "href": "reference/static.parametrized.html#functions",
+    "title": "static.parametrized",
+    "section": "",
+    "text": "Name\nDescription\n\n\n\n\nparametrized\nUtility to parametrize a decorator\n\n\n\n\n\nstatic.parametrized.parametrized(dec)\nUtility to parametrize a decorator",
+    "crumbs": [
+      "Static",
+      "static.parametrized"
+    ]
+  },
+  {
+    "objectID": "reference/files.cache.html",
+    "href": "reference/files.cache.html",
+    "title": "files.cache",
+    "section": "",
+    "text": "files.cache\n\n\n\n\n\nName\nDescription\n\n\n\n\ncache_dataframe\nA decorator that caches the result of a function, which is a pandas DataFrame\n\n\ncache_dataset\nA decorator that caches the dataset returned by a function in a netcdf file\n\n\ncache_figure\nA decorator that caches the figure returned by a function in a png file\n\n\ncache_json\nA decorator that caches the result of a function to a json file.\n\n\ncache_pickle\nA decorator that caches the result of a function to a pickle file.\n\n\ncachefunc\nA decorator that caches the return of a function in a file, with\n\n\nhashparams\nGenerates a deterministic hash based on arguments.\n\n\n\n\n\nfiles.cache.cache_dataframe(cache_file, inputs='check')\nA decorator that caches the result of a function, which is a pandas DataFrame\ninputs: “check” [default]: store and check the function inputs “store”: store but don’t check the function inputs “ignore”: ignore the function inputs\n\n\n\nfiles.cache.cache_dataset(cache_file, attrs=None, **kwargs)\nA decorator that caches the dataset returned by a function in a netcdf file\nThe attribute dictionary attrs is stored in the file, and verified upon reading.\nOther kwargs (ex: chunks) are passed to xr.open_dataset\n\n\n\nfiles.cache.cache_figure(cache_dir, overwrite=False, verbose=False, **kwargs)\nA decorator that caches the figure returned by a function in a png file\nThe name of the png file is deduced by the decorator and is the concatenation of the function name and the hash of its params (e.g. function_a8f6d)\nOther kwargs are passed to fig.savefig()\nReturns the path to the cached png file.\n\n\n\nfiles.cache.cache_json(cache_file, inputs='check')\nA decorator that caches the result of a function to a json file.\ninputs: “check” [default]: store and check the function inputs “store”: store but don’t check the function inputs “ignore”: ignore the function inputs\n\n\n\nfiles.cache.cache_pickle(\n    cache_file,\n    inputs='check',\n    check_out=lambda x, y: x == y,\n)\nA decorator that caches the result of a function to a pickle file.\ninputs: “check” [default]: store and check the function inputs “store”: store but don’t check the function inputs “ignore”: ignore the function inputs\n\n\n\nfiles.cache.cachefunc(\n    cache_file,\n    reader,\n    writer,\n    check_in=None,\n    check_out=None,\n    fg_kwargs=None,\n)\nA decorator that caches the return of a function in a file, with customizable format\nreader: a function that reads inputs/output from the cache file reader(filename) -&gt; {‘output’: …, ‘input’: …}\nwriter: a function that writes the inputs/output to the cache file writer(filename, output, input_args, input_kwargs)\ncheck_in: a custom function to test the equality of the inputs checker(obj1, obj2) -&gt; bool (defaults to None -&gt; no checking)\ncheck_out: a custom function to test the equality of the outputs checker(obj1, obj2) -&gt; bool (defaults to ==)\nfg_kwargs: kwargs passed to filegen (ex: lock_timeout=-1)\n\n\n\nfiles.cache.hashparams(*args, hash_digest_size=16, **kwargs)\nGenerates a deterministic hash based on arguments. Simplifies caching based on inputs\nArgs: *args: Positional arguments (hashed with index-based keys). **kwargs: Keyword arguments.\nReturns: str: 16-character hexadecimal hash. (or specified digest size)",
+    "crumbs": [
+      "Files",
+      "files.cache"
+    ]
+  },
+  {
+    "objectID": "reference/files.cache.html#functions",
+    "href": "reference/files.cache.html#functions",
+    "title": "files.cache",
+    "section": "",
+    "text": "Name\nDescription\n\n\n\n\ncache_dataframe\nA decorator that caches the result of a function, which is a pandas DataFrame\n\n\ncache_dataset\nA decorator that caches the dataset returned by a function in a netcdf file\n\n\ncache_figure\nA decorator that caches the figure returned by a function in a png file\n\n\ncache_json\nA decorator that caches the result of a function to a json file.\n\n\ncache_pickle\nA decorator that caches the result of a function to a pickle file.\n\n\ncachefunc\nA decorator that caches the return of a function in a file, with\n\n\nhashparams\nGenerates a deterministic hash based on arguments.\n\n\n\n\n\nfiles.cache.cache_dataframe(cache_file, inputs='check')\nA decorator that caches the result of a function, which is a pandas DataFrame\ninputs: “check” [default]: store and check the function inputs “store”: store but don’t check the function inputs “ignore”: ignore the function inputs\n\n\n\nfiles.cache.cache_dataset(cache_file, attrs=None, **kwargs)\nA decorator that caches the dataset returned by a function in a netcdf file\nThe attribute dictionary attrs is stored in the file, and verified upon reading.\nOther kwargs (ex: chunks) are passed to xr.open_dataset\n\n\n\nfiles.cache.cache_figure(cache_dir, overwrite=False, verbose=False, **kwargs)\nA decorator that caches the figure returned by a function in a png file\nThe name of the png file is deduced by the decorator and is the concatenation of the function name and the hash of its params (e.g. function_a8f6d)\nOther kwargs are passed to fig.savefig()\nReturns the path to the cached png file.\n\n\n\nfiles.cache.cache_json(cache_file, inputs='check')\nA decorator that caches the result of a function to a json file.\ninputs: “check” [default]: store and check the function inputs “store”: store but don’t check the function inputs “ignore”: ignore the function inputs\n\n\n\nfiles.cache.cache_pickle(\n    cache_file,\n    inputs='check',\n    check_out=lambda x, y: x == y,\n)\nA decorator that caches the result of a function to a pickle file.\ninputs: “check” [default]: store and check the function inputs “store”: store but don’t check the function inputs “ignore”: ignore the function inputs\n\n\n\nfiles.cache.cachefunc(\n    cache_file,\n    reader,\n    writer,\n    check_in=None,\n    check_out=None,\n    fg_kwargs=None,\n)\nA decorator that caches the return of a function in a file, with customizable format\nreader: a function that reads inputs/output from the cache file reader(filename) -&gt; {‘output’: …, ‘input’: …}\nwriter: a function that writes the inputs/output to the cache file writer(filename, output, input_args, input_kwargs)\ncheck_in: a custom function to test the equality of the inputs checker(obj1, obj2) -&gt; bool (defaults to None -&gt; no checking)\ncheck_out: a custom function to test the equality of the outputs checker(obj1, obj2) -&gt; bool (defaults to ==)\nfg_kwargs: kwargs passed to filegen (ex: lock_timeout=-1)\n\n\n\nfiles.cache.hashparams(*args, hash_digest_size=16, **kwargs)\nGenerates a deterministic hash based on arguments. Simplifies caching based on inputs\nArgs: *args: Positional arguments (hashed with index-based keys). **kwargs: Keyword arguments.\nReturns: str: 16-character hexadecimal hash. (or specified digest size)",
+    "crumbs": [
+      "Files",
+      "files.cache"
+    ]
+  },
+  {
+    "objectID": "reference/files.save.html",
+    "href": "reference/files.save.html",
+    "title": "files.save",
+    "section": "",
+    "text": "files.save\n\n\n\n\n\nName\nDescription\n\n\n\n\nclean_attributes\nRemove attributes that can not be written to netcdf\n\n\nget_zarr_compressor\nReturn a Blosc compressor for zarr encoding.\n\n\nto_netcdf\nWrite an xarray Dataset ds using .to_netcdf with several additional features:\n\n\nto_zarr\nWrite an xarray Dataset ds using .to_zarr with several additional features:\n\n\n\n\n\nfiles.save.clean_attributes(obj)\nRemove attributes that can not be written to netcdf\n\n\n\nfiles.save.get_zarr_compressor(complevel=5)\nReturn a Blosc compressor for zarr encoding.\nArgs: complevel (int): Compression level (1-9). Defaults to 5.\nReturns: zarr.Blosc compressor instance\n\n\n\nfiles.save.to_netcdf(\n    ds,\n    filename,\n    *,\n    engine='h5netcdf',\n    zlib=True,\n    complevel=5,\n    verbose=True,\n    tmpdir=None,\n    lock_timeout=0,\n    git_comit=True,\n    if_exists='error',\n    clean_attrs=True,\n    **kwargs,\n)\nWrite an xarray Dataset ds using .to_netcdf with several additional features:\n\nUse file compression\nWrapped by filegen: use temporary files, detect existing output files…\n\nArgs: ds (xr.Dataset): Input dataset filename (Path): Output file path engine (str, optional): Engine driver to use. Defaults to ‘h5netcdf’. zlib (bool, optional): activate zlib. Defaults to True. complevel (int, optional): Compression level. Defaults to 5. verbose (bool, optional): Verbosity. Defaults to True. tmpdir (Path, optional): use a given temporary directory. Defaults to None. lock_timeout (int, optional): timeout in case of existing lock file git_commit (bool, optional): Option to add git commit tag to input dataset attributes if_exists (str, optional): what to do if output file exists. Defaults to ‘error’. clean_attrs: whether to remove attributes in the xarray object, that cannot be written to netcdf. other kwargs are passed to ds.to_netcdf\n\n\n\nfiles.save.to_zarr(\n    ds,\n    filename,\n    *,\n    zlib=True,\n    complevel=5,\n    verbose=True,\n    tmpdir=None,\n    lock_timeout=0,\n    git_comit=True,\n    if_exists='error',\n    clean_attrs=True,\n    **kwargs,\n)\nWrite an xarray Dataset ds using .to_zarr with several additional features:\n\nUse compression\nWrapped by filegen: use temporary files, detect existing output files…\n\nArgs: ds (xr.Dataset): Input dataset filename (Path): Output zarr store path (directory or .zip file) zlib (bool, optional): activate zlib compression. Defaults to True. complevel (int, optional): Compression level. Defaults to 5. verbose (bool, optional): Verbosity. Defaults to True. tmpdir (Path, optional): use a given temporary directory. Defaults to None. lock_timeout (int, optional): timeout in case of existing lock file git_comit (bool, optional): Option to add git commit tag to input dataset attributes if_exists (str, optional): what to do if output file exists. Defaults to ‘error’. clean_attrs: whether to remove attributes in the xarray object that cannot be written to zarr. other kwargs are passed to ds.to_zarr",
+    "crumbs": [
+      "Files",
+      "files.save"
+    ]
+  },
+  {
+    "objectID": "reference/files.save.html#functions",
+    "href": "reference/files.save.html#functions",
+    "title": "files.save",
+    "section": "",
+    "text": "Name\nDescription\n\n\n\n\nclean_attributes\nRemove attributes that can not be written to netcdf\n\n\nget_zarr_compressor\nReturn a Blosc compressor for zarr encoding.\n\n\nto_netcdf\nWrite an xarray Dataset ds using .to_netcdf with several additional features:\n\n\nto_zarr\nWrite an xarray Dataset ds using .to_zarr with several additional features:\n\n\n\n\n\nfiles.save.clean_attributes(obj)\nRemove attributes that can not be written to netcdf\n\n\n\nfiles.save.get_zarr_compressor(complevel=5)\nReturn a Blosc compressor for zarr encoding.\nArgs: complevel (int): Compression level (1-9). Defaults to 5.\nReturns: zarr.Blosc compressor instance\n\n\n\nfiles.save.to_netcdf(\n    ds,\n    filename,\n    *,\n    engine='h5netcdf',\n    zlib=True,\n    complevel=5,\n    verbose=True,\n    tmpdir=None,\n    lock_timeout=0,\n    git_comit=True,\n    if_exists='error',\n    clean_attrs=True,\n    **kwargs,\n)\nWrite an xarray Dataset ds using .to_netcdf with several additional features:\n\nUse file compression\nWrapped by filegen: use temporary files, detect existing output files…\n\nArgs: ds (xr.Dataset): Input dataset filename (Path): Output file path engine (str, optional): Engine driver to use. Defaults to ‘h5netcdf’. zlib (bool, optional): activate zlib. Defaults to True. complevel (int, optional): Compression level. Defaults to 5. verbose (bool, optional): Verbosity. Defaults to True. tmpdir (Path, optional): use a given temporary directory. Defaults to None. lock_timeout (int, optional): timeout in case of existing lock file git_commit (bool, optional): Option to add git commit tag to input dataset attributes if_exists (str, optional): what to do if output file exists. Defaults to ‘error’. clean_attrs: whether to remove attributes in the xarray object, that cannot be written to netcdf. other kwargs are passed to ds.to_netcdf\n\n\n\nfiles.save.to_zarr(\n    ds,\n    filename,\n    *,\n    zlib=True,\n    complevel=5,\n    verbose=True,\n    tmpdir=None,\n    lock_timeout=0,\n    git_comit=True,\n    if_exists='error',\n    clean_attrs=True,\n    **kwargs,\n)\nWrite an xarray Dataset ds using .to_zarr with several additional features:\n\nUse compression\nWrapped by filegen: use temporary files, detect existing output files…\n\nArgs: ds (xr.Dataset): Input dataset filename (Path): Output zarr store path (directory or .zip file) zlib (bool, optional): activate zlib compression. Defaults to True. complevel (int, optional): Compression level. Defaults to 5. verbose (bool, optional): Verbosity. Defaults to True. tmpdir (Path, optional): use a given temporary directory. Defaults to None. lock_timeout (int, optional): timeout in case of existing lock file git_comit (bool, optional): Option to add git commit tag to input dataset attributes if_exists (str, optional): what to do if output file exists. Defaults to ‘error’. clean_attrs: whether to remove attributes in the xarray object that cannot be written to zarr. other kwargs are passed to ds.to_zarr",
+    "crumbs": [
+      "Files",
+      "files.save"
+    ]
+  },
+  {
+    "objectID": "reference/interpolate.html",
+    "href": "reference/interpolate.html",
+    "title": "interpolate",
+    "section": "",
+    "text": "interpolate\n\n\n\n\n\nName\nDescription\n\n\n\n\nInterpolator\nInterpolate/select a Dataset onto new coordinates.\n\n\nLocator\nThe purpose of these classes is to locate values in coordinate axes.\n\n\n\n\n\ninterpolate.Interpolator(data, backend='scipy', **kwargs)\nInterpolate/select a Dataset onto new coordinates.\nThis class is similar to xr.interp and xr.sel, but: - Supports dask-based coordinates inputs without triggering immediate computation as is done by xr.interp - Supports combinations of selection and interpolation. This is faster and more memory efficient than performing independently the selection and interpolation. - Supports pointwise indexing/interpolation using dask arrays (see https://docs.xarray.dev/en/latest/user-guide/indexing.html#more-advanced-indexing) - Supports per-dimension options (nearest neighbour selection, linear/spline interpolation, out-of-bounds behaviour, cyclic dimensions…) - Works with full Datasets, allowing interpolation of multiple variables at once.\nThe interp function is a convenience wrapper around this class for single DataArrays.\nArgs: data (xr.Dataset): The input Dataset containing variables to interpolate. backend (str): Backend for index finding, either “scipy” (default) or “numba”. **kwargs: definition of the selection/interpolation coordinates for each dimension, using the following classes: - Linear: linear interpolation (like xr.DataArray.interp) - Nearest: nearest neighbour selection (like xr.DataArray.sel) - Index: integer index selection (like xr.DataArray.isel) These classes store the coordinate data in their .values attribute and have a .get_indexer method which returns an indexer for the passed coordinates.\nExample: &gt;&gt;&gt; interpolator = Interpolator( … # input Dataset with variables ozone and wind, dimensions (lat, lon) … data, … # perform linear interpolation along dimension lat … # using variable “latitude” in coords_dataset … # clip out-of-bounds values to the axis min/max. … lat = Linear(“latitude”, bounds=‘clip’),\n… # perform nearest neighbour selection along … # dimension lon, using variable “longitude” … # in coords … lon = Nearest(“longitude”), … ) &gt;&gt;&gt; result = interpolator.map_blocks(coords_dataset) # coords_dataset has lat and lon variables … # returns a Dataset with variables “ozone” and “wind”, interpolated over the … # coordinates lat and lon provided in coords_dataset\n\n\n\n\n\nName\nDescription\n\n\n\n\nprocess_block\nex: block is a xr.Dataset with\n\n\n\n\n\ninterpolate.Interpolator.process_block(block)\nex: block is a xr.Dataset with latitude (x, y) longitude (x, y) Returns interpolated_data, interpolated over the coordinates provided in block. interpolated_data is of the same type as data\n\n\n\n\n\ninterpolate.Locator(coords, bounds, backend='scipy')\nThe purpose of these classes is to locate values in coordinate axes.\n\n\n\n\n\nName\nDescription\n\n\n\n\nhandle_oob\nhandle out of bound values\n\n\nlocate_index_weight\nFind indices and dist of values for linear and spline interpolation in self.coords\n\n\n\n\n\ninterpolate.Locator.handle_oob(values)\nhandle out of bound values\nNote: when bounds == “cycle”, does nothing\n\n\n\ninterpolate.Locator.locate_index_weight(values)\nFind indices and dist of values for linear and spline interpolation in self.coords\nReturns a list of indices, dist (float 0 to 1) and oob\n\n\n\n\n\n\n\n\n\nName\nDescription\n\n\n\n\nbroadcast_numpy\nReturns all data variables in ds as numpy arrays\n\n\nbroadcast_shapes\nFor each data variable in ds, returns the shape for broadcasting\n\n\ncreate_locator\nLocator factory\n\n\ndetermine_output_dimensions\nDetermine output dimensions for an interpolated/selected DataArray.\n\n\nfind_indices\nMulti-dimensional grid interpolation index finding.\n\n\ninterp\nInterpolate/select a DataArray onto new coordinates.\n\n\ninterp_var\nInterpolate a single variable da, with indices and weights\n\n\nproduct_dict\nCartesian product of a dictionary of lists\n\n\n\n\n\ninterpolate.broadcast_numpy(ds, out_dims)\nReturns all data variables in ds as numpy arrays broadcastable against each other, with dimensions orderes as out_dims. (with new single-element dimensions)\nThis requires the input to be broadcasted to common dimensions.\n\n\n\ninterpolate.broadcast_shapes(ds, dims)\nFor each data variable in ds, returns the shape for broadcasting in the dimensions defined by dims\n\n\n\ninterpolate.create_locator(\n    coords,\n    bounds,\n    spacing,\n    period=None,\n    backend='scipy',\n)\nLocator factory\nThe purpose of this method is to instantiate the appropriate “Locator” class.\nThe args are passed from the indexers.\n\n\n\ninterpolate.determine_output_dimensions(data, mapping, coordinates)\nDetermine output dimensions for an interpolated/selected DataArray.\nThis function implements NumPy’s advanced indexing rules to determine the final dimension ordering of the output DataArray after interpolation/selection operations.\nThe key principle is that when advanced indexing is applied to some dimensions of an array, those dimensions are replaced by the dimensions of the indexing arrays, and these new dimensions are inserted at the position of the first indexed dimension.\n\n\n\n\n\n\n\n\n\n\n\nName\nType\nDescription\nDefault\n\n\n\n\ndata\nxr.DataArray\nThe input DataArray being interpolated/selected.\nrequired\n\n\nmapping\ndict\nA dictionary mapping dimension names in data (keys) to variable names in coordinates (values). Only dimensions being interpolated/selected should be included.\nrequired\n\n\ncoordinates\nxr.Dataset\nThe Dataset containing coordinate variables referenced in mapping.\nrequired\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nName\nType\nDescription\n\n\n\n\n\nlist\nA list of dimension names for the output DataArray, in the order they will appear.\n\n\n\n\n\n\n\ninterpolate.find_indices(grid, xi, backend='scipy')\nMulti-dimensional grid interpolation index finding.\nArgs: grid: Tuple of 1D arrays defining grid coordinates for each dimension. xi: 2D array where each row represents a dimension and each column a query point. backend: One of “scipy” (default) or “numba”.\nReturns: indices: Grid interval indices for each query point in each dimension. distances: Normalized distances within each interval.\nRaises: ImportError: If backend is “numba” but numba is not installed. ValueError: If backend is not recognized.\n\n\n\ninterpolate.interp(da, backend='scipy', **kwargs)\nInterpolate/select a DataArray onto new coordinates.\nThis function is similar to xr.interp and xr.sel, but: - Supports dask-based coordinates inputs without triggering immediate computation as is done by xr.interp - Supports combinations of selection and interpolation. This is faster and more memory efficient than performing independently the selection and interpolation. - Supports pointwise indexing/interpolation using dask arrays (see https://docs.xarray.dev/en/latest/user-guide/indexing.html#more-advanced-indexing) - Supports per-dimension options (nearest neighbour selection, linear/spline interpolation, out-of-bounds behaviour, cyclic dimensions…)\nArgs: da (xr.DataArray): The input DataArray backend (str): Backend for index finding, either “scipy” (default) or “numba”. **kwargs: definition of the selection/interpolation coordinates for each dimension, using the following classes: - Linear: linear interpolation (like xr.DataArray.interp) - Nearest: nearest neighbour selection (like xr.DataArray.sel) - Index: integer index selection (like xr.DataArray.isel) These classes store the coordinate data in their .values attribute and have a .get_indexer method which returns an indexer for the passed coordinates.\nExample: &gt;&gt;&gt; interp( … data, # input DataArray with dimensions (a, b, c) … a = Linear( # perform linear interpolation along dimension a … a_values, # a_values is a DataArray with dimension (x, y); … bounds=‘clip’), # clip out-of-bounds values to the axis min/max. … b = Nearest(b_values), # perform nearest neighbour selection along … # dimension b; b_values is a DataArray … # with dimension (x, y) … ) # returns a DataArray with dimensions (x, y, c) No interpolation or selection is performed along dimension c thus it is left as-is.\nReturns: xr.DataArray: DataArray on the new coordinates.\n\n\n\ninterpolate.interp_var(\n    da,\n    indices_weights,\n    w_shape,\n    current_out_dims,\n    current_dims,\n    shared_dims_info=None,\n)\nInterpolate a single variable da, with indices and weights\nshared_dims_info maps dim names that are shared between da and the coordinate variables to their position in the index arrays. These dims need element-wise range indexing instead of slice(None).\n\n\n\ninterpolate.product_dict(**kwargs)\nCartesian product of a dictionary of lists",
+    "crumbs": [
+      "Tools",
+      "interpolate"
+    ]
+  },
+  {
+    "objectID": "reference/interpolate.html#classes",
+    "href": "reference/interpolate.html#classes",
+    "title": "interpolate",
+    "section": "",
+    "text": "Name\nDescription\n\n\n\n\nInterpolator\nInterpolate/select a Dataset onto new coordinates.\n\n\nLocator\nThe purpose of these classes is to locate values in coordinate axes.\n\n\n\n\n\ninterpolate.Interpolator(data, backend='scipy', **kwargs)\nInterpolate/select a Dataset onto new coordinates.\nThis class is similar to xr.interp and xr.sel, but: - Supports dask-based coordinates inputs without triggering immediate computation as is done by xr.interp - Supports combinations of selection and interpolation. This is faster and more memory efficient than performing independently the selection and interpolation. - Supports pointwise indexing/interpolation using dask arrays (see https://docs.xarray.dev/en/latest/user-guide/indexing.html#more-advanced-indexing) - Supports per-dimension options (nearest neighbour selection, linear/spline interpolation, out-of-bounds behaviour, cyclic dimensions…) - Works with full Datasets, allowing interpolation of multiple variables at once.\nThe interp function is a convenience wrapper around this class for single DataArrays.\nArgs: data (xr.Dataset): The input Dataset containing variables to interpolate. backend (str): Backend for index finding, either “scipy” (default) or “numba”. **kwargs: definition of the selection/interpolation coordinates for each dimension, using the following classes: - Linear: linear interpolation (like xr.DataArray.interp) - Nearest: nearest neighbour selection (like xr.DataArray.sel) - Index: integer index selection (like xr.DataArray.isel) These classes store the coordinate data in their .values attribute and have a .get_indexer method which returns an indexer for the passed coordinates.\nExample: &gt;&gt;&gt; interpolator = Interpolator( … # input Dataset with variables ozone and wind, dimensions (lat, lon) … data, … # perform linear interpolation along dimension lat … # using variable “latitude” in coords_dataset … # clip out-of-bounds values to the axis min/max. … lat = Linear(“latitude”, bounds=‘clip’),\n… # perform nearest neighbour selection along … # dimension lon, using variable “longitude” … # in coords … lon = Nearest(“longitude”), … ) &gt;&gt;&gt; result = interpolator.map_blocks(coords_dataset) # coords_dataset has lat and lon variables … # returns a Dataset with variables “ozone” and “wind”, interpolated over the … # coordinates lat and lon provided in coords_dataset\n\n\n\n\n\nName\nDescription\n\n\n\n\nprocess_block\nex: block is a xr.Dataset with\n\n\n\n\n\ninterpolate.Interpolator.process_block(block)\nex: block is a xr.Dataset with latitude (x, y) longitude (x, y) Returns interpolated_data, interpolated over the coordinates provided in block. interpolated_data is of the same type as data\n\n\n\n\n\ninterpolate.Locator(coords, bounds, backend='scipy')\nThe purpose of these classes is to locate values in coordinate axes.\n\n\n\n\n\nName\nDescription\n\n\n\n\nhandle_oob\nhandle out of bound values\n\n\nlocate_index_weight\nFind indices and dist of values for linear and spline interpolation in self.coords\n\n\n\n\n\ninterpolate.Locator.handle_oob(values)\nhandle out of bound values\nNote: when bounds == “cycle”, does nothing\n\n\n\ninterpolate.Locator.locate_index_weight(values)\nFind indices and dist of values for linear and spline interpolation in self.coords\nReturns a list of indices, dist (float 0 to 1) and oob",
+    "crumbs": [
+      "Tools",
+      "interpolate"
+    ]
+  },
+  {
+    "objectID": "reference/interpolate.html#functions",
+    "href": "reference/interpolate.html#functions",
+    "title": "interpolate",
+    "section": "",
+    "text": "Name\nDescription\n\n\n\n\nbroadcast_numpy\nReturns all data variables in ds as numpy arrays\n\n\nbroadcast_shapes\nFor each data variable in ds, returns the shape for broadcasting\n\n\ncreate_locator\nLocator factory\n\n\ndetermine_output_dimensions\nDetermine output dimensions for an interpolated/selected DataArray.\n\n\nfind_indices\nMulti-dimensional grid interpolation index finding.\n\n\ninterp\nInterpolate/select a DataArray onto new coordinates.\n\n\ninterp_var\nInterpolate a single variable da, with indices and weights\n\n\nproduct_dict\nCartesian product of a dictionary of lists\n\n\n\n\n\ninterpolate.broadcast_numpy(ds, out_dims)\nReturns all data variables in ds as numpy arrays broadcastable against each other, with dimensions orderes as out_dims. (with new single-element dimensions)\nThis requires the input to be broadcasted to common dimensions.\n\n\n\ninterpolate.broadcast_shapes(ds, dims)\nFor each data variable in ds, returns the shape for broadcasting in the dimensions defined by dims\n\n\n\ninterpolate.create_locator(\n    coords,\n    bounds,\n    spacing,\n    period=None,\n    backend='scipy',\n)\nLocator factory\nThe purpose of this method is to instantiate the appropriate “Locator” class.\nThe args are passed from the indexers.\n\n\n\ninterpolate.determine_output_dimensions(data, mapping, coordinates)\nDetermine output dimensions for an interpolated/selected DataArray.\nThis function implements NumPy’s advanced indexing rules to determine the final dimension ordering of the output DataArray after interpolation/selection operations.\nThe key principle is that when advanced indexing is applied to some dimensions of an array, those dimensions are replaced by the dimensions of the indexing arrays, and these new dimensions are inserted at the position of the first indexed dimension.\n\n\n\n\n\n\n\n\n\n\n\nName\nType\nDescription\nDefault\n\n\n\n\ndata\nxr.DataArray\nThe input DataArray being interpolated/selected.\nrequired\n\n\nmapping\ndict\nA dictionary mapping dimension names in data (keys) to variable names in coordinates (values). Only dimensions being interpolated/selected should be included.\nrequired\n\n\ncoordinates\nxr.Dataset\nThe Dataset containing coordinate variables referenced in mapping.\nrequired\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nName\nType\nDescription\n\n\n\n\n\nlist\nA list of dimension names for the output DataArray, in the order they will appear.\n\n\n\n\n\n\n\ninterpolate.find_indices(grid, xi, backend='scipy')\nMulti-dimensional grid interpolation index finding.\nArgs: grid: Tuple of 1D arrays defining grid coordinates for each dimension. xi: 2D array where each row represents a dimension and each column a query point. backend: One of “scipy” (default) or “numba”.\nReturns: indices: Grid interval indices for each query point in each dimension. distances: Normalized distances within each interval.\nRaises: ImportError: If backend is “numba” but numba is not installed. ValueError: If backend is not recognized.\n\n\n\ninterpolate.interp(da, backend='scipy', **kwargs)\nInterpolate/select a DataArray onto new coordinates.\nThis function is similar to xr.interp and xr.sel, but: - Supports dask-based coordinates inputs without triggering immediate computation as is done by xr.interp - Supports combinations of selection and interpolation. This is faster and more memory efficient than performing independently the selection and interpolation. - Supports pointwise indexing/interpolation using dask arrays (see https://docs.xarray.dev/en/latest/user-guide/indexing.html#more-advanced-indexing) - Supports per-dimension options (nearest neighbour selection, linear/spline interpolation, out-of-bounds behaviour, cyclic dimensions…)\nArgs: da (xr.DataArray): The input DataArray backend (str): Backend for index finding, either “scipy” (default) or “numba”. **kwargs: definition of the selection/interpolation coordinates for each dimension, using the following classes: - Linear: linear interpolation (like xr.DataArray.interp) - Nearest: nearest neighbour selection (like xr.DataArray.sel) - Index: integer index selection (like xr.DataArray.isel) These classes store the coordinate data in their .values attribute and have a .get_indexer method which returns an indexer for the passed coordinates.\nExample: &gt;&gt;&gt; interp( … data, # input DataArray with dimensions (a, b, c) … a = Linear( # perform linear interpolation along dimension a … a_values, # a_values is a DataArray with dimension (x, y); … bounds=‘clip’), # clip out-of-bounds values to the axis min/max. … b = Nearest(b_values), # perform nearest neighbour selection along … # dimension b; b_values is a DataArray … # with dimension (x, y) … ) # returns a DataArray with dimensions (x, y, c) No interpolation or selection is performed along dimension c thus it is left as-is.\nReturns: xr.DataArray: DataArray on the new coordinates.\n\n\n\ninterpolate.interp_var(\n    da,\n    indices_weights,\n    w_shape,\n    current_out_dims,\n    current_dims,\n    shared_dims_info=None,\n)\nInterpolate a single variable da, with indices and weights\nshared_dims_info maps dim names that are shared between da and the coordinate variables to their position in the index arrays. These dims need element-wise range indexing instead of slice(None).\n\n\n\ninterpolate.product_dict(**kwargs)\nCartesian product of a dictionary of lists",
+    "crumbs": [
+      "Tools",
+      "interpolate"
+    ]
+  },
+  {
+    "objectID": "reference/ascii_table.html",
+    "href": "reference/ascii_table.html",
+    "title": "ascii_table",
+    "section": "",
+    "text": "ascii_table\n\n\n\n\n\nName\nDescription\n\n\n\n\nascii_table\nA class to represent a table for displaying data in a formatted way.\n\n\n\n\n\nascii_table.ascii_table(df, style=style(), colors={}, sides={}, max_width=35)\nA class to represent a table for displaying data in a formatted way.\n\n\n\n\n\nName\nDescription\n\n\n\n\nstyle\nA class to define the style of a table using specific characters.\n\n\n\n\n\nascii_table.ascii_table.style(\n    inner_vbar=True,\n    inner_hbar=False,\n    h_padding=1,\n    v_padding=0,\n    style='squared',\n)\nA class to define the style of a table using specific characters.\n\n\n\n\n\n\n\nName\nDescription\n\n\n\n\nto_string\nGenerates an ascii representation of the dataset provided in the constructor.\n\n\n\n\n\nascii_table.ascii_table.to_string(live_print=False, no_color=True)\nGenerates an ascii representation of the dataset provided in the constructor.",
+    "crumbs": [
+      "Tools",
+      "ascii_table"
+    ]
+  },
+  {
+    "objectID": "reference/ascii_table.html#classes",
+    "href": "reference/ascii_table.html#classes",
+    "title": "ascii_table",
+    "section": "",
+    "text": "Name\nDescription\n\n\n\n\nascii_table\nA class to represent a table for displaying data in a formatted way.\n\n\n\n\n\nascii_table.ascii_table(df, style=style(), colors={}, sides={}, max_width=35)\nA class to represent a table for displaying data in a formatted way.\n\n\n\n\n\nName\nDescription\n\n\n\n\nstyle\nA class to define the style of a table using specific characters.\n\n\n\n\n\nascii_table.ascii_table.style(\n    inner_vbar=True,\n    inner_hbar=False,\n    h_padding=1,\n    v_padding=0,\n    style='squared',\n)\nA class to define the style of a table using specific characters.\n\n\n\n\n\n\n\nName\nDescription\n\n\n\n\nto_string\nGenerates an ascii representation of the dataset provided in the constructor.\n\n\n\n\n\nascii_table.ascii_table.to_string(live_print=False, no_color=True)\nGenerates an ascii representation of the dataset provided in the constructor.",
+    "crumbs": [
+      "Tools",
+      "ascii_table"
+    ]
+  },
+  {
+    "objectID": "reference/static.interface.html",
+    "href": "reference/static.interface.html",
+    "title": "static.interface",
+    "section": "",
+    "text": "static.interface\n\n\n\n\n\nName\nDescription\n\n\n\n\ninterface\nDeclare a function or method as an Interface\n\n\n\n\n\nstatic.interface.interface(function)\nDeclare a function or method as an Interface Raise an error if types passed do not match definition",
+    "crumbs": [
+      "Static",
+      "static.interface"
+    ]
+  },
+  {
+    "objectID": "reference/static.interface.html#functions",
+    "href": "reference/static.interface.html#functions",
+    "title": "static.interface",
+    "section": "",
+    "text": "Name\nDescription\n\n\n\n\ninterface\nDeclare a function or method as an Interface\n\n\n\n\n\nstatic.interface.interface(function)\nDeclare a function or method as an Interface Raise an error if types passed do not match definition",
+    "crumbs": [
+      "Static",
+      "static.interface"
+    ]
+  },
+  {
+    "objectID": "reference/process.deptree.html",
+    "href": "reference/process.deptree.html",
+    "title": "process.deptree",
+    "section": "",
+    "text": "process.deptree\n\n\n\n\n\nName\nDescription\n\n\n\n\nTask\nBase class for tasks implementing a dependency tree structure for execution workflow.\n\n\n\n\n\nprocess.deptree.Task()\nBase class for tasks implementing a dependency tree structure for execution workflow.\nThis class provides the foundation for creating tasks that can be organized in a dependency graph and executed in the correct order. Tasks can be generated and run using the gen function with different execution modes (sync, executor, or prefect).\nAttributes: output: Optional attribute for storing the task’s output path or result. deps: Optional list of Task instances that this task depends on. status: Task execution status\nMethods: dependencies(): Returns the list of dependent tasks. The default implementation returns the deps attribute, if it exists. run(): Implements the actual execution code done(): Checks if the task is completed. The default implementation checks if the output Path exists, if defined. cleanup(): Optional cleanup method executed when all parent tasks have finished\nUsage: Subclass Task and implement at minimum: - The run() method with your task’s execution logic (if any) - Optionally override dependencies() or self.deps if your task has dependencies - Optionally override cleanup() if your task needs cleanup after execution - Set output attribute if your task produces output files\nExample: See the sample function for a complete example of Task definition and usage.\n\n\n\n\n\nName\nDescription\n\n\n\n\ncleanup\nOptional cleanup method executed after the task finishes running\n\n\ndependencies\nReturns a list of dependencies, each being a Task.\n\n\ndone\nWhether the task is done\n\n\nrun\nImplements the actual execution code\n\n\n\n\n\nprocess.deptree.Task.cleanup()\nOptional cleanup method executed after the task finishes running\n\n\n\nprocess.deptree.Task.dependencies()\nReturns a list of dependencies, each being a Task.\n\n\n\nprocess.deptree.Task.done()\nWhether the task is done\n\n\n\nprocess.deptree.Task.run()\nImplements the actual execution code\n\n\n\n\n\n\n\n\n\nName\nDescription\n\n\n\n\ngen\nRun a task and its dependencies\n\n\ngen_executor\nRecursively generate dependencies of task, then call its run method in a\n\n\ngen_sync\nRun a Task in sequential mode\n\n\nprint_execution_summary\nPrint a summary table showing count of tasks by status and class name.\n\n\nrun_with_status_update\nWrapper function that sets status to running when actually executing\n\n\nsample\nGenerate a sample Product for demonstration purposes\n\n\n\n\n\nprocess.deptree.gen(task, mode='sync', **kwargs)\nRun a task and its dependencies\nArguments: mode (str): - ‘sync’: sequential - ‘executor’: using executors - ‘prefect’: using prefect as a worflow manager\n\n\n\nprocess.deptree.gen_executor(\n    task,\n    executors=None,\n    default_executor=None,\n    graph_executor=None,\n    verbose=False,\n    _tasks=None,\n    log_file=None,\n)\nRecursively generate dependencies of task, then call its run method in a custom executor.\nArgs: task: a Task object executors: dictionary of executors default_executor: the executor to use for all tasks not included in executors. Defaults to ThreadPoolExecutor graph_executor: an instance of ThreadPoolExecutor used for traversing the dependency tree with the gen function. It is useful to override the default ThreadPoolExecutor(512) if the tree is too large. _tasks: internal parameter to track tasks status and provide an execution summary. Also used to avoid duplicate task submissions.\nExample: from concurrent.futures import ThreadPoolExecutor from distributed import Client # dask executor\ngen(task,\n    executors={'Level1' : ThreadPoolExecutor(2)},\n    default_executor=Client()  # dask executor\n        # Note: can also use dask_jobqueue to instantiate\n        # an executor backed by a job queuing system like\n        # HTCondor\n})\nFor details on how to implement task, please check function core.deptree.sample.\n\n\n\nprocess.deptree.gen_sync(task, verbose=False)\nRun a Task in sequential mode\nArgs: task (Task): The task to generate verbose (bool): Whether to print verbose output\n\n\n\nprocess.deptree.print_execution_summary(\n    tasks,\n    start_time,\n    log_file=None,\n    finished=False,\n)\nPrint a summary table showing count of tasks by status and class name.\nArgs: tasks: List of Task instances to summarize\n\n\n\nprocess.deptree.run_with_status_update(task, verbose)\nWrapper function that sets status to running when actually executing\n\n\n\nprocess.deptree.sample()\nGenerate a sample Product for demonstration purposes",
+    "crumbs": [
+      "Process",
+      "process.deptree"
+    ]
+  },
+  {
+    "objectID": "reference/process.deptree.html#classes",
+    "href": "reference/process.deptree.html#classes",
+    "title": "process.deptree",
+    "section": "",
+    "text": "Name\nDescription\n\n\n\n\nTask\nBase class for tasks implementing a dependency tree structure for execution workflow.\n\n\n\n\n\nprocess.deptree.Task()\nBase class for tasks implementing a dependency tree structure for execution workflow.\nThis class provides the foundation for creating tasks that can be organized in a dependency graph and executed in the correct order. Tasks can be generated and run using the gen function with different execution modes (sync, executor, or prefect).\nAttributes: output: Optional attribute for storing the task’s output path or result. deps: Optional list of Task instances that this task depends on. status: Task execution status\nMethods: dependencies(): Returns the list of dependent tasks. The default implementation returns the deps attribute, if it exists. run(): Implements the actual execution code done(): Checks if the task is completed. The default implementation checks if the output Path exists, if defined. cleanup(): Optional cleanup method executed when all parent tasks have finished\nUsage: Subclass Task and implement at minimum: - The run() method with your task’s execution logic (if any) - Optionally override dependencies() or self.deps if your task has dependencies - Optionally override cleanup() if your task needs cleanup after execution - Set output attribute if your task produces output files\nExample: See the sample function for a complete example of Task definition and usage.\n\n\n\n\n\nName\nDescription\n\n\n\n\ncleanup\nOptional cleanup method executed after the task finishes running\n\n\ndependencies\nReturns a list of dependencies, each being a Task.\n\n\ndone\nWhether the task is done\n\n\nrun\nImplements the actual execution code\n\n\n\n\n\nprocess.deptree.Task.cleanup()\nOptional cleanup method executed after the task finishes running\n\n\n\nprocess.deptree.Task.dependencies()\nReturns a list of dependencies, each being a Task.\n\n\n\nprocess.deptree.Task.done()\nWhether the task is done\n\n\n\nprocess.deptree.Task.run()\nImplements the actual execution code",
+    "crumbs": [
+      "Process",
+      "process.deptree"
+    ]
+  },
+  {
+    "objectID": "reference/process.deptree.html#functions",
+    "href": "reference/process.deptree.html#functions",
+    "title": "process.deptree",
+    "section": "",
+    "text": "Name\nDescription\n\n\n\n\ngen\nRun a task and its dependencies\n\n\ngen_executor\nRecursively generate dependencies of task, then call its run method in a\n\n\ngen_sync\nRun a Task in sequential mode\n\n\nprint_execution_summary\nPrint a summary table showing count of tasks by status and class name.\n\n\nrun_with_status_update\nWrapper function that sets status to running when actually executing\n\n\nsample\nGenerate a sample Product for demonstration purposes\n\n\n\n\n\nprocess.deptree.gen(task, mode='sync', **kwargs)\nRun a task and its dependencies\nArguments: mode (str): - ‘sync’: sequential - ‘executor’: using executors - ‘prefect’: using prefect as a worflow manager\n\n\n\nprocess.deptree.gen_executor(\n    task,\n    executors=None,\n    default_executor=None,\n    graph_executor=None,\n    verbose=False,\n    _tasks=None,\n    log_file=None,\n)\nRecursively generate dependencies of task, then call its run method in a custom executor.\nArgs: task: a Task object executors: dictionary of executors default_executor: the executor to use for all tasks not included in executors. Defaults to ThreadPoolExecutor graph_executor: an instance of ThreadPoolExecutor used for traversing the dependency tree with the gen function. It is useful to override the default ThreadPoolExecutor(512) if the tree is too large. _tasks: internal parameter to track tasks status and provide an execution summary. Also used to avoid duplicate task submissions.\nExample: from concurrent.futures import ThreadPoolExecutor from distributed import Client # dask executor\ngen(task,\n    executors={'Level1' : ThreadPoolExecutor(2)},\n    default_executor=Client()  # dask executor\n        # Note: can also use dask_jobqueue to instantiate\n        # an executor backed by a job queuing system like\n        # HTCondor\n})\nFor details on how to implement task, please check function core.deptree.sample.\n\n\n\nprocess.deptree.gen_sync(task, verbose=False)\nRun a Task in sequential mode\nArgs: task (Task): The task to generate verbose (bool): Whether to print verbose output\n\n\n\nprocess.deptree.print_execution_summary(\n    tasks,\n    start_time,\n    log_file=None,\n    finished=False,\n)\nPrint a summary table showing count of tasks by status and class name.\nArgs: tasks: List of Task instances to summarize\n\n\n\nprocess.deptree.run_with_status_update(task, verbose)\nWrapper function that sets status to running when actually executing\n\n\n\nprocess.deptree.sample()\nGenerate a sample Product for demonstration purposes",
+    "crumbs": [
+      "Process",
+      "process.deptree"
+    ]
+  }
+]
