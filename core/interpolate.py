@@ -29,7 +29,14 @@ class Interpolator(BlockProcessor):
 
     Args:
         data (xr.Dataset): The input Dataset containing variables to interpolate.
-        backend (str): Backend for index finding, either "scipy" (default) or "numba".
+        backend (str): computation backend, either "numpy" (default) or "numba".
+            The numpy backend uses scipy's find_indices for the index lookup on
+            irregular grids. The numba backend accelerates both the index lookup and
+            the interpolation (it requires numba to be installed).
+        parallel (bool): with the numba backend, parallelize the interpolation over
+            the output points. Should not be used when the Interpolator is run from
+            multiple threads (e.g. dask's threaded scheduler), to avoid
+            oversubscription.
         **kwargs: definition of the selection/interpolation coordinates for each
             dimension, using the following classes:
                 - Linear: linear interpolation (like xr.DataArray.interp)
@@ -56,7 +63,17 @@ class Interpolator(BlockProcessor):
         ... # coordinates lat and lon provided in coords_dataset
     """
 
-    def __init__(self, data: xr.Dataset, backend: str = "scipy", **kwargs):
+    def __init__(
+        self,
+        data: xr.Dataset,
+        backend: Literal["numpy", "numba"] = "numpy",
+        parallel: bool = False,
+        **kwargs,
+    ):
+        check_backend(backend)
+        self.backend = backend
+        self.parallel = parallel
+
         # get interpolators along all dimensions
         self.indexers = {}
         self.varnames = {}  # mapping of data coords to block variables
@@ -151,6 +168,19 @@ class Interpolator(BlockProcessor):
         # (global_out_dims filtered to dims present in block_sub)
         coord_dims_ordered = [d for d in global_out_dims if d in block_sub.dims]
 
+        # numba backend: pack the indices and weights once for all variables
+        packed = None
+        if self.backend == "numba":
+            packed = pack_terms(
+                indices_weights,
+                dict(self.data.sizes),
+                coord_dims_ordered,
+                {
+                    d: block_sub.sizes[d] for d in coord_dims_ordered
+                    if (d in self.data.dims) and (d not in self.indexers)
+                },
+            )
+
         # var loop
         for var in self.data:
 
@@ -176,14 +206,25 @@ class Interpolator(BlockProcessor):
             }
 
             # get the shapes for broadcasting each weight against the output dimensions
-            result = interp_var(
-                self.data[var],
-                indices_weights,
-                w_shape,
-                out_dims[var],
-                current_dims,
-                shared_dims_info,
-            )
+            result = None
+            if packed is not None:
+                result = interp_var_numba(
+                    self.data[var],
+                    packed,
+                    out_dims[var],
+                    coord_dims_ordered,
+                    shared_dims_info,
+                    parallel=self.parallel,
+                )
+            if result is None:
+                result = interp_var(
+                    self.data[var],
+                    indices_weights,
+                    w_shape,
+                    out_dims[var],
+                    current_dims,
+                    shared_dims_info,
+                )
 
             block[var] = xr.DataArray(
                 result,
@@ -191,6 +232,26 @@ class Interpolator(BlockProcessor):
                 coords={k: v for k, v in coords.coords.items() if k in out_dims[var]},
                 attrs=self.data[var].attrs,
             )
+
+
+def check_backend(backend: str):
+    """
+    Check that `backend` is valid, and that numba is installed for the numba backend
+    """
+    if backend == "numpy":
+        return
+    elif backend == "numba":
+        try:
+            import core.interpolate_numba  # noqa: F401
+        except ImportError:
+            raise ImportError(
+                'numba backend requested but numba is not installed. '
+                'Install with `pip install numba` or use backend="numpy".'
+            )
+    else:
+        raise ValueError(
+            f'Unknown backend "{backend}". Expected "numpy" or "numba".'
+        )
 
 
 def find_indices(grid, xi, backend: str = "scipy") -> tuple[NDArray[np.intp], NDArray[np.float32]]:
@@ -304,7 +365,270 @@ def interp_var(
     return result
 
 
-def interp(da: xr.DataArray, backend: str = "scipy", **kwargs) -> xr.DataArray:
+class PackedTerms:
+    """
+    Indices and weights of all interpolation terms, packed in flat buffers for the
+    numba interpolation kernel (see `pack_terms`)
+
+    The index and weight arrays of each term are stored with their own (compact)
+    shape, with `rank` dimensions (the dimensions of the output points), and are
+    broadcasted in the kernel by using zero strides.
+    """
+    def __init__(self, rank: int):
+        self.rank = rank
+        self.ibuf = []        # list of flat index arrays (concatenated at the end)
+        self.wbuf = [np.ones(1)]  # flat weight arrays; element 0 is the weight 1
+        self.isize = 0
+        self.wsize = 1
+        self.iptr, self.wptr = [], []  # start of each term in ibuf/wbuf
+        self.ishape, self.wshape = [], []  # shapes of each term in ibuf/wbuf
+        self.dim_terms = {}   # list of term indices, for each dimension
+        self.dim_dtypes = {}  # list of weight dtypes, for each dimension
+
+    def add(self, dim, idx, w):
+        idx = np.ascontiguousarray(idx, dtype=np.intp)
+        assert idx.ndim <= self.rank
+        self.iptr.append(self.isize)
+        self.ishape.append((1,) * (self.rank - idx.ndim) + idx.shape)
+        self.ibuf.append(idx.ravel())
+        self.isize += idx.size
+        if w is None:
+            self.wptr.append(0)
+            self.wshape.append((1,) * self.rank)
+        else:
+            self.dim_dtypes.setdefault(dim, []).append(np.asarray(w).dtype)
+            w = np.ascontiguousarray(w, dtype=np.float64)
+            assert w.ndim <= self.rank
+            self.wptr.append(self.wsize)
+            self.wshape.append((1,) * (self.rank - w.ndim) + w.shape)
+            self.wbuf.append(w.ravel())
+            self.wsize += w.size
+        self.dim_terms.setdefault(dim, []).append(len(self.iptr) - 1)
+
+    def finalize(self):
+        self.ibuf = np.concatenate(self.ibuf)
+        self.wbuf = np.concatenate(self.wbuf)
+        self.iptr = np.array(self.iptr, dtype=np.intp)
+        self.wptr = np.array(self.wptr, dtype=np.intp)
+        self.ishape = np.array(self.ishape, dtype=np.intp).reshape(-1, self.rank)
+        self.wshape = np.array(self.wshape, dtype=np.intp).reshape(-1, self.rank)
+
+
+def _broadcast_strides(shapes: NDArray) -> NDArray:
+    """
+    C-order element strides of arrays of shapes `shapes` (one array per row), with
+    0 for the dimensions of length 1 (broadcasting)
+    """
+    st = np.ones_like(shapes)
+    for a in range(shapes.shape[1] - 2, -1, -1):
+        st[:, a] = st[:, a + 1] * shapes[:, a + 1]
+    return np.where(shapes == 1, 0, st)
+
+
+def pack_terms(
+    indices_weights: dict,
+    sizes: dict,
+    coord_dims: list,
+    shared_dims: dict,
+) -> PackedTerms | None:
+    """
+    Pack the indices and weights of all interpolated dimensions (and of the shared
+    dimensions) for the numba interpolation kernel.
+
+    Args:
+        indices_weights: for each interpolated dimension, list of (index, weight)
+            tuples. The index and weight arrays have the dimensions `coord_dims`
+            (possibly with length 1).
+        sizes: size of each dimension of the interpolated data
+        coord_dims: dimensions of the index arrays
+        shared_dims: dimensions that are shared between the interpolated data and
+            the coordinate variables, and their size in the coordinate variables.
+            They are indexed element-wise (as in `interp_var`).
+
+    Returns None if this case is not supported by the numba kernel.
+    """
+    # rank of the output points (at least 1, for scalar coordinates)
+    rank = max(len(coord_dims), 1)
+    packed = PackedTerms(rank)
+    for dim, iw in indices_weights.items():
+        n = sizes[dim]
+        for idx, w in iw:
+            idx = np.asarray(idx)
+            if (idx.dtype.kind not in "iu") or (idx.ndim > rank) or (
+                (w is not None) and (np.ndim(w) > rank)
+            ):
+                return None
+            if idx.size and (idx.min() < 0):
+                # negative indices: same as numpy indexing
+                idx = np.where(idx < 0, idx + n, idx)
+            if idx.size and ((idx.min() < 0) or (idx.max() >= n)):
+                raise IndexError(
+                    f"index out of bounds for dimension {dim} with size {n}"
+                )
+            packed.add(dim, idx, w)
+
+    # shared dims: element-wise index, with weight 1
+    for dim, size in shared_dims.items():
+        if size > sizes[dim]:
+            raise IndexError(
+                f"index out of bounds for dimension {dim} with size {sizes[dim]}"
+            )
+        pos = coord_dims.index(dim)
+        shp = [1] * len(coord_dims)
+        shp[pos] = size
+        packed.add(dim, np.arange(size).reshape(shp), None)
+
+    packed.finalize()
+    return packed
+
+
+def interp_var_numba(
+    da: xr.DataArray,
+    packed: PackedTerms,
+    current_out_dims: list,
+    coord_dims: list,
+    shared_dims_info: dict | None = None,
+    parallel: bool = False,
+) -> NDArray[Any] | None:
+    """
+    Interpolate a single variable `da` (numba backend)
+
+    Same result as `interp_var` (up to floating point rounding), but the weighted sum
+    over the corners of the interpolation cell is computed in a single pass by a
+    numba kernel, which gathers the data directly with their strides (no
+    intermediate arrays for each corner).
+
+    Args:
+        da: the data to interpolate
+        packed: indices and weights of all interpolation terms (see `pack_terms`)
+        current_out_dims: output dimensions of this variable
+        coord_dims: dimensions of the index arrays
+        shared_dims_info: maps dim names that are shared between `da` and the
+            coordinate variables to their position in the index arrays.
+        parallel: use the parallel kernel
+
+    Returns None if this case is not supported by the numba kernel (the caller
+    should then use `interp_var`).
+    """
+    from core.interpolate_numba import interp_kernel_parallel, interp_kernel_serial
+
+    shared_dims_info = shared_dims_info or {}
+    interp_dims = [d for d in packed.dim_terms if d in da.dims]
+    interp_dims_weighted = [d for d in interp_dims if d in packed.dim_dtypes]
+    if not interp_dims:
+        # current `da` contains no interpolated dimension: return as-is
+        return da.data
+
+    # Unsupported cases
+    if not interp_dims_weighted:
+        # pure selection: no weights
+        return None
+    if da.dtype.kind not in "fiu":
+        return None
+
+    data = np.ascontiguousarray(da.values)
+    strides = [s // data.itemsize for s in data.strides]
+
+    # dimensions to expand: interpolated dims, then shared dims
+    dims = [d for d in interp_dims if d not in shared_dims_info] + [
+        d for d in shared_dims_info if d in da.dims
+    ]
+    terms = {d: packed.dim_terms[d] for d in dims}
+    allterms = [t for d in dims for t in terms[d]]
+
+    # shape of the output points: broadcast of the shapes of all terms
+    R = packed.rank
+    S = tuple(int(x) for x in np.broadcast_shapes(
+        *[tuple(packed.ishape[t]) for t in allterms],
+        *[tuple(packed.wshape[t]) for t in allterms],
+    ))
+
+    # choose the innermost axis: the one along which most dimensions have
+    # invariant terms (their expansion is then done once for all points along
+    # this axis), defaulting to the last axis.
+    def invariant(d, a):
+        return all(
+            (packed.ishape[t, a] == 1) and (packed.wshape[t, a] == 1)
+            for t in terms[d]
+        )
+    best, best_axis = 0, R - 1
+    for a in range(R):
+        if S[a] > 1:
+            ninv_a = sum(invariant(d, a) for d in dims)
+            if ninv_a > best:
+                best, best_axis = ninv_a, a
+    perm = [a for a in range(R) if a != best_axis] + [best_axis]
+
+    # invariant dims first
+    dims = [d for d in dims if invariant(d, best_axis)] + [
+        d for d in dims if not invariant(d, best_axis)
+    ]
+    ninv = sum(invariant(d, best_axis) for d in dims)
+    allterms = np.array([t for d in dims for t in terms[d]], dtype=np.intp)
+    term_count = np.array([len(terms[d]) for d in dims], dtype=np.intp)
+    term_start = np.concatenate([[0], np.cumsum(term_count)[:-1]]).astype(np.intp)
+    t_dstride = np.array(
+        [strides[da.dims.index(d)] for d in dims for _ in terms[d]], dtype=np.intp
+    )
+
+    # non-interpolated dimensions of `da` (kept in the output)
+    kept_dims = [
+        d for d in da.dims
+        if (d not in packed.dim_terms) and (d not in shared_dims_info)
+    ]
+    kept_shape = tuple(da.sizes[d] for d in kept_dims)
+    kept_offsets = np.zeros(kept_shape, dtype=np.intp)
+    for i, d in enumerate(kept_dims):
+        shp = [1] * len(kept_dims)
+        shp[i] = da.sizes[d]
+        kept_offsets = kept_offsets + (
+            np.arange(da.sizes[d]) * strides[da.dims.index(d)]
+        ).reshape(shp)
+    kept_offsets = kept_offsets.ravel()
+    M = len(kept_offsets)
+
+    dtype = np.result_type(
+        data.dtype, *[dt for d in interp_dims_weighted for dt in packed.dim_dtypes[d]]
+    )
+
+    # output, of shape S + kept_shape (C-order)
+    out = np.empty(int(np.prod(S)) * M, dtype=np.float64)
+    out_str = np.array(
+        [int(np.prod(S[a + 1:])) * M for a in range(R)], dtype=np.intp
+    )
+
+    kernel = interp_kernel_parallel if parallel else interp_kernel_serial
+    kernel(
+        data.reshape(-1),
+        packed.ibuf,
+        packed.wbuf,
+        packed.iptr[allterms],
+        np.ascontiguousarray(_broadcast_strides(packed.ishape)[allterms][:, perm]),
+        packed.wptr[allterms],
+        np.ascontiguousarray(_broadcast_strides(packed.wshape)[allterms][:, perm]),
+        t_dstride,
+        term_start,
+        term_count,
+        ninv,
+        kept_offsets,
+        np.array(S, dtype=np.intp)[perm],
+        out,
+        out_str[perm],
+    )
+
+    # reshape to (coord_dims..., kept_dims...), then to current_out_dims
+    # (for scalar coordinates, the output points have a single dimension of length 1)
+    result = out.reshape(S[R - len(coord_dims):] + kept_shape)
+    dims_all = list(coord_dims) + kept_dims
+    squeeze = tuple(i for i, d in enumerate(dims_all) if d not in current_out_dims)
+    result = result.squeeze(axis=squeeze)
+    dims_all = [d for d in dims_all if d in current_out_dims]
+    result = result.transpose([dims_all.index(d) for d in current_out_dims])
+
+    return result.astype(dtype, copy=False)
+
+
+def interp(da: xr.DataArray, backend: str = "numpy", **kwargs) -> xr.DataArray:
     """
     Interpolate/select a DataArray onto new coordinates.
 
@@ -320,7 +644,8 @@ def interp(da: xr.DataArray, backend: str = "scipy", **kwargs) -> xr.DataArray:
 
     Args:
         da (xr.DataArray): The input DataArray
-        backend (str): Backend for index finding, either "scipy" (default) or "numba".
+        backend (str): computation backend, either "numpy" (default) or "numba"
+            (see Interpolator).
         **kwargs: definition of the selection/interpolation coordinates for each
             dimension, using the following classes:
                 - Linear: linear interpolation (like xr.DataArray.interp)
@@ -386,11 +711,19 @@ def product_dict(**kwargs) -> Iterable[Dict]:
         yield dict(zip(keys, instance))
 
 
+def _nan_like(values: NDArray):
+    """
+    NaN with the type of `values` if it is a floating point array (float64 otherwise,
+    as when NaNs are introduced by numpy in an integer array)
+    """
+    return values.dtype.type(np.nan) if values.dtype.kind == "f" else np.float64(np.nan)
+
+
 class Locator:
     """
     The purpose of these classes is to locate values in coordinate axes.
     """
-    def __init__(self, coords: NDArray, bounds: str, backend: str = "scipy"):
+    def __init__(self, coords: NDArray, bounds: str, backend: str = "numpy"):
         self.coords = coords.astype("double")
         self.bounds = bounds
         self.backend = backend
@@ -436,12 +769,23 @@ class Locator:
 
         Returns a list of indices, dist (float 0 to 1) and oob
         """
+        if self.backend == "numba":
+            from core.interpolate_numba import locate_irregular, OOB_MODES
+            values = np.asarray(values)
+            indices, dist, n_oob = locate_irregular(
+                values.ravel(), self.coords, self.vmin, self.vmax,
+                OOB_MODES[self.bounds], _nan_like(values),
+            )
+            if n_oob:
+                self.handle_oob(values)  # raises the error
+            return indices.reshape(values.shape), dist.reshape(values.shape)
+
         values = self.handle_oob(values)
 
         shp = values.shape
         indices, dist = find_indices(
             (self.coords,), values.astype("double").ravel()[None, :],
-            backend=self.backend,
+            backend="scipy",
         )
         indices = indices.reshape(shp).clip(0, None) # Note: a clip is performed because
                                                      # -1 is obtained in presence of NaN
@@ -460,7 +804,7 @@ class Locator_Regular(Locator):
         bounds: str,
         inversion_func: Callable | None = None,
         period=None,
-        backend: str = "scipy",
+        backend: str = "numpy",
     ):
         self.inversion_func = inversion_func
         if inversion_func is None:
@@ -508,6 +852,17 @@ class Locator_Regular(Locator):
         if self.inversion_func is not None:
             values = self.inversion_func(values)
 
+        if (self.backend == "numba") and not self.is_time:
+            from core.interpolate_numba import locate_regular, OOB_MODES
+            values = np.asarray(values)
+            i_inf, dist, n_oob = locate_regular(
+                values.ravel(), self.vstart, self.vmin, self.vmax, self.scal,
+                self.N, OOB_MODES[self.bounds], _nan_like(values),
+            )
+            if n_oob:
+                self.handle_oob(values)  # raises the error
+            return i_inf.reshape(values.shape), dist.reshape(values.shape)
+
         values = self.handle_oob(values)
         
         # calculate floating index (scale to [0, N-1])
@@ -534,7 +889,7 @@ class Locator_Regular(Locator):
 
 def create_locator(
     coords, bounds: str, spacing, period: float | None = None,
-    backend: str = "scipy"
+    backend: str = "numpy"
 ) -> Locator:
     """
     Locator factory
@@ -599,7 +954,7 @@ class Spline:
         self.tension = tension
         self.spacing = spacing
     
-    def get_indexer(self, coords: xr.DataArray, backend: str = "scipy"):
+    def get_indexer(self, coords: xr.DataArray, backend: str = "numpy"):
         cval = coords.values
         if len(cval) < 3 :
             raise ValueError("You need to have at least 3 points to spline in between") #AJOUTER LA BONNE ERREUR
@@ -607,7 +962,7 @@ class Spline:
 
 
 class Spline_Indexer:
-    def __init__(self, coords: NDArray, bounds: str, spacing, tension: float, backend: str = "scipy"):
+    def __init__(self, coords: NDArray, bounds: str, spacing, tension: float, backend: str = "numpy"):
         self.coords = coords
         self.spacing = spacing
         self.bounds = bounds
@@ -749,7 +1104,7 @@ class Linear:
         self.spacing = spacing
         self.period = period
 
-    def get_indexer(self, coords: xr.DataArray, backend: str = "scipy"):
+    def get_indexer(self, coords: xr.DataArray, backend: str = "numpy"):
         cval = coords.values
         if len(cval) < 2 :
             raise ValueError(
@@ -760,7 +1115,7 @@ class Linear:
 
 class Linear_Indexer:
     def __init__(
-        self, coords: NDArray, bounds: str, spacing, period=None, backend: str = "scipy"
+        self, coords: NDArray, bounds: str, spacing, period=None, backend: str = "numpy"
     ):
         self.bounds = bounds
         self.N = len(coords)
@@ -828,7 +1183,7 @@ class Index:
         """
         self.values = values
     
-    def get_indexer(self, coords, backend: str = "scipy"):
+    def get_indexer(self, coords, backend: str = "numpy"):
         # We can simply return self to avoid another class, since coords are not used.
         # The __call__ method of the Indexer is implemented in this class.
         return self
@@ -864,7 +1219,7 @@ class Nearest:
         self.tolerance = tolerance
         self.spacing = spacing
 
-    def get_indexer(self, coords: xr.DataArray, backend: str = "scipy"):
+    def get_indexer(self, coords: xr.DataArray, backend: str = "numpy"):
         return Nearest_Indexer(coords.values, self.tolerance, self.spacing)
 
 

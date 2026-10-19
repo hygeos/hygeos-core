@@ -28,6 +28,30 @@ import xarray as xr
 from core.tests.pytest_utils import parametrize_dict
 
 
+@pytest.fixture(autouse=True, params=["numpy", "numba"])
+def default_backend(request, monkeypatch):
+    """
+    Run all tests with each backend of core.interpolate, by changing the default
+    value of the `backend` argument
+    """
+    import inspect
+    import core.interpolate as ci
+    for func in [
+        ci.Interpolator.__init__, ci.interp,
+        ci.Linear.get_indexer, ci.Spline.get_indexer,
+        ci.Linear_Indexer.__init__, ci.Spline_Indexer.__init__,
+        ci.create_locator, ci.Locator.__init__, ci.Locator_Regular.__init__,
+    ]:
+        names = [
+            p.name for p in inspect.signature(func).parameters.values()
+            if p.default is not inspect.Parameter.empty
+        ]
+        defaults = list(func.__defaults__)
+        defaults[names.index("backend")] = request.param
+        monkeypatch.setattr(func, "__defaults__", tuple(defaults))
+    return request.param
+
+
 list_interp_functions = {
     "xarray": lambda data, l1: data.interp(
         lat=l1.latitude,
