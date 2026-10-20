@@ -27,6 +27,13 @@ OOB_CLIP = 1  # clip to the axis extrema
 OOB_NAN = 2   # replace by NaN
 OOB_ERROR = 3 # count the out-of-bounds values (the caller raises an error)
 
+# Number of points per chunk in find_indices_numba (parallelized over the chunks)
+CHUNK_SIZE = 4096
+
+# Maximum number of steps of the walk from the previous interval in the index lookup
+# on irregular grids, before falling back to a binary search (see _walk_interval)
+MAX_WALK = 8
+
 # intp range, as floats (exact: powers of 2), to saturate the float -> intp casts
 INTP_MIN = np.iinfo(np.intp).min
 INTP_MAX = np.iinfo(np.intp).max
@@ -59,6 +66,31 @@ def _search_interval(coords, value):
     return lo
 
 
+@njit(nogil=True, cache=True, inline="always")
+def _walk_interval(coords, value, i):
+    """
+    Same as `_search_interval`, starting from the interval index `i` (generally, the
+    one of the previous value).
+
+    Successive values are generally close (e.g. in an image): the interval is first
+    searched by walking from `i`, by at most MAX_WALK steps, which is faster than a
+    binary search. If the interval is further away, a binary search is used, so that
+    the worst case remains O(log N) (instead of O(N) for an unbounded walk).
+    """
+    last = coords.shape[0] - 2
+    k = MAX_WALK
+    while (k > 0) and (i > 0) and (value < coords[i]):
+        i -= 1
+        k -= 1
+    while (k > 0) and (i < last) and (value >= coords[i + 1]):
+        i += 1
+        k -= 1
+    if k == 0:
+        # walk budget exhausted: the interval may be further away
+        i = _search_interval(coords, value)
+    return i
+
+
 @njit(nogil=True, cache=True, parallel=True)
 def find_indices_numba(grid, xi) -> Tuple[np.ndarray, np.ndarray]:
     """
@@ -66,8 +98,12 @@ def find_indices_numba(grid, xi) -> Tuple[np.ndarray, np.ndarray]:
 
     Drop-in replacement for scipy.interpolate._rgi_cython.find_indices, with the same
     outputs: indices clipped to [0, N-2] (-1 for NaN), and distances extrapolated
-    outside of the grid. The distances are float32 (float64 for scipy). Length-1 grids give an index of -1 and a
-    distance of 0. The grid coordinates should be ascending (not checked).
+    outside of the grid. The distances are float32 (float64 for scipy). Length-1 grids
+    give an index of -1 and a distance of 0. The grid coordinates should be ascending
+    (not checked).
+
+    The points are processed in contiguous chunks (in parallel), and the search of
+    each point starts from the interval of the previous point (see _walk_interval).
 
     Args:
         grid: Tuple of 1D arrays defining grid coordinates for each dimension
@@ -90,18 +126,22 @@ def find_indices_numba(grid, xi) -> Tuple[np.ndarray, np.ndarray]:
                 indices[dim, j] = -1
                 distances[dim, j] = 0.0
             continue
-        # parallel over the points (the number of dimensions is generally 1)
-        for j in prange(n_points):
-            value = xi[dim, j]
-            if value != value:  # NaN
-                indices[dim, j] = -1
-                distances[dim, j] = np.nan
-                continue
-            i = _search_interval(coordinates, value)
-            indices[dim, j] = i
-            distances[dim, j] = (value - coordinates[i]) / (
-                coordinates[i + 1] - coordinates[i]
-            )
+        # parallel over chunks of points (the number of dimensions is generally 1)
+        nchunks = (n_points + CHUNK_SIZE - 1) // CHUNK_SIZE
+        for chunk in prange(nchunks):
+            i = 0  # interval index of the previous point
+            for j in range(chunk * CHUNK_SIZE,
+                           min((chunk + 1) * CHUNK_SIZE, n_points)):
+                value = xi[dim, j]
+                if value != value:  # NaN
+                    indices[dim, j] = -1
+                    distances[dim, j] = np.nan
+                    continue
+                i = _walk_interval(coordinates, value, i)
+                indices[dim, j] = i
+                distances[dim, j] = (value - coordinates[i]) / (
+                    coordinates[i + 1] - coordinates[i]
+                )
 
     return (indices, distances)
 
@@ -168,7 +208,8 @@ def locate_irregular(values, coords, vmin, vmax, mode, nan):
     """
     Index lookup on an irregular ascending grid (see Locator.locate_index_weight)
 
-    Same outputs as handle_oob + scipy's find_indices + clip(0, None).
+    Same outputs as handle_oob + scipy's find_indices + clip(0, None). The search of
+    each value starts from the interval of the previous value (see _walk_interval).
 
     Returns:
         indices (intp), dist (float64), number of out-of-bounds values
@@ -177,6 +218,7 @@ def locate_irregular(values, coords, vmin, vmax, mode, nan):
     indices = np.empty(n, dtype=np.intp)
     dist = np.empty(n, dtype=np.float64)
     n_oob = 0
+    i = 0  # interval index of the previous value
     for j in range(n):
         v = values[j]
         if mode == OOB_CLIP:
@@ -195,7 +237,7 @@ def locate_irregular(values, coords, vmin, vmax, mode, nan):
             indices[j] = 0
             dist[j] = np.nan
             continue
-        i = _search_interval(coords, value)
+        i = _walk_interval(coords, value, i)
         indices[j] = i
         dist[j] = (value - coords[i]) / (coords[i + 1] - coords[i])
     return indices, dist, n_oob
