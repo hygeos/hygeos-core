@@ -112,10 +112,11 @@ def gen_sync(
         verbose (bool): Whether to print verbose output
     """
     if not task.done():
-        # Ensure reference counts are initialized for this task and its dependencies
-        _ensure_ref_count_initialized(task)
-        
+        # call dependencies() only once: it may build new objects at each call
         deps = task.dependencies()
+        # Ensure reference counts are initialized for this task and its dependencies
+        _ensure_ref_count_initialized(task, deps)
+
         for d in deps:
             gen_sync(d, verbose=verbose)
         if verbose:
@@ -305,6 +306,7 @@ def gen_executor(
     verbose: bool = False,
     _tasks: list | None = None,
     log_file: Path|None = None,
+    _nodes: dict | None = None,
 ):
     """
     Recursively generate dependencies of `task`, then call its `run` method in a
@@ -319,7 +321,9 @@ def gen_executor(
             dependency tree with the `gen` function. It is useful to override the
             default ThreadPoolExecutor(512) if the tree is too large.
         _tasks: internal parameter to track tasks status and provide an execution 
-            summary. Also used to avoid duplicate task submissions.
+            summary.
+        _nodes: internal parameter mapping id(task) to its execution state, used to
+            avoid duplicate task submissions.
 
     Example:
         from concurrent.futures import ThreadPoolExecutor
@@ -344,6 +348,8 @@ def gen_executor(
     if _tasks is None:
         _tasks = []
         _start_time = time()
+    if _nodes is None:
+        _nodes = {}
 
     if graph_executor is None:
         graph_executor = ThreadPoolExecutor(512)
@@ -351,25 +357,82 @@ def gen_executor(
     if default_executor is None:
         default_executor = ThreadPoolExecutor()
 
-    # Check if task is already being processed by checking if it's in _tasks
-    # Use object identity comparison which is efficient and correct for task deduplication
-    if task in _tasks:
-        # Task is already submitted, just return without reprocessing
-        return
-    
-    # Set initial status
-    if not hasattr(task, "status"):
-        setattr(task, "status", "pending")
-    
+    # Check if task is already being processed, using object identity (tasks may
+    # compare equal by value, e.g. dataclasses, while being distinct objects).
+    # Tasks are kept alive in _tasks, so their id() can not be reused.
+    with _nodes_lock:
+        node = _nodes.get(id(task))
+        is_new = node is None
+        if is_new:
+            node = _nodes[id(task)] = _Node()
+            # Set initial status
+            if not hasattr(task, "status"):
+                setattr(task, "status", "pending")
+            _tasks.append(task)
+
+    if not is_new:
+        # Task is already submitted by another parent: wait for its completion
+        node.event.wait()
+        if node.exception is not None:
+            raise node.exception
+        return node.result
+
+    try:
+        node.result = _gen_executor_task(
+            task,
+            executors=executors,
+            default_executor=default_executor,
+            graph_executor=graph_executor,
+            verbose=verbose,
+            _tasks=_tasks,
+            log_file=log_file,
+            _nodes=_nodes,
+            _start_time=_start_time,
+            is_root_call=is_root_call,
+        )
+    except BaseException as e:
+        node.exception = e
+        raise
+    finally:
+        node.event.set()
+    return node.result
+
+
+class _Node:
+    """Execution state of a task within a `gen_executor` call"""
+    def __init__(self):
+        self.event = threading.Event()  # set when the task is finished
+        self.result = None
+        self.exception = None
+
+
+_nodes_lock = threading.Lock()
+
+
+def _gen_executor_task(
+    task: Task,
+    executors,
+    default_executor,
+    graph_executor,
+    verbose: bool,
+    _tasks: list,
+    log_file: Path | None,
+    _nodes: dict,
+    _start_time: float,
+    is_root_call: bool,
+):
+    """
+    Process a single (deduplicated) task for `gen_executor`
+    """
     print_execution_summary(_tasks, _start_time, log_file)
-    
-    _tasks.append(task)
+
     if not task.done():
-        # Ensure reference counts are initialized for this task and its dependencies
-        _ensure_ref_count_initialized(task)
-        
-        # run all dependencies on the graph executor
+        # call dependencies() only once: it may build new objects at each call
         deps = task.dependencies()
+        # Ensure reference counts are initialized for this task and its dependencies
+        _ensure_ref_count_initialized(task, deps)
+
+        # run all dependencies on the graph executor
         if len(deps) > graph_executor._max_workers:
             raise RuntimeError(
                 f"Task {task} has {len(deps)} dependencies, but graph_executor only "
@@ -386,6 +449,7 @@ def gen_executor(
                 verbose = verbose,
                 _tasks=_tasks,
                 log_file=log_file,
+                _nodes=_nodes,
             )
             for d in deps
         ]
@@ -421,9 +485,9 @@ def gen_executor(
                 # Try to cleanup each dependency (will only cleanup if all dependent tasks are done)
                 for dep in deps:
                     _try_cleanup_dependency(dep)
-                if not is_root_call:
-                    print_execution_summary(_tasks, _start_time, log_file)
-                    return result
+                print_execution_summary(_tasks, _start_time, log_file,
+                                        finished=is_root_call)
+                return result
             except Exception as e:
                 setattr(task, "status", "error")
                 setattr(task, "error_msg", str(e))
@@ -433,6 +497,13 @@ def gen_executor(
                 print_execution_summary(_tasks, _start_time, log_file)
                 if verbose:
                     log.warning(f"Task {task.__class__} failed with error {str(e.__class__)}")
+                if is_root_call:
+                    print_execution_summary(_tasks, _start_time, log_file, finished=True)
+                    raise
+                return None
+        elif is_root_call:
+            print_execution_summary(_tasks, _start_time, log_file, finished=True)
+            raise RuntimeError(f"Task {task} canceled due to failed dependencies")
     else:
         # Task is already done, mark as skipped if status is pending
         if getattr(task, "status", None) == "pending":
@@ -491,17 +562,19 @@ class TaskProduct(Task):
         return [self.cls(**d, **self.others) for d in product_dict(**self.kwargs)]
 
 
-def _ensure_ref_count_initialized(task):
+def _ensure_ref_count_initialized(task, deps: list):
     """
     Ensure that a task's immediate dependencies have reference counts initialized.
     This is called lazily when a task is about to be processed.
     Only initializes the immediate dependencies, not their sub-dependencies.
+
+    `deps` is the result of `task.dependencies()`; it is passed explicitly so that
+    reference counts are set on the same objects that are later cleaned up.
     """
     if not hasattr(task, '_ref_count_initialized'):
         # Mark this task as having its dependencies processed
         task._ref_count_initialized = True
-        
-        deps = task.dependencies()
+
         for dep in deps:
             # Initialize ref count for dependency if not already done
             if not hasattr(dep, '_ref_count'):

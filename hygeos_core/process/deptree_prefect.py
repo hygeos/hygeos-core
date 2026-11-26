@@ -80,33 +80,44 @@ def decorator_concurrency_limit(d: dict|None):
     return actual_decorator
 
 
-def wraptask(task):
+def wraptask(task, deps: list):
     """
     Wrap a task so that its dependencies are passed as futures to the wrapped
     function arguments
+
+    `deps` is the result of `task.dependencies()`, which is called only once.
     """
     classname = str(task.__class__.__name__)
     def wrapper(*args):
         # Ensure reference counts are initialized for this task and its dependencies
-        _ensure_ref_count_initialized(task)
-        
+        _ensure_ref_count_initialized(task, deps)
+
         # execute the run method
         result = task.run()
         # Try to cleanup each dependency (will only cleanup if all dependent tasks are done)
-        for dep in task.dependencies():
+        for dep in deps:
             _try_cleanup_dependency(dep)
         return result
     return prefect_task(name=classname, tags=[classname])(wrapper)
 
 
-def gen_prefect_node(task, root=True, all_futures=None) -> PrefectFuture | None:
+def gen_prefect_node(
+    task, root=True, all_futures=None, submitted=None
+) -> PrefectFuture | None:
     """
     Generate a Task with Prefect
 
     If `root`, this is the root node: must wait for the root task to finish, otherwise
     futures are garbage collected before they finish.
+
+    `submitted` maps id(task) to (task, future), so that a task shared by several
+    parents is submitted only once (identity comparison).
     """
-    
+    if submitted is None:
+        submitted = {}
+    if id(task) in submitted:
+        return submitted[id(task)][1]
+
     if task.done():
         return None
 
@@ -114,14 +125,18 @@ def gen_prefect_node(task, root=True, all_futures=None) -> PrefectFuture | None:
         all_futures = []
 
     # recursively trigger dependencies
+    # call dependencies() only once: it may build new objects at each call
+    deps = task.dependencies()
     futures = [
-        gen_prefect_node(x, root=False, all_futures=all_futures)
-        for x in task.dependencies()
+        gen_prefect_node(x, root=False, all_futures=all_futures, submitted=submitted)
+        for x in deps
         if not x.done()
     ]
 
     # submit the current task by passing the futures dependencies as arguments
-    future = wraptask(task).submit(*futures)
+    future = wraptask(task, deps).submit(*futures)
+    # keep a reference to the task so that its id() is not reused
+    submitted[id(task)] = (task, future)
 
     # this list avoids that future are garbage collected before they are finished, which
     # raises a warning

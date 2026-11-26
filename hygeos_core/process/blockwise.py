@@ -921,6 +921,7 @@ class CompoundProcessor(BlockProcessor):
         else:
             # Naive implementation without processor chaining
             # Involves dask graph overhead.
+            ds = ds.copy(deep=False)  # do not modify the input dataset
             for p in self.list_processors:
                 result = p.map_blocks(ds)
                 for x in result:

@@ -482,6 +482,23 @@ def test_blockwise_noop():
     Noop().map_blocks(ds)
 
 
+@pytest.mark.parametrize("chained", [True, False])
+def test_compound_does_not_mutate_input(chained: bool):
+    """
+    CompoundProcessor.map_blocks shall not modify the input dataset
+    """
+    ds = create_sample_dataset()
+    vars_before = set(ds.variables)
+    CompoundProcessor([
+        InitProcessor(),
+        Cloudmask(),
+        InterpolatorFactory(),
+        Rayleigh(),
+        Aerosol(),
+    ]).map_blocks(ds, chained=chained)
+    assert set(ds.variables) == vars_before
+
+
 def test_processor_describe():
     Aerosol().describe()
 
