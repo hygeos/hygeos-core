@@ -2,37 +2,35 @@
 
 All notable changes to this project will be documented in this file.
 
+## v2.0.2
+
+### Changed
+
+- `tools.reglob` matches on file names and returns a sorted list of `Path`.
+- `uncompress_decorator` returns a file for single-file archives (`foo.nc.gz` → `foo.nc`).
+- top-level `deptree.gen_executor` returns the task result and raises its errors.
+- `dates.time_range` no longer skips the last step; `interpolate.Nearest` gives NaN for NaN
+  queries on float data; the `zarr` extra requires `zarr>=3`.
+
+### Fixed
+
+- Several bugs found in a code review, notably: circular imports (`log`/`env`/`progressbar`),
+  spline interpolation (tension, descending coords), numpy/numba interpolation mismatch,
+  `gen_executor` not awaiting shared dependencies, `.gz`/`.bz2` decompression and tar path
+  traversal, `to_zarr` with zarr 3, non-atomic FTP uploads, csv `cache_dataframe` checks.
+
 ## v2.0.1
 
 ### Changed
 
-- **Breaking**: objects must be imported from the module that defines them; the `__init__.py`
-  files no longer re-export anything, and the deprecated top-level modules are removed.
-  `import hygeos_core.log` (and any other submodule) no longer loads xarray and pandas
-  (import time ~630 ms → ~110 ms).
-
-  | Old import | New import |
-  |---|---|
-  | `hygeos_core.filegen`, `hygeos_core.mdir` | `hygeos_core.files.fileutils.filegen`, `.mdir` |
-  | `hygeos_core.to_netcdf` | `hygeos_core.files.save.to_netcdf` |
-  | `hygeos_core.rgb` | `hygeos_core.log.rgb` |
-  | `hygeos_core.files.{cache_*, filegen, get_git_commit, mdir, LockFile, to_netcdf, uncompress}` | `hygeos_core.files.{cache, fileutils, lock, save, uncompress}.<name>` |
-  | `hygeos_core.geo.{get_pattern, get_level, retrieve_product}` | `hygeos_core.geo.product_name.<name>` |
-  | `hygeos_core.geo.n` | `from hygeos_core.geo.naming import names as n` |
-  | `hygeos_core.geo.<convert functions>` | `hygeos_core.geo.convert.<name>` |
-  | `hygeos_core.static.{interface, abstract, singleton, virtual, parametrized}` | `hygeos_core.static.<name>.<name>`, e.g. `from hygeos_core.static.interface import interface` |
-  | `hygeos_core.{auth, download, ftp}` | `hygeos_core.network.{auth, download, ftp}` |
-  | `hygeos_core.{cache, fileutils, lock, save, uncompress}` | `hygeos_core.files.{cache, fileutils, lock, save, uncompress}` |
-  | `hygeos_core.{condor, deptree, deptree_prefect}` | `hygeos_core.process.{condor, deptree, deptree_prefect}` |
-  | `hygeos_core.{conftest, pytest_utils}` | `hygeos_core.tests.{conftest, pytest_utils}` |
-
-  Note: `from hygeos_core.static import interface` now returns the *module*, so using it as
-  a decorator fails at import time with `TypeError: 'module' object is not callable`.
+- objects must be imported from the module that defines them (no re-exports in
+  `__init__.py`, deprecated top-level modules removed), e.g. `hygeos_core.files.fileutils.filegen`,
+  `hygeos_core.network.ftp`, `hygeos_core.process.deptree`. Importing a submodule no longer
+  loads xarray and pandas.
 
 ### Fixed
 
-- matplotlib and Pillow are optional: they are imported lazily by `files.cache.cache_figure`
-  (importing `hygeos_core` previously failed without matplotlib).
+- matplotlib and Pillow are optional dependencies.
 
 ## v2.0.0
 
