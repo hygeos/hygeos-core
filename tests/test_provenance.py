@@ -4,7 +4,7 @@ from pathlib import Path
 
 import pytest
 
-from core.provenance import (
+from hygeos_core.provenance import (
     UNKNOWN, get_version, get_versions, git_describe, version_attrs)
 
 
@@ -96,7 +96,7 @@ def test_version_attrs(repo):
 
 
 def test_get_git_commit(repo, monkeypatch):
-    from core.files.fileutils import get_git_commit
+    from hygeos_core.files.fileutils import get_git_commit
     monkeypatch.chdir(repo)
     expected = git_describe(repo, tracked_only=False, tags=False)
     assert expected  # (commit hash: lightweight tags are not used)

@@ -1,4 +1,4 @@
-from core.network.download import download_url
+from hygeos_core.network.download import download_url
 
 
 def test_download_url(tmp_path):

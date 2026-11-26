@@ -3,9 +3,9 @@ import numpy as np
 import pytest
 from typing import Callable
 
-from core.monitor import Chrono
+from hygeos_core.monitor import Chrono
 
-from core.interpolate import (
+from hygeos_core.interpolate import (
     Interpolator,
     Linear_Indexer,
     Nearest_Indexer,
@@ -23,19 +23,19 @@ try:
 except ImportError:
     pass
 
-from core.tests import conftest
+from hygeos_core.tests import conftest
 import xarray as xr
-from core.tests.pytest_utils import parametrize_dict
+from hygeos_core.tests.pytest_utils import parametrize_dict
 
 
 @pytest.fixture(autouse=True, params=["numpy", "numba"])
 def default_backend(request, monkeypatch):
     """
-    Run all tests with each backend of core.interpolate, by changing the default
+    Run all tests with each backend of hygeos_core.interpolate, by changing the default
     value of the `backend` argument
     """
     import inspect
-    import core.interpolate as ci
+    import hygeos_core.interpolate as ci
     for func in [
         ci.Interpolator.__init__, ci.interp,
         ci.Linear.get_indexer, ci.Spline.get_indexer,

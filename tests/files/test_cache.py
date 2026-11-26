@@ -1,11 +1,11 @@
 from pathlib import Path
 import pytest
-from core.files import cache
+from hygeos_core.files import cache
 from xarray.tutorial import open_dataset
 from tempfile import TemporaryDirectory
 import matplotlib.pyplot as plt
-from core.tools import only
-from core.tests.conftest import savefig
+from hygeos_core.tools import only
+from hygeos_core.tests.conftest import savefig
 
 
 @pytest.mark.parametrize('cache_function,var', [

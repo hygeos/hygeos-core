@@ -1,6 +1,6 @@
 import pytest
 
-from core.geo.product_name import get_pattern, retrieve_product, get_level
+from hygeos_core.geo.product_name import get_pattern, retrieve_product, get_level
 
 @pytest.mark.parametrize(['sensor', 'example_prod'], [
     ('LANDSAT-8-OLI'     ,'LC08_L1GT_029030_20151209_20160131_01_RT'),

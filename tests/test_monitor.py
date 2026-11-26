@@ -6,7 +6,7 @@ import time
 import pytest
         
 # sub package imports
-from core.monitor import *
+from hygeos_core.monitor import *
 
 
 def test_chrono_base():

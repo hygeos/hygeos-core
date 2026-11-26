@@ -1,6 +1,6 @@
 import pytest 
 
-from core.static import singleton
+from hygeos_core.static import singleton
 
 
 def test_base_usage():

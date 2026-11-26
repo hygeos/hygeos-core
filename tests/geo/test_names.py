@@ -1,5 +1,5 @@
         
-from core.geo.naming import names
+from hygeos_core.geo.naming import names
 
 
 def test_names():

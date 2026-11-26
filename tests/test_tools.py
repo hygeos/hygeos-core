@@ -2,7 +2,7 @@ import pytest
 import numpy as np
 import xarray as xr
 from dask import array as dask_arr
-from core.tools import (
+from hygeos_core.tools import (
     locate,
     reglob,
     xr_filter_decorator,
@@ -14,7 +14,7 @@ from core.tools import (
 
 @pytest.mark.parametrize("regexp", [".*.py", "[a-z]+.*"])
 def test_reglob(regexp):
-    p = "core"
+    p = "hygeos_core"
     l = reglob(p, regexp)
     assert len(l) != 0
 

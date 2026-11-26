@@ -1,5 +1,5 @@
-from core.table import *
-from core.static.Exceptions import InterfaceException
+from hygeos_core.table import *
+from hygeos_core.static.Exceptions import InterfaceException
 from pathlib import Path
 
 import pandas as pd

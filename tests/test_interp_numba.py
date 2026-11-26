@@ -1,5 +1,5 @@
 """
-Differential tests of the numba backend of core.interpolate against the numpy backend
+Differential tests of the numba backend of hygeos_core.interpolate against the numpy backend
 
 (kept apart from test_interp.py, whose autouse fixture runs every test with each
 backend: here, both backends are used explicitly in each test)
@@ -11,8 +11,8 @@ import numpy as np
 import pytest
 import xarray as xr
 
-from core.interpolate import Interpolator, Linear, Nearest, Spline, interp
-from core.tests.pytest_utils import parametrize_dict
+from hygeos_core.interpolate import Interpolator, Linear, Nearest, Spline, interp
+from hygeos_core.tests.pytest_utils import parametrize_dict
 
 
 def random_coords(rng, vmin, vmax, dims, chunk=False):

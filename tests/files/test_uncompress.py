@@ -11,8 +11,8 @@ from pathlib import Path
 from tempfile import TemporaryDirectory
 from zipfile import ZipFile
 
-from core.files.uncompress import uncompress_decorator, uncompress, uncompress_single
-from core.dates import duration
+from hygeos_core.files.uncompress import uncompress_decorator, uncompress, uncompress_single
+from hygeos_core.dates import duration
 import pytest
 
 

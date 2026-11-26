@@ -3,7 +3,7 @@ import pytest
 import numpy as np
 import xarray as xr
 
-from core.geo.convert import convert_latlon_2D, center_longitude
+from hygeos_core.geo.convert import convert_latlon_2D, center_longitude
 
 
 def test_convert_latlon():

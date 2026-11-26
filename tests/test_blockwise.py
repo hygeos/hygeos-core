@@ -5,11 +5,11 @@ import numpy as np
 import pytest
 import xarray as xr
 
-from core.files.save import to_netcdf
-from core.interpolate import Interpolator, Linear
-from core.monitor import Chrono
-from core.process.blockwise import BlockProcessor, CompoundProcessor
-from core.tools import Var
+from hygeos_core.files.save import to_netcdf
+from hygeos_core.interpolate import Interpolator, Linear
+from hygeos_core.monitor import Chrono
+from hygeos_core.process.blockwise import BlockProcessor, CompoundProcessor
+from hygeos_core.tools import Var
 
 
 class InitProcessor(BlockProcessor):

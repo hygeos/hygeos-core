@@ -24,7 +24,7 @@ execute:
 
 
 website:
-  title: "core"
+  title: "hygeos-core"
   site-url: "https://hygeos.github.io/Core/"
   repo-url: "https://github.com/hygeos/Core"
   repo-actions: [issue]
@@ -53,7 +53,7 @@ website:
         aria-label: "GitHub Repository"
   page-footer:
     center: |
-      Powered by [HYGEOS](https://www.hygeos.com) | core &copy; 2026 | version 1.2.4
+      Powered by [HYGEOS](https://www.hygeos.com) | hygeos-core &copy; 2026 | version 1.2.4
   sidebar:
     - title: "Overview"
       contents:
@@ -64,7 +64,7 @@ website:
 
 
 quartodoc:
-  package: core
+  package: hygeos_core
   dir: reference
   title: API Reference
 

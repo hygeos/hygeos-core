@@ -3,9 +3,9 @@ title: CORE
 subtitle: "Common Operations for Robust Engineering"
 ---
 
-## What is `core`?
+## What is `hygeos-core`?
 
-`core` is a Python library that provides common utilities for robust, production-grade engineering workflows — especially around scientific data processing with [xarray](https://docs.xarray.dev/) and [dask](https://www.dask.org/).
+`hygeos-core` is a Python library that provides common utilities for robust, production-grade engineering workflows — especially around scientific data processing with [xarray](https://docs.xarray.dev/) and [dask](https://www.dask.org/).
 
 It includes tools for:
 
@@ -24,13 +24,13 @@ It includes tools for:
 Install from GitHub:
 
 ```bash
-pip install --no-cache-dir git+https://github.com/hygeos/core.git
+pip install --no-cache-dir git+https://github.com/hygeos/hygeos-core.git
 ```
 
 Or in editable mode from a local clone:
 
 ```bash
-pip install -e /path/to/core/
+pip install -e /path/to/hygeos-core/
 ```
 
 ## Modules at a glance

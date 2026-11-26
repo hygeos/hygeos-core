@@ -1,6 +1,6 @@
 import os
 
-from core.import_utils import import_module
+from hygeos_core.import_utils import import_module
 
 
 def test_import_module():

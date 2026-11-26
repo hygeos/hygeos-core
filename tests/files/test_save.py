@@ -3,7 +3,7 @@ import pytest
 from pathlib import Path
 from tempfile import TemporaryDirectory
 
-from core.files.save import to_netcdf, to_zarr
+from hygeos_core.files.save import to_netcdf, to_zarr
 import xarray as xr
 
 

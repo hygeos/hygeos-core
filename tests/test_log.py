@@ -1,5 +1,5 @@
-import core
-from core import log
+import hygeos_core
+from hygeos_core import log
 from time import sleep
 
 import pytest
@@ -10,7 +10,7 @@ only sensible in debug mode
 
 def test_base():
     
-    log.silence(core, log.lvl.ERROR)
+    log.silence(hygeos_core, log.lvl.ERROR)
     
     log.warning("test string")
 
