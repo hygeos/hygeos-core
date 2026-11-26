@@ -83,7 +83,7 @@ class Interpolator(BlockProcessor):
         self.indexers = {}
         self.varnames = {}  # mapping of data coords to block variables
         for k, v in kwargs.items():
-            varname = v.varname or k
+            varname = getattr(v, "varname", None) or k
             self.indexers[k] = v.get_indexer(data[k], backend=backend)
             self.varnames[k] = varname
 
@@ -168,6 +168,18 @@ class Interpolator(BlockProcessor):
             k: v(np_indexers[self.varnames[k]]) for k, v in self.indexers.items()
         }
 
+        # mask of NaN queries for Nearest indexers (dims: global_out_dims)
+        nearest_nan = None
+        dims_block = [d for d in global_out_dims if d in block_sub.dims]
+        for k, v in self.indexers.items():
+            values = np.asarray(np_indexers[self.varnames[k]])
+            if isinstance(v, Nearest_Indexer) and (values.dtype.kind == "f"):
+                isnan = np.isnan(values)
+                if isnan.any():
+                    isnan = xr.DataArray(isnan, dims=dims_block)
+                    nearest_nan = (isnan if nearest_nan is None
+                                   else nearest_nan | isnan)
+
         # copy relevant dims from block_sub (interpolating coords) first,
         # then from self.data for shared non-interpolated dimensions.
         coords = xr.Dataset()
@@ -247,6 +259,15 @@ class Interpolator(BlockProcessor):
                 coords={k: v for k, v in coords.coords.items() if k in out_dims[var]},
                 attrs=self.output_attrs(var),
             )
+
+            # Nearest: NaN queries give NaN outputs, for floating point data only
+            # (integer data keeps its dtype, so that the output dtype never depends
+            # on the query values)
+            if (nearest_nan is not None) and (self.data[var].dtype.kind in "fc"):
+                mask = nearest_nan.any(
+                    dim=[d for d in nearest_nan.dims if d not in out_dims[var]]
+                )
+                block[var] = block[var].where(~mask)
 
 
 @cache
@@ -372,6 +393,12 @@ def interp_var(
         # current `da` contains no interpolated dimension: return as-is
         return da.data
     
+    # shape of the index arrays (broadcasted over all interpolated dimensions, since
+    # a shared dim may be carried by the index of another dimension)
+    idx_shape = np.broadcast_shapes(
+        *[np.shape(idx) for iw in indices_weights.values() for idx, _ in iw]
+    )
+
     # get indices/weights for current DataArray
     for iw in product_dict(**current_indices_weights):
         weights = [
@@ -384,15 +411,14 @@ def interp_var(
         # - shared dims (also coord dims): use element-wise range index to
         #   avoid selecting all elements along that dim
         # - other dims: slice(None) to keep all elements
-        any_idx = iw[next(iter(iw))][0]
         keys = []
         for dim in da.dims:
             if dim in iw:
                 keys.append(iw[dim][0])
             elif dim in shared_dims_info:
                 pos = shared_dims_info[dim]
-                size = any_idx.shape[pos] if pos < len(any_idx.shape) else 1
-                n_dims = len(any_idx.shape)
+                size = idx_shape[pos] if pos < len(idx_shape) else 1
+                n_dims = len(idx_shape)
                 shape = tuple(size if i == pos else 1 for i in range(n_dims))
                 keys.append(np.arange(size).reshape(shape))
             else:
@@ -773,6 +799,15 @@ def _nan_like(values: NDArray):
     return values.dtype.type(np.nan) if values.dtype.kind == "f" else np.float64(np.nan)
 
 
+def _coords_diff(coords) -> NDArray:
+    """
+    Differences between successive coords (unsigned ints are cast to float first,
+    otherwise the differences of descending coords would wrap around)
+    """
+    coords = np.asarray(coords)
+    return np.diff(coords.astype(float) if coords.dtype.kind == "u" else coords)
+
+
 class Locator:
     """
     The purpose of these classes is to locate values in coordinate axes.
@@ -881,7 +916,7 @@ class Locator_Regular(Locator):
         if self.is_time:
             regular = np.allclose(diff[0], diff, rtol=1e-5, atol=np.timedelta64(0, "s"))
         else:
-            regular = np.allclose(diff[0], diff)
+            regular = np.allclose(diff[0], diff, rtol=1e-5, atol=0)
         if not regular:
             raise ValueError
 
@@ -1024,15 +1059,18 @@ class Spline:
 
 class Spline_Indexer:
     def __init__(self, coords: NDArray, bounds: str, spacing, tension: float, backend: str = "numpy"):
-        self.coords = coords
+        # check ascending/descending order (descending coords are reversed)
+        diff = _coords_diff(coords)
+        self.ascending = bool((diff > 0).all())
+        self.coords = coords if self.ascending else coords[::-1].copy()
         self.spacing = spacing
         self.bounds = bounds
 
         self.tension_matrix_full = np.array([
             [0,             1,              0,                  0],
             [-tension,      0,              tension,            0],
-            [2 * tension,   -5 * tension,   4 * tension,        -tension],
-            [-tension,      3 * tension,    -3 * tension,       tension],
+            [2 * tension,   tension - 3,    3 - 2 * tension,    -tension],
+            [-tension,      2 - tension,    tension - 2,        tension],
         ])
         
         self.tension_matrix_early = np.array([
@@ -1110,8 +1148,10 @@ class Spline_Indexer:
             for i in range(1, 4):
                 indices[i - 1][mask_first_negative] = indices[i][mask_first_negative]
             indices[3][mask_last_oob] = 0
-        
-            
+
+        if not self.ascending:
+            indices = N - 1 - indices
+
         return [(indices[i], weights[i]) for i in range(len(weights))]
     
         
@@ -1185,7 +1225,7 @@ class Linear_Indexer:
         self.period = period
 
         # check ascending/descending order
-        diff = np.diff(coords).astype(float)
+        diff = _coords_diff(coords).astype(float)
         zero = np.zeros(1, dtype=diff.dtype)
         if (diff > zero).all():
             self.ascending = True
@@ -1292,10 +1332,11 @@ class Nearest_Indexer:
             raise TypeError("Spacing is of the wrong type, waiting for str or Callable")
             
         self.spacing = spacing
-        if (np.diff(coords) > 0).all():
+        diff = _coords_diff(coords)
+        if (diff > 0).all():
             self.ascending = True
             self.coords = coords
-        elif (np.diff(coords) < 0).all():
+        elif (diff < 0).all():
             self.ascending = False
             self.coords = coords[::-1]
         else:
@@ -1333,6 +1374,8 @@ class Nearest_Indexer:
 
         idx_closest = np.where(dist_inf < dist_sup, idx-1, idx)
 
+        # NOTE: NaN queries are set to NaN in the output by the Interpolator,
+        # for floating point data only (see `Interpolator.process_block`)
         if self.ascending:
             return [(idx_closest, None)]
         else:

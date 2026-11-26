@@ -7,6 +7,7 @@ from typing import Callable
 from hygeos_core.monitor import Chrono
 
 from hygeos_core.interpolate import (
+    Index,
     Interpolator,
     Linear_Indexer,
     Nearest_Indexer,
@@ -859,3 +860,114 @@ def test_interp_preserves_non_interpolated_coords(backend):
     np.testing.assert_array_equal(result.coords["c"].values, data.coords["c"].values)
     assert "x" in result.coords and "y" in result.coords and "z" in result.coords
     assert "a" not in result.coords and "b" not in result.coords
+
+
+# Regression tests (run with each backend through the autouse `default_backend` fixture)
+
+@pytest.mark.parametrize("tension", [0.2, 0.5, 0.8])
+def test_spline_tension(tension):
+    """A cardinal spline is exact at the nodes and smooth for any tension"""
+    x = np.arange(6.)
+    data = xr.DataArray(x**2, dims=["x"], coords={"x": x})
+    res = interp(data, x=Spline(xr.DataArray([2., 2.9999, 3.], dims=["p"]),
+                                tension=tension))
+    np.testing.assert_allclose(res.values, [4., 9., 9.], atol=1e-2)
+
+
+@pytest.mark.parametrize("regular", [True, False])
+def test_spline_decreasing(regular):
+    """Spline interpolation on descending coords"""
+    coords = np.array([10., 8., 6., 4., 2.] if regular else [10., 8., 5., 4., 0.])
+    data = xr.DataArray(2 * coords, dims=["x"], coords={"x": coords})
+    values = np.array([5., 8.]) if not regular else np.array([6., 8., 3.])
+    res = interp(data, x=Spline(xr.DataArray(values, dims=["p"])))
+    np.testing.assert_allclose(res.values, 2 * values)
+
+
+def test_interp_shared_dim_order():
+    """
+    Dimension `time` shared between the data and the coordinate variable of the
+    second interpolated dimension (not carried by the first one)
+    """
+    rng = np.random.default_rng(0)
+    data = xr.DataArray(
+        rng.random((3, 4, 5)),
+        dims=["time", "lat", "lon"],
+        coords={"lat": np.arange(4.), "lon": np.arange(5.)},
+    )
+    lat = xr.DataArray(rng.random((3, 6)) * 3, dims=["time", "x"])
+    lon = xr.DataArray(rng.random(6) * 4, dims=["x"])
+    ref = data.interp(lat=lat, lon=lon)
+    for kwargs in [dict(lon=Linear(lon), lat=Linear(lat)),
+                   dict(lat=Linear(lat), lon=Linear(lon))]:
+        res = interp(data, **kwargs).transpose(*ref.dims)
+        np.testing.assert_allclose(res.values, ref.values)
+
+
+def test_regular_tiny_spacing():
+    """An irregular grid with a tiny spacing is not detected as regular"""
+    coords = np.array([0, 1e-9, 5e-9, 6e-9])
+    data = xr.DataArray([0., 1., 5., 6.], dims=["x"], coords={"x": coords})
+    res = interp(data, x=Linear(xr.DataArray([5e-9], dims=["p"])))
+    np.testing.assert_allclose(res.values, [5.])
+    with pytest.raises(ValueError):
+        Linear_Indexer(coords, "error", "regular")
+
+
+def test_nearest_nan_query():
+    """NaN queries give NaN outputs with Nearest on float data, as with Linear"""
+    data = xr.DataArray(np.array([10, 20, 30], dtype="float64"), dims=["x"],
+                        coords={"x": [1., 2., 3.]})
+    values = xr.DataArray([2.1, np.nan, 2.9], dims=["p"])
+    res = interp(data, x=Nearest(values))
+    np.testing.assert_array_equal(res.values, [20., np.nan, 30.])
+    res_lin = interp(data, x=Linear(values))
+    assert np.isnan(res_lin.values[1])
+
+
+def test_nearest_nan_query_2d():
+    """NaN query mask is broadcast against the output dims"""
+    data = xr.DataArray(np.arange(6, dtype="float64").reshape(2, 3),
+                        dims=["y", "x"], coords={"x": [1., 2., 3.]})
+    values = xr.DataArray([[1., np.nan], [3., 2.]], dims=["a", "b"])
+    res = interp(data, x=Nearest(values))
+    assert res.dims == ("y", "a", "b")
+    expected = np.array([[[0., np.nan], [2., 1.]],
+                         [[3., np.nan], [5., 4.]]])
+    np.testing.assert_array_equal(res.values, expected)
+
+
+def test_nearest_nan_query_int_dtype():
+    """Integer data keeps its dtype with Nearest, whatever the query values"""
+    data = xr.DataArray(np.array([10, 20, 30], dtype="int64"), dims=["x"],
+                        coords={"x": [1., 2., 3.]})
+    for values in [[2.1, 2.9], [2.1, np.nan, 2.9]]:
+        res = interp(data, x=Nearest(xr.DataArray(values, dims=["p"])))
+        assert res.dtype == data.dtype
+    # dtype is also consistent across dask chunks with and without NaN queries
+    values = xr.DataArray([2.1, 2.9, np.nan, 1.2], dims=["p"]).chunk(p=2)
+    res = interp(data, x=Nearest(values))
+    assert res.dtype == data.dtype
+    assert res.compute().dtype == data.dtype
+    np.testing.assert_array_equal(res.values[[0, 1, 3]], [20, 30, 10])
+
+
+def test_linear_decreasing_unsigned():
+    """Descending unsigned int coords are detected as descending"""
+    coords = np.array([3, 2, 1], dtype="uint8")
+    data = xr.DataArray([30., 20., 10.], dims=["x"], coords={"x": coords})
+    res = interp(data, x=Linear(xr.DataArray([2.5], dims=["p"])))
+    np.testing.assert_allclose(res.values, [25.])
+    res = interp(data, x=Nearest(xr.DataArray([2.9], dims=["p"])))
+    np.testing.assert_allclose(res.values, [30.])
+
+
+def test_interpolator_index():
+    """Interpolator accepts Index (not only interp)"""
+    ds = xr.Dataset({"v": (("x", "y"), np.arange(12.).reshape(3, 4))},
+                    coords={"y": np.arange(4.)})
+    coords = xr.Dataset({"x": xr.DataArray([2, 0], dims=["p"]),
+                         "y": xr.DataArray([1.5, 2.5], dims=["p"])})
+    interpolator = Interpolator(ds, x=Index(coords.x), y=Linear("y"))
+    interpolator.process_block(coords)
+    np.testing.assert_allclose(coords["v"].values, [9.5, 2.5])
