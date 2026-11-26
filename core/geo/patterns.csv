@@ -28,3 +28,5 @@ SPOT-3,             {sensor}_{acquisition_time}_{level}_{site}_{software}_{versi
 SPOT-4,             {sensor}_{acquisition_time}_{level}_{site}_{software}_{version}, SPOT4-HRVIR[0-9]-XS [0-9]{8}-[0-9]{6}-[0-9]{3} L[123][ABC] [0-9]{3}-[0-9]{3}-[0-9] [A-Z]*, 
 SPOT-5,             {sensor}_{acquisition_time}_{level}_{site}_{software}_{version}, SPOT5-HR[VG][0-9]-XS [0-9]{8}-[0-9]{6}-[0-9]{3} L[123][ABC] [0-9]{3}-[0-9]{3}-[0-9] [A-Z]*, 
 VENUS,              {sensor}_{acquisition_time}_{level}_{site}_{software}_{version}, VENUS-XS [0-9]{8}-[0-9]{6}-[0-9]{3} L[123][ABC] [A-Z]* [A-Z] V[1-5]*, eoread.venus Level_VENUS
+ENVISAT-MERIS,      {sensor}_{type}_{level}_{start}_{duration}_{phase_cycle}_{orbit}_{counter}, MER (RR_|FR_|FRS|FSG|RRG) [012]P[A-Z0-9]{4}[0-9]{8} [0-9]{6} [0-9]{12} [0-9]{5} [0-9]{5} [0-9]{4}, eoread.meris Level_MERIS
+ENVISAT-MERIS-SAFE, {sensor}_{data}_{level}_{type}_{start}_{stop}_{creation}_{id}_{centre}_{class}, ENV ME [012] (RR|FR|FS)[A-Z_]{4} [0-9]{8}T[0-9]{6} [0-9]{8}T[0-9]{6} [0-9T_]{15} [0-9A-Z_]{17} [0-9A-Z_]{3} [0-9A-Z_]{8}, eoread.meris Level_MERIS
