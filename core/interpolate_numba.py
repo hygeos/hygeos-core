@@ -244,10 +244,12 @@ def locate_irregular(values, coords, vmin, vmax, mode, nan):
 
 
 @njit(nogil=True, cache=True)
-def _row_bases(r, shape, t_iptr, t_istr, t_wptr, t_wstr, out_str, ibase, wbase):
+def _outer_offsets(outer, shape, t_iptr, t_istr, t_wptr, t_wstr, out_str, ibase,
+                   wbase):
     """
-    Start of row `r` (all axes of `shape` except the last one) for each term in the
-    index and weight buffers (ibase, wbase), and in the output (returned).
+    Offsets, for the outer index `outer` (flattened index over all axes of `shape`
+    but the last one, the inner axis), of each term in the index and weight buffers
+    (ibase, wbase), and in the output (returned).
     """
     R = shape.shape[0]
     nterms = t_iptr.shape[0]
@@ -255,7 +257,7 @@ def _row_bases(r, shape, t_iptr, t_istr, t_wptr, t_wstr, out_str, ibase, wbase):
         ibase[t] = t_iptr[t]
         wbase[t] = t_wptr[t]
     obase = 0
-    rem = np.intp(r)  # (prange gives an unsigned integer)
+    rem = np.intp(outer)  # (prange gives an unsigned integer)
     for a in range(R - 2, -1, -1):
         ia = rem % shape[a]
         rem = rem // shape[a]
@@ -267,19 +269,21 @@ def _row_bases(r, shape, t_iptr, t_istr, t_wptr, t_wstr, out_str, ibase, wbase):
 
 
 @njit(nogil=True, cache=True)
-def _interp_row(data, ibuf, wbuf, t_istr, t_wstr, t_dstride, term_start,
-                term_count, ninv, kept_offsets, out, out_str, n_inner, ibase,
-                wbase, obase, off, w, boff, bw, coff, cw):
+def _interp_inner(data, ibuf, wbuf, t_istr, t_wstr, t_dstride, term_start,
+                  term_count, ninv, kept_offsets, out, out_str, n_inner, ibase,
+                  wbase, obase, off, w, boff, bw, coff, cw):
     """
-    Interpolate one row of the output (all points along the last axis)
+    Interpolate all points along the inner axis (last axis of the output points),
+    for one outer index (whose offsets are ibase, wbase, obase)
 
     For each point, the offsets and weights of the corners of the interpolation cell
     are expanded dimension by dimension: after dimension k, the partial offsets and
     weights of all combinations of the terms of dimensions 0..k are available (in
     the same order as itertools.product).
 
-    The terms of the first `ninv` dimensions are invariant along the last axis: they
-    are expanded once per row (in boff, bw), and reused for all points of the row.
+    The terms of the first `ninv` dimensions are invariant along the inner axis: they
+    are expanded once per outer index (in boff, bw), and reused for all points along
+    the inner axis.
     """
     R = t_istr.shape[1]
     M = kept_offsets.shape[0]
@@ -343,8 +347,10 @@ def interp_kernel_serial(data, ibuf, wbuf, t_iptr, t_istr, t_wptr, t_wstr,
     """
     Interpolation as a weighted sum over the corners of the interpolation cell
 
-    The output points have an arbitrary number R of axes, given by `shape`; the
-    loop runs over all axes, the last one being the innermost.
+    The output points have an arbitrary number R of axes, given by `shape`. The loop
+    has two levels: an outer index (flattened index over all axes but the last one),
+    and the inner axis (the last axis of `shape`, chosen by the caller as the one
+    along which most interpolated dimensions are invariant).
 
     Args:
         data: flat (1D) data array
@@ -357,8 +363,8 @@ def interp_kernel_serial(data, ibuf, wbuf, t_iptr, t_istr, t_wptr, t_wstr,
         t_dstride: for each term, stride of its dimension in `data` (in elements)
         term_start, term_count: for each interpolated dimension, index of its first
             term, and number of terms
-        ninv: number of (first) dimensions whose terms are invariant along the last
-            axis of the output points
+        ninv: number of (first) dimensions whose terms are invariant along the inner
+            axis
         kept_offsets: offsets in `data` of each element of the non-interpolated
             dimensions (M elements)
         shape: (R,) shape of the output points
@@ -367,9 +373,9 @@ def interp_kernel_serial(data, ibuf, wbuf, t_iptr, t_istr, t_wptr, t_wstr,
             non-interpolated dimensions are contiguous.
     """
     R = shape.shape[0]
-    nrows = 1
+    n_outer = 1
     for a in range(R - 1):
-        nrows *= shape[a]
+        n_outer *= shape[a]
     nterms = t_dstride.shape[0]
     ncorners = 1
     for k in range(term_count.shape[0]):
@@ -382,12 +388,12 @@ def interp_kernel_serial(data, ibuf, wbuf, t_iptr, t_istr, t_wptr, t_wstr,
     bw = np.empty(ncorners, dtype=np.float64)
     coff = np.empty(ncorners, dtype=np.intp)
     cw = np.empty(ncorners, dtype=np.float64)
-    for r in range(nrows):
-        obase = _row_bases(r, shape, t_iptr, t_istr, t_wptr, t_wstr, out_str,
-                           ibase, wbase)
-        _interp_row(data, ibuf, wbuf, t_istr, t_wstr, t_dstride, term_start,
-                    term_count, ninv, kept_offsets, out, out_str, shape[R - 1],
-                    ibase, wbase, obase, off, w, boff, bw, coff, cw)
+    for outer in range(n_outer):
+        obase = _outer_offsets(outer, shape, t_iptr, t_istr, t_wptr, t_wstr,
+                               out_str, ibase, wbase)
+        _interp_inner(data, ibuf, wbuf, t_istr, t_wstr, t_dstride, term_start,
+                      term_count, ninv, kept_offsets, out, out_str, shape[R - 1],
+                      ibase, wbase, obase, off, w, boff, bw, coff, cw)
 
 
 @njit(nogil=True, cache=True, parallel=True)
@@ -395,18 +401,18 @@ def interp_kernel_parallel(data, ibuf, wbuf, t_iptr, t_istr, t_wptr, t_wstr,
                            t_dstride, term_start, term_count, ninv, kept_offsets,
                            shape, out, out_str):
     """
-    Parallel version of `interp_kernel_serial` (parallelized over the output rows)
+    Parallel version of `interp_kernel_serial` (parallelized over the outer index)
     """
     R = shape.shape[0]
-    nrows = 1
+    n_outer = 1
     for a in range(R - 1):
-        nrows *= shape[a]
+        n_outer *= shape[a]
     nterms = t_dstride.shape[0]
     ncorners = 1
     for k in range(term_count.shape[0]):
         ncorners *= term_count[k]
-    for r in prange(nrows):
-        # per-row scratch arrays
+    for outer in prange(n_outer):
+        # scratch arrays (per outer index)
         ibase = np.empty(nterms, dtype=np.intp)
         wbase = np.empty(nterms, dtype=np.intp)
         off = np.empty(nterms, dtype=np.intp)
@@ -415,8 +421,8 @@ def interp_kernel_parallel(data, ibuf, wbuf, t_iptr, t_istr, t_wptr, t_wstr,
         bw = np.empty(ncorners, dtype=np.float64)
         coff = np.empty(ncorners, dtype=np.intp)
         cw = np.empty(ncorners, dtype=np.float64)
-        obase = _row_bases(r, shape, t_iptr, t_istr, t_wptr, t_wstr, out_str,
-                           ibase, wbase)
-        _interp_row(data, ibuf, wbuf, t_istr, t_wstr, t_dstride, term_start,
-                    term_count, ninv, kept_offsets, out, out_str, shape[R - 1],
-                    ibase, wbase, obase, off, w, boff, bw, coff, cw)
+        obase = _outer_offsets(outer, shape, t_iptr, t_istr, t_wptr, t_wstr,
+                               out_str, ibase, wbase)
+        _interp_inner(data, ibuf, wbuf, t_istr, t_wstr, t_dstride, term_start,
+                      term_count, ninv, kept_offsets, out, out_str, shape[R - 1],
+                      ibase, wbase, obase, off, w, boff, bw, coff, cw)

@@ -543,27 +543,27 @@ def interp_var_numba(
         *[tuple(packed.wshape[t]) for t in allterms],
     ))
 
-    # choose the innermost axis: the one along which most dimensions have
-    # invariant terms (their expansion is then done once for all points along
-    # this axis), defaulting to the last axis.
+    # choose the inner axis of the kernel loop: the one along which most dimensions
+    # have invariant terms (their expansion is then done once for all points along
+    # this axis), defaulting to the last axis. It is moved last (perm).
     def invariant(d, a):
         return all(
             (packed.ishape[t, a] == 1) and (packed.wshape[t, a] == 1)
             for t in terms[d]
         )
-    best, best_axis = 0, R - 1
+    ninv_max, inner_axis = 0, R - 1
     for a in range(R):
         if S[a] > 1:
             ninv_a = sum(invariant(d, a) for d in dims)
-            if ninv_a > best:
-                best, best_axis = ninv_a, a
-    perm = [a for a in range(R) if a != best_axis] + [best_axis]
+            if ninv_a > ninv_max:
+                ninv_max, inner_axis = ninv_a, a
+    perm = [a for a in range(R) if a != inner_axis] + [inner_axis]
 
-    # invariant dims first
-    dims = [d for d in dims if invariant(d, best_axis)] + [
-        d for d in dims if not invariant(d, best_axis)
+    # dims invariant along the inner axis first
+    dims = [d for d in dims if invariant(d, inner_axis)] + [
+        d for d in dims if not invariant(d, inner_axis)
     ]
-    ninv = sum(invariant(d, best_axis) for d in dims)
+    ninv = sum(invariant(d, inner_axis) for d in dims)
     allterms = np.array([t for d in dims for t in terms[d]], dtype=np.intp)
     term_count = np.array([len(terms[d]) for d in dims], dtype=np.intp)
     term_start = np.concatenate([[0], np.cumsum(term_count)[:-1]]).astype(np.intp)
