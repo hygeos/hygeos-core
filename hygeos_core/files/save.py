@@ -170,7 +170,7 @@ def to_zarr(
                   e=AssertionError)
 
     encoding = (
-        {var: dict(compressor=get_zarr_compressor(complevel))
+        {var: dict(compressors=(get_zarr_compressor(complevel),))
          for var in ds.data_vars}
         if zlib
         else None
@@ -209,7 +209,8 @@ def get_zarr_compressor(complevel: int = 5):
         complevel (int): Compression level (1-9). Defaults to 5.
 
     Returns:
-        zarr.Blosc compressor instance
+        zarr.codecs.BloscCodec instance (zarr 3 API, for zarr format 3), to be
+        passed in the `compressors` encoding of xarray's to_zarr
     """
-    import zarr
-    return zarr.Blosc(cname="zstd", clevel=complevel, shuffle=zarr.Blosc.SHUFFLE)
+    from zarr.codecs import BloscCodec
+    return BloscCodec(cname="zstd", clevel=complevel, shuffle="shuffle")

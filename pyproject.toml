@@ -15,7 +15,7 @@ dependencies = ["tqdm", "xarray", "dask", "h5netcdf", "python-dotenv", "toml", "
 # accelerated backend for hygeos_core.interpolate (backend="numba")
 numba = ["numba"]
 # required by hygeos_core.files.save.to_zarr
-zarr = ["zarr"]
+zarr = ["zarr>=3"]
 # required for irregular-grid interpolation with the numpy backend, and used as a
 # reference implementation in the hygeos_core.interpolate tests
 scipy = ["scipy"]

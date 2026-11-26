@@ -66,3 +66,15 @@ def test_to_zarr_versions():
         to_zarr(ds_example(), Path(tmpdir)/'test.zarr', versions=["pytest"])
         attrs = xr.open_zarr(Path(tmpdir)/'test.zarr').attrs
     assert attrs["pytest_version"] == pytest.__version__
+
+def test_to_zarr_compression_roundtrip(tmp_path):
+    """Regression: default compression used zarr.Blosc, absent from zarr 3"""
+    import numpy as np
+    import zarr
+    ds = xr.Dataset({'a': (('x',), np.arange(1000.))})
+    path = tmp_path / 'test.zarr'
+    to_zarr(ds, path, verbose=False)
+    compressors = zarr.open_array(path / 'a').compressors
+    assert any('Blosc' in type(c).__name__ for c in compressors)
+    with xr.open_zarr(path) as ds2:
+        xr.testing.assert_identical(ds.a, ds2.a.load())

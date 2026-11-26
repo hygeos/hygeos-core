@@ -6,6 +6,7 @@ import gzip
 import bz2
 import tarfile
 import io
+import shutil
 from datetime import timedelta
 from pathlib import Path
 from tempfile import TemporaryDirectory
@@ -192,3 +193,149 @@ def test_uncompress_single_unsupported():
         
         with pytest.raises(ValueError, match="Unsupported single file compression format"):
             uncompress_single(unsupported_file, output_file)
+
+
+def _write_gz(path, content=b"hello"):
+    with gzip.open(path, 'wb') as f:
+        f.write(content)
+
+
+@pytest.mark.parametrize('ext,opener', [('.gz', gzip.open), ('.bz2', bz2.BZ2File)])
+@pytest.mark.parametrize('extract_to', ['auto', 'target_dir', 'subdir'])
+def test_uncompress_single_file_modes(tmp_path, ext, opener, extract_to):
+    """Regression: single-file .gz/.bz2 decompression failed in all modes"""
+    src = tmp_path / f'a.txt{ext}'
+    with opener(src, 'wb') as f:
+        f.write(b"hello")
+    out = tmp_path / 'out'
+    ret = uncompress(src, out, extract_to=extract_to)
+    assert (out / 'a.txt').read_bytes() == b"hello"
+    if extract_to == 'target_dir':
+        assert ret == out
+    else:
+        assert ret == out / 'a.txt'
+    assert sorted(p.name for p in out.iterdir()) == ['a.txt']
+
+
+def test_uncompress_tar_path_traversal(tmp_path):
+    """Regression: tar members with '..' must not be written outside the target"""
+    archive = tmp_path / 'evil.tar.gz'
+    with tarfile.open(archive, 'w:gz') as tf:
+        for name in ['ok.txt', '../../escaped.txt']:
+            info = tarfile.TarInfo(name=name)
+            info.size = 1
+            tf.addfile(info, fileobj=io.BytesIO(b"x"))
+    out = tmp_path / 'a' / 'b' / 'out'
+    with pytest.raises(tarfile.TarError):
+        uncompress(archive, out)
+    assert not (tmp_path / 'a' / 'escaped.txt').exists()
+    assert not list(tmp_path.rglob('escaped.txt'))
+
+
+def test_uncompress_tar_path_traversal_no_filter(tmp_path, monkeypatch):
+    """Same, on Pythons without tar extraction filters (fallback check)"""
+    monkeypatch.delattr(tarfile, 'data_filter')
+    archive = tmp_path / 'evil.tar.gz'
+    with tarfile.open(archive, 'w:gz') as tf:
+        for name in ['ok.txt', '../../escaped.txt']:
+            info = tarfile.TarInfo(name=name)
+            info.size = 1
+            tf.addfile(info, fileobj=io.BytesIO(b"x"))
+    out = tmp_path / 'a' / 'b' / 'out'
+    with pytest.raises(ValueError, match='Unsafe path'):
+        uncompress(archive, out)
+    assert not list(tmp_path.rglob('escaped.txt'))
+
+    # a safe archive is extracted normally
+    safe = tmp_path / 'safe.tar.gz'
+    with tarfile.open(safe, 'w:gz') as tf:
+        info = tarfile.TarInfo(name='ok.txt')
+        info.size = 1
+        tf.addfile(info, fileobj=io.BytesIO(b"x"))
+    res = Path(uncompress(safe, tmp_path / 'out_safe'))
+    assert res.name == 'ok.txt' or list(res.rglob('ok.txt'))
+
+
+def test_uncompress_zip_path_traversal(tmp_path):
+    """zip members with '..' are sanitized by shutil/zipfile"""
+    archive = tmp_path / 'evil.zip'
+    with ZipFile(archive, 'w') as zf:
+        zf.writestr('ok.txt', 'x')
+        zf.writestr('../../escaped.txt', 'x')
+    out = tmp_path / 'a' / 'b' / 'out'
+    uncompress(archive, out)
+    assert not [p for p in tmp_path.rglob('escaped.txt')
+                if not p.is_relative_to(out)]
+
+
+@pytest.mark.parametrize('name', ['DATA.TXT.GZ', 'data.txt.Gz'])
+def test_uncompress_uppercase_extension(tmp_path, name):
+    """Regression: extension checks must be case-insensitive for gz"""
+    src = tmp_path / name
+    _write_gz(src)
+    out = tmp_path / 'single.txt'
+    assert uncompress_single(src, out) == out
+    assert out.read_bytes() == b"hello"
+    ret = uncompress(src, tmp_path / 'out')
+    assert ret.read_bytes() == b"hello"
+
+
+def test_uncompress_dot_Z(tmp_path):
+    """Regression: the '.Z' (unix compress) branch was unreachable in uncompress"""
+    if shutil.which('gzip') is None:
+        pytest.skip('gzip not available')
+    # gunzip can decompress gzip data regardless of the .Z suffix
+    src = tmp_path / 'data.txt.Z'
+    _write_gz(src)
+    ret = uncompress(src, tmp_path / 'out')
+    assert ret == tmp_path / 'out' / 'data.txt'
+    assert ret.read_bytes() == b"hello"
+
+
+def test_uncompress_decorator_gz_returns_file(tmp_path):
+    """Regression: decorator failed on .gz, and must return a file for foo.nc.gz"""
+    @uncompress_decorator(verbose=False)
+    def download(identifier, dirname):
+        p = Path(dirname) / Path(identifier).name
+        _write_gz(p)
+        return p
+
+    ret = download('https://example.com/foo.nc.gz', tmp_path)
+    assert ret == tmp_path / 'foo.nc'
+    assert ret.is_file()
+    assert ret.read_bytes() == b"hello"
+    assert sorted(p.name for p in tmp_path.iterdir()) == ['foo.nc']
+
+
+def test_uncompress_decorator_atomic(tmp_path):
+    """Regression: a failed extraction must not leave an (empty) target behind"""
+    calls = []
+
+    @uncompress_decorator(verbose=False)
+    def download(identifier, dirname):
+        p = Path(dirname) / 'dataset.zip'
+        if not calls:
+            calls.append(1)
+            p.write_bytes(b"not a zip")  # corrupted download
+        else:
+            with ZipFile(p, 'w') as zf:
+                zf.writestr('a.txt', 'content')
+        return p
+
+    with pytest.raises(Exception):
+        download('dataset.zip', tmp_path)
+    assert not (tmp_path / 'dataset').exists()
+    assert list(tmp_path.iterdir()) == []
+
+    ret = download('dataset.zip', tmp_path)
+    assert ret == tmp_path / 'dataset'
+    assert (ret / 'a.txt').read_text() == 'content'
+
+
+def test_uncompress_uppercase_zip(tmp_path):
+    """Archive extension detection is case-insensitive"""
+    archive = tmp_path / 'DATA.ZIP'
+    with ZipFile(archive, 'w') as zf:
+        zf.writestr('a.txt', 'content')
+    ret = uncompress(archive, tmp_path / 'out')
+    assert ret.read_text() == 'content'

@@ -253,3 +253,60 @@ class TestHashParams:
         h1 = cache.hashparams(data=nested)
         h2 = cache.hashparams(data=nested)
         assert h1 == h2
+
+def test_cache_dataframe_csv_checks(tmp_path):
+    """Regression: csv cache did not check output nor inputs, and required a
+    `time` column"""
+    import pandas as pd
+    cache_file = tmp_path / 'cache.csv'
+
+    def f(n):
+        return pd.DataFrame({'a': range(n), 'b': ['x'] * n})
+
+    # no `time` column
+    df1 = cache.cache_dataframe(cache_file)(f)(3)
+    df2 = cache.cache_dataframe(cache_file)(f)(3)
+    pd.testing.assert_frame_equal(df1, f(3))
+    pd.testing.assert_frame_equal(df2, f(3))
+
+    # inputs='check': different inputs raise
+    with pytest.raises(ValueError):
+        cache.cache_dataframe(cache_file)(f)(4)
+    # inputs='ignore': not stored nor checked
+    cache.cache_dataframe(tmp_path / 'c2.csv', inputs='ignore')(f)(3)
+    cache.cache_dataframe(tmp_path / 'c2.csv', inputs='ignore')(f)(4)
+
+    # the output check is effective: a frame that does not survive the csv
+    # roundtrip is rejected
+    def g():
+        return pd.DataFrame({'a': [1.5]}, index=[10])
+    with pytest.raises(AssertionError):
+        cache.cache_dataframe(tmp_path / 'c3.csv')(g)()
+    assert not (tmp_path / 'c3.csv').exists()
+
+
+def test_cache_dataframe_csv_time(tmp_path):
+    import pandas as pd
+    df = pd.DataFrame({'time': pd.date_range('2020-01-01', periods=3), 'v': [1., 2., 3.]})
+    cache.cache_dataframe(tmp_path / 'c.csv')(lambda: df)()
+    out = cache.cache_dataframe(tmp_path / 'c.csv')(lambda: df)()
+    pd.testing.assert_frame_equal(out, df, check_dtype=False)
+    assert pd.api.types.is_datetime64_any_dtype(out['time'])
+
+
+def test_cache_dataframe_csv_legacy_file(tmp_path):
+    """csv cache files written by previous versions (without stored inputs)
+    are still read with the default inputs='check'"""
+    import pandas as pd
+    df = pd.DataFrame({'time': pd.date_range('2020-01-01', periods=2), 'v': [1., 2.]})
+    cache_file = tmp_path / 'legacy.csv'
+    df.to_csv(cache_file, index=False)  # as written by the previous version
+    out = cache.cache_dataframe(cache_file)(lambda x: None)(1)
+    pd.testing.assert_frame_equal(out, df, check_dtype=False)
+
+
+def test_cache_json_missing_parent(tmp_path):
+    """Regression: the parent directory of the cache file was not created"""
+    cache_file = tmp_path / 'nonexist' / 'sub' / 'c.json'
+    assert cache.cache_json(cache_file)(lambda x: x + 1)(1) == 2
+    assert cache_file.exists()

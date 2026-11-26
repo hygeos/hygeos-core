@@ -67,10 +67,13 @@ class PersistentList(list):
         for attr in ('append', 'extend', 'insert', 'pop',
                      'remove', 'reverse', 'sort', 'clear'):
             setattr(self, attr, self._autosave(getattr(self, attr)))
-        
-        # trigger read on all of these methods
-        for attr in ('__getitem__',):
-            setattr(self, attr, self._autoread(getattr(self, attr)))
+
+    def __getitem__(self, index):
+        # dunder methods are looked up on the class, so the read must be
+        # triggered here (an instance attribute would be ignored by `b[0]`)
+        if self.concurrent:
+            self._read()
+        return list.__getitem__(self, index)
 
     def __len__(self):
         # for some reason, len() does not work with _autoread wrapper
@@ -130,7 +133,10 @@ def skip(filename: Path,
         elif if_exists == 'error':
             raise FileExistsError(f'File {filename} exists.')
         elif if_exists == 'overwrite':
-            os.remove(filename)
+            if Path(filename).is_dir():
+                shutil.rmtree(filename)
+            else:
+                os.remove(filename)
             return False
         elif if_exists == 'backup':
             i = 0
@@ -351,7 +357,7 @@ def mdir(directory: Union[Path,str],
 
     if modified:
         with open(mdir_file, 'w', encoding='utf-8') as fp:
-            json.dump(data_init, fp, indent=4)
+            json.dump(data, fp, indent=4)
 
     return d
 

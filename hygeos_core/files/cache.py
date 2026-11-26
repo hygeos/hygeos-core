@@ -56,6 +56,7 @@ def cachefunc(
             if not cache_file.exists():
                 result = f(*args, **kwargs)
 
+                cache_file.parent.mkdir(parents=True, exist_ok=True)
                 with TemporaryDirectory(
                     dir=cache_file.parent, prefix="cachefunc_"
                 ) as tmpdir:
@@ -115,13 +116,49 @@ def cache_dataframe(
     """
     extension = Path(cache_file).suffix
     if extension == ".csv":
+        # the inputs are stored as json in a first line starting with this marker
+        marker = "#inputs:"
+
+        def reader(filename):
+            content = {}
+            with open(filename) as fp:
+                first = fp.readline()
+                if first.startswith(marker):
+                    content["input"] = json.loads(first[len(marker):])
+                else:
+                    # no stored inputs (cache file written by a previous version)
+                    content["input"] = None
+                    fp.seek(0)
+                try:
+                    df = pd.read_csv(fp)
+                except pd.errors.EmptyDataError:
+                    df = None  # inputs only (written for input checking)
+            if (df is not None) and ("time" in df.columns):
+                df["time"] = pd.to_datetime(df["time"])
+            content["output"] = df
+            return content
+
+        def writer(filename, df, input_args, input_kwargs):
+            with open(filename, "w") as fp:
+                if inputs in ["store", "check"]:
+                    fp.write(marker + json.dumps(
+                        {"args": input_args, "kwargs": input_kwargs}, default=str
+                    ) + "\n")
+                if df is not None:
+                    df.to_csv(fp, index=False)
+
+        def check_out(x, y):
+            assert_frame_equal(x, y, check_dtype=False)
+            return True
+
         return cachefunc(
             cache_file,
-            writer=lambda filename, df, args, kwargs: df.to_csv(filename, index=False),
-            reader=lambda filename: {
-                "output": pd.read_csv(filename, parse_dates=["time"])
-            },
-            check_out=lambda x, y: assert_frame_equal,
+            reader=reader,
+            writer=writer,
+            # inputs are not checked for cache files without stored inputs
+            check_in=(lambda x, y: (x is None) or (x == y))
+            if (inputs == "check") else None,
+            check_out=check_out,
         )
     elif extension == ".pickle":
         return cache_pickle(cache_file, inputs, check_out=(lambda x, y: x.equals(y)))

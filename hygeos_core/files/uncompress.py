@@ -6,6 +6,7 @@ import bz2
 import gzip
 import shutil
 import subprocess
+import tarfile
 from functools import wraps
 from pathlib import Path
 from tempfile import TemporaryDirectory
@@ -50,25 +51,60 @@ def uncompress_decorator(target_name_func=None, verbose=True):
             if target.exists():
                 return target
             
-            # Uncompress to target location
-            with TemporaryDirectory() as tmpdir:
-                f_compressed = f(identifier, tmpdir, *args, **kwargs)
-                uncompress(f_compressed, target, verbose=verbose, extract_to='target_dir')
+            # Download and uncompress in a temporary directory, then move the
+            # result to target on success only (no partial target left behind)
+            Path(dirname).mkdir(parents=True, exist_ok=True)
+            with TemporaryDirectory(prefix='tmp_uncompress_', dir=dirname) as tmpdir:
+                dl_dir = Path(tmpdir) / 'download'
+                dl_dir.mkdir()
+                f_compressed = Path(f(identifier, dl_dir, *args, **kwargs))
+                out_dir = Path(tmpdir) / 'out'
+                uncompress(f_compressed, out_dir, verbose=verbose, extract_to='target_dir')
                 
-                # Find the uncompressed result in dirname and rename if needed
-                uncompressed_files = [p for p in Path(dirname).iterdir() 
-                                    if p.is_file() or p.is_dir()]
-                
-                # Find the most recently created file/directory
-                if uncompressed_files:
-                    newest = max(uncompressed_files, key=lambda p: p.stat().st_mtime)
-                    if newest.name != target_name:
-                        newest.rename(target)
+                if is_single_file_compression(f_compressed):
+                    # single compressed file (.gz, .bz2, .Z): the result is a file
+                    result = only(list(out_dir.iterdir()))
+                else:
+                    # archive: the result is a directory with the archive content
+                    result = out_dir
+                shutil.move(result, target)
                 
             assert target.exists(), f"Target {target} does not exist after uncompression"
             return target
         return wrapper
     return decorator
+
+
+def _check_tar_members(filename, target_dir):
+    """
+    Raise an error if a member of tar archive `filename` would be extracted
+    outside of `target_dir` (fallback for Pythons without tar extraction filters)
+    """
+    target = Path(target_dir).resolve()
+    with tarfile.open(filename) as tar:
+        for m in tar.getmembers():
+            dest = (target / m.name).resolve()
+            if (target not in dest.parents) and (dest != target):
+                raise ValueError(f'Unsafe path in archive {filename}: {m.name}')
+            if (m.issym() or m.islnk()) and (
+                Path(m.linkname).is_absolute() or '..' in Path(m.linkname).parts
+            ):
+                raise ValueError(f'Unsafe link in archive {filename}: {m.name}')
+
+
+def is_single_file_compression(filename) -> bool:
+    """
+    Whether `filename` is a single compressed file (.gz, .bz2, .Z), as opposed to
+    an archive (.zip, .tar, .tar.gz...).
+
+    The check is case-insensitive, except for '.Z' (unix compress) which is
+    distinct from '.z' (pack).
+    """
+    name = Path(filename).name
+    lname = name.lower()
+    return ((lname.endswith('.gz') and not lname.endswith('.tar.gz')) or
+            (lname.endswith('.bz2') and not lname.endswith('.tar.bz2')) or
+            name.endswith('.Z'))
 
 
 def uncompress_single(filename, output_path, verbose=False):
@@ -89,20 +125,22 @@ def uncompress_single(filename, output_path, verbose=False):
     Path
         Path to the decompressed file
     """
+    filename = Path(filename)
     fname = str(filename)
+    lname = filename.name.lower()
     
-    if fname.endswith('.gz') and not any(fname.endswith(x) for x in ['.tar.gz', '.tgz']):
+    if lname.endswith('.gz') and not any(lname.endswith(x) for x in ['.tar.gz', '.tgz']):
         # Single gzip file
         with gzip.open(fname, 'rb') as f_in, open(output_path, 'wb') as f_out:
             shutil.copyfileobj(f_in, f_out)
             
-    elif fname.endswith('.bz2') and not fname.endswith('.tar.bz2'):
+    elif lname.endswith('.bz2') and not lname.endswith('.tar.bz2'):
         # Single bzip2 file  
         with bz2.BZ2File(fname) as f_in, open(output_path, 'wb') as f_out:
             data = f_in.read()
             f_out.write(data)
             
-    elif fname.endswith('.Z'):
+    elif filename.name.endswith('.Z'):
         # Unix compress format
         cmd = f'gunzip {fname}'
         if verbose:
@@ -171,19 +209,36 @@ def uncompress(filename: str | Path,
         extracted_path = None
         
         # Check if it's a single compressed file first
-        if ((fname.endswith('.gz') and not fname.endswith('.tar.gz')) or
-            (fname.endswith('.bz2') and not fname.endswith('.tar.bz2')) or
-            fname.endswith('.Z')):
+        if is_single_file_compression(filename):
             # Single compressed file
             extracted_path = Path(tmpdir) / filename.stem
             uncompress_single(filename, extracted_path, verbose)
         else:
             # Try archive formats with shutil.unpack_archive
-            shutil.unpack_archive(filename, tmpdir)
+            # (format detected case-insensitively from the extension)
+            fmt = None
+            for name, exts, _ in shutil.get_unpack_formats():
+                if any(fname.endswith(e.lower()) for e in exts):
+                    fmt = name
+                    break
+            if fmt == 'zip':
+                # zip members are sanitized by zipfile (no '..' or absolute paths)
+                shutil.unpack_archive(filename, tmpdir, format=fmt)
+            elif hasattr(tarfile, 'data_filter'):
+                # filter='data' rejects tar members with absolute paths or '..'
+                # components (path traversal), links outside the target...
+                shutil.unpack_archive(filename, tmpdir, format=fmt, filter='data')
+            else:
+                # Python versions without extraction filters (< 3.10.12, 3.11.4)
+                _check_tar_members(filename, tmpdir)
+                shutil.unpack_archive(filename, tmpdir, format=fmt)
             extracted_path = Path(tmpdir)
         
         # Determine whether the archive shall be uncompressed to a subdirectory or
-        content = list(extracted_path.glob('*'))
+        if extracted_path.is_file():
+            content = [extracted_path]
+        else:
+            content = list(extracted_path.glob('*'))
         assert len(content)
         if extract_to == 'target_dir':
             extract_to_subdir = False

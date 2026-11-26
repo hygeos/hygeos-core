@@ -137,7 +137,7 @@ def ftp_upload(ftp: FTP,
     assert not ftp_file_exists(ftp, path_server)
     
     # cleanup tmp file
-    path_server_tmp = f'{dir_server}/{file_local.name}'
+    path_server_tmp = f'{dir_server}/{file_local.name}.tmp'
     if ftp_file_exists(ftp, path_server_tmp):
         ftp.delete(path_server_tmp)
 
@@ -151,14 +151,18 @@ def ftp_upload(ftp: FTP,
                 unit_scale=True,
                 unit_divisor=1024,
                 disable=not verbose)
+    errors = []
     with ftp.transfercmd(cmd) as sock, open(file_local, 'rb') as fp:
         def background():
-            while True:
-                buf = fp.read(blocksize)
-                if not buf:
-                    break
-                sock.sendall(buf)
-                pbar.update(len(buf))
+            try:
+                while True:
+                    buf = fp.read(blocksize)
+                    if not buf:
+                        break
+                    sock.sendall(buf)
+                    pbar.update(len(buf))
+            except BaseException as e:
+                errors.append(e)
         t = threading.Thread(target=background)
         t.start()
         noops_sent = 0
@@ -167,6 +171,10 @@ def ftp_upload(ftp: FTP,
             ftp.putcmd('NOOP')
             noops_sent += 1
     pbar.close()
+    if errors:
+        # failed transfer: the temporary file is not renamed to its final name
+        # (it is removed at the next upload)
+        raise errors[0]
     ftp.voidresp()
     for _ in range(noops_sent):
         ftp.voidresp()
