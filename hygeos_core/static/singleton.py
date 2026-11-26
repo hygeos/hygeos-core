@@ -24,8 +24,7 @@ def singleton(myclass):
                 
             new_instance = None
             new_instance = object.__new__(myclass)
-            
-            new_instance.__init__(*args, **kwargs)
+            # __init__ is called by Python after __new__ returns
             
             setattr(myclass, "_instance", weakref.ref(new_instance))
             return new_instance

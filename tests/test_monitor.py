@@ -95,8 +95,10 @@ def test_ram_loop():
         r.pause()
         b.append(np.random.randint(0,10,(20,20)))
     
-    assert pytest.approx(r.current, 0.01) == 3300
-    assert pytest.approx(r.peak, 0.01) == 3700
+    # 5% tolerance: the exact allocated sizes vary slightly depending on the
+    # tests previously run in the same process (pytest-xdist workers)
+    assert pytest.approx(r.current, 0.05) == 3300
+    assert pytest.approx(r.peak, 0.05) == 3700
     r.display()
     
 def test_ram_context():
@@ -150,3 +152,40 @@ def test_monitor_loop():
 def test_monitor_context():
     with Monitor() as m:
         m.stop()   
+
+class _FakeTime:
+    def __init__(self):
+        self.t = 1000.
+
+    def time(self):
+        return self.t
+
+
+@pytest.fixture
+def fake_time(monkeypatch):
+    import hygeos_core.monitor as monitor_module
+    ft = _FakeTime()
+    monkeypatch.setattr(monitor_module, "time", ft)
+    return ft
+
+
+def test_chrono_stop_when_paused(fake_time):
+    c = Chrono()
+    c.pause()
+    c.restart()
+    fake_time.t += 0.2
+    c.pause()
+    fake_time.t += 0.3
+    assert c.stop().total_seconds() == pytest.approx(0.2)
+    assert c.elapsed().total_seconds() == pytest.approx(0.2)
+
+
+def test_chrono_elapsed_after_pause_restart(fake_time):
+    c = Chrono()
+    fake_time.t += 1.
+    c.pause()
+    fake_time.t += 5.
+    c.restart()
+    fake_time.t += 2.
+    assert c.elapsed().total_seconds() == pytest.approx(3.)
+    assert c.stop().total_seconds() == pytest.approx(3.)

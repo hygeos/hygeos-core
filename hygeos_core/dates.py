@@ -38,7 +38,7 @@ def time_range(start: datetime, end: datetime, step: timedelta) -> list[datetime
     """
     assert end > start
     dt = (end - start) // step
-    datelist = [start + i*step for i in range(dt)]
+    datelist = [start + i*step for i in range(dt + 1)]
     if end not in datelist: datelist += [end]
     return datelist
 

@@ -45,7 +45,12 @@ class Constraint:
 class path(Constraint):
     
     @interface
-    def __init__(self, *, exists: bool=True, mode=Literal["dir", "file"], context:str=""):
+    def __init__(self, *, exists: bool=True, mode: str=None, context:str=""):
+        """
+        mode: "dir", "file" or None (None: only check existence)
+        """
+        if mode not in ("dir", "file", None):
+            raise ValueError(f"Invalid mode {mode!r}, expected 'dir', 'file' or None")
         self.exists = exists
         self.mode = mode
         self.context = context
@@ -66,6 +71,11 @@ class path(Constraint):
                 elif not self.exists:    log.error(self.contextstr(), f"Path \"{p}\" exist. Expected non existing file path", e=ConstraintError)
             if p.is_dir():
                 log.error(self.contextstr(), f"Path \"{p}\" is directory. Expected a file", e=ConstraintError)
+
+        if self.mode is None:
+            if p.exists() != self.exists:
+                if self.exists:          log.error(self.contextstr(), f"Path \"{p}\" does not exists. Expected existing path", e=ConstraintError)
+                elif not self.exists:    log.error(self.contextstr(), f"Path \"{p}\" exist. Expected non existing path", e=ConstraintError)
 
         return
 
@@ -112,7 +122,7 @@ class int(Constraint):
         if self.minimum is not None and i < self.minimum: log.error(self.contextstr(), f"Int value {i} expected to be greater or equal than {self.minimum}", e=ValueError)
         if self.maximum is not None and i > self.maximum: log.error(self.contextstr(), f"Int value {i} expected to be lower or equal than {self.maximum}", e=ValueError)
         
-        if self.minimum is None and self.minimum is None:
+        if self.minimum is None and self.maximum is None:
             log.error(self.contextstr(), "Either minimum or maximum parameter must be set", e=ValueError)
 
         return

@@ -35,3 +35,14 @@ def test_box():
 #         pbar.set_description(str(i))
 #         pbar.write(str(i))
 #         sleep(0.1)
+
+def test_warning_invalid_type_raises_runtimeerror():
+    with pytest.raises(RuntimeError):
+        log.warning("msg", w=int)
+    with pytest.raises(RuntimeError):
+        log.warning("msg", w="not a class")
+
+
+def test_error_invalid_type_raises_runtimeerror():
+    with pytest.raises(RuntimeError):
+        log.error("msg", e="not a class")

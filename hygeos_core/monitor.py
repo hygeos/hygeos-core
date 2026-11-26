@@ -49,7 +49,7 @@ class Chrono:
         if self.paused:
             return timedelta(seconds=(self.total_t))
         else:
-            return timedelta(seconds=(time.time() - self.start_t))
+            return timedelta(seconds=(self.total_t + time.time() - self.start_t))
         
     def reset(self) -> timedelta:
         dt = self.elapsed()
@@ -61,8 +61,9 @@ class Chrono:
         return self.reset()
         
     def stop(self) -> timedelta:
-        self.paused = True
-        self.total_t += time.time() - self.start_t
+        if not self.paused:
+            self.paused = True
+            self.total_t += time.time() - self.start_t
         return timedelta(seconds=self.total_t)
 
     def display(self, unit: Literal["m", "s", "ms", "us"] | None = None):

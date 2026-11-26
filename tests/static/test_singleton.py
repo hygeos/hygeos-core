@@ -61,3 +61,15 @@ def test_not_a_class():
         def function(): return
     
     return
+
+def test_init_called_once():
+    calls = []
+
+    @singleton
+    class Object:
+        def __init__(self, x):
+            calls.append(x)
+
+    obj = Object(1)
+    assert calls == [1]
+    assert Object.instance() is obj

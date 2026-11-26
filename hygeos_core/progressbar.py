@@ -130,7 +130,7 @@ class progressbar:
         self.start_time = time.time()
         self.finished = False
         
-        if self.nth > self.length:
+        if self.length > 0 and self.nth > self.length:
             raise ValueError("nth cannot be greater than the length of the iterable")
         
         if not self in msg_stack.stack:
@@ -141,7 +141,29 @@ class progressbar:
         self.iterator = iter(self.iterable)
         self.current = 0
         
-        return self
+        # allow iterating the same bar again after it finished
+        if self.finished:
+            self.finished = False
+            self.start_time = time.time()
+        if self not in msg_stack.stack:
+            msg_stack.add(self)
+        
+        # generator wrapping __next__, so that the bar is removed from the
+        # stack when the loop is exited early (break, exception)
+        try:
+            while True:
+                try:
+                    n = self.__next__()
+                except StopIteration:
+                    return
+                yield n
+        finally:
+            if not self.finished and self in msg_stack.stack:
+                msg_stack.reset_screen()
+                index = msg_stack.stack.index(self)
+                msg_stack.stack = msg_stack.stack[:index]
+                if msg_stack.stack:
+                    msg_stack.update_and_print_stack()
         
     def update(self):
         if self.finished: return log.rgb.green(self.message)
@@ -316,7 +338,7 @@ class progressbar:
         itr = self.current
         total = self.length
         
-        ratio = ((itr -1 + int(self.finished)) / total)
+        ratio = ((itr -1 + int(self.finished)) / total) if total else float(self.finished)
         filled_length = int(nchars * ratio)
         
         bar = char * filled_length + void * (nchars - filled_length)

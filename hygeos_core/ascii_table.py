@@ -64,9 +64,10 @@ class ascii_table:
         
         df_str = df.astype(str)
         self.columns: list[str] = df_str.columns
-        self.spaces: list[int] = df_str[self.columns].apply(
-            lambda col: max(len(col.name), col.str.len().max())
-        ).tolist()
+        self.spaces: list[int] = [
+            max(len(str(c)), int(df_str.iloc[:, i].str.len().max()) if len(df_str) else 0)
+            for i, c in enumerate(self.columns)
+        ]
         
         # NOTE: could use interactive / dynamic ranges, more complex tough
         # self.terminal = shutil.get_terminal_size()
@@ -77,14 +78,15 @@ class ascii_table:
         
         
         for c in self.columns:
+            c = str(c)
             if c.lower() not in colors: # no colors by default
                 colors[c.lower()] = None
                 
             if c.lower() not in sides: # left side by default
                 sides[c.lower()] = "left"
         
-        self.colors = [colors[i.lower()] for i in self.columns]
-        self.sides = [sides[i.lower()] for i in self.columns]
+        self.colors = [colors[str(i).lower()] for i in self.columns]
+        self.sides = [sides[str(i).lower()] for i in self.columns]
         
         # limiting column max width
         self.max_width = max_width
@@ -181,12 +183,12 @@ class ascii_table:
             Generates an ascii padding line for the table.
             """
 
-            ivbc = v if ivb else h
-            sep = shp + ivbc + shp
-            if not ihb: sep = shp
+            # same layout as _line_content, with empty cells
+            sep = shp + v + shp
+            if not ivb: sep = shp
         
             mids = [" "*w for w in spaces]
-            line = ml + shp + sep.join(mids) + shp + mr
+            line = v + shp + sep.join(mids) + shp + v
             return line
         
         
@@ -241,10 +243,10 @@ class ascii_table:
         entries = self.df[self.columns].values
         lines = []
         
-        headers = [s.capitalize() for s in self.columns]
+        headers = [str(s).capitalize() for s in self.columns]
         
         
-        itr = self._style.live_print_target_time / len(self.df)
+        itr = self._style.live_print_target_time / max(len(self.df), 1)
         itr = min(itr, 0.015) 
         fn = lines.append if not live_print else lambda x: (time.sleep(itr), print(x, flush=True))
         
@@ -254,9 +256,9 @@ class ascii_table:
         fn(_line_separator("mid" ))
         for j, e in enumerate(entries):
             
-            for i in range(vp): fn(_line_padding("mid"))
+            for i in range(vp): fn(_line_padding())
             fn(_line_content(e))
-            for i in range(vp): fn(_line_padding("mid"))
+            for i in range(vp): fn(_line_padding())
             if ihb:
                 fn(_line_separator("mid"))
                 

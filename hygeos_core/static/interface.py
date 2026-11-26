@@ -145,8 +145,8 @@ def interface(function):
             mess = f'\n\tFunction \'{function.__name__}\': Invalid parameters types passed:'  
             for p in errors:
                 param, expect, actual, value = p.name, p.hints, type(p.value), p.value
-                if type(p.hints) is tuple: # better message for unions e.g: int | float
-                    expect = " or ".join([str(i) for i in p[1]])
+                if get_origin(p.hints) == type(int|float): # better message for unions e.g: int | float
+                    expect = " or ".join([str(i) for i in get_args(p.hints)])
                 
                 mess += (f'\n\t\tParameter \'{param}\' expected: {expect} got {actual} with value: {value}')
             log.error(mess, e=InterfaceException)

@@ -236,7 +236,7 @@ def error(*args, e: Type[Exception] = RuntimeError, **kwargs):
     _internal.log(lvl.ERROR, rgb.red, *args, **kwargs)
     
     if e is not None:
-        if not issubclass(e, Exception):
+        if not (isinstance(e, type) and issubclass(e, Exception)):
             raise RuntimeError(f"log.error Invalid Exception type: {str(e)}, should be a subclass of {str(Exception)}")
         raise e(*args)
     
@@ -247,8 +247,8 @@ def warning(*args, w: Type[Warning] = None, **kwargs):
     _internal.log(lvl.WARNING, rgb.orange, *args, **kwargs)
     
     if w is not None:
-        if not issubclass(w, Warning):
-            raise RuntimeError(f"log.error Invalid Warning type: {str(e)}, should be a subclass of {str(Warning)}")
+        if not (isinstance(w, type) and issubclass(w, Warning)):
+            raise RuntimeError(f"log.warning Invalid Warning type: {str(w)}, should be a subclass of {str(Warning)}")
             
         msg = _internal.concat_mess(*args)
         warnings.warn(msg, category=w)
