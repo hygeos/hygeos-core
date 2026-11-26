@@ -125,7 +125,9 @@ days = date_range(date(2024, 1, 1), date(2024, 1, 31))
 Design patterns for class hierarchies:
 
 ```python
-from hygeos_core.static import abstract, singleton, interface
+from hygeos_core.static.abstract import abstract
+from hygeos_core.static.singleton import singleton
+from hygeos_core.static.interface import interface
 
 @abstract
 class BaseProcessor:

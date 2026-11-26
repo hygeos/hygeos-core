@@ -1,7 +1,7 @@
 import pytest
 
 from hygeos_core.static.Exceptions import ClassIsAbstract, MethodIsAbstract
-from hygeos_core.static import abstract
+from hygeos_core.static.abstract import abstract
 
 
 def test_base():

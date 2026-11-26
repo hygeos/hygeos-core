@@ -95,7 +95,7 @@ def gen(
     elif mode == 'executor':
         return gen_executor(task, **kwargs)
     elif mode == 'prefect':
-        from hygeos_core.deptree_prefect import gen_prefect
+        from hygeos_core.process.deptree_prefect import gen_prefect
         return gen_prefect(task, **kwargs)
     else:
         raise ValueError(f"Invalid mode '{mode}'")
@@ -333,7 +333,7 @@ def gen_executor(
                 # HTCondor
         })
 
-    For details on how to implement `task`, please check function hygeos_core.deptree.sample.
+    For details on how to implement `task`, please check function hygeos_core.process.deptree.sample.
     """
     # Note: `gen` is defined as a function instead of an task method because it includes
     # non-serializable code, and task can be serialized (for example by the dask
@@ -585,14 +585,14 @@ if __name__ == "__main__":
             # default_executor=get_htcondor_client(),
         )
     else:
-        from hygeos_core.deptree_prefect import gen_prefect
+        from hygeos_core.process.deptree_prefect import gen_prefect
         if argv[1] == 'prefect':
             task_runner = None
         elif argv[1] == 'prefect_dask':
             from prefect_dask import DaskTaskRunner
             task_runner = DaskTaskRunner
         elif argv[1] == 'prefect_condor':
-            from hygeos_core.condor import get_htcondor_runner
+            from hygeos_core.process.condor import get_htcondor_runner
             task_runner=get_htcondor_runner()
         else:
             raise ValueError(f"Invalid mode {argv[1]}")

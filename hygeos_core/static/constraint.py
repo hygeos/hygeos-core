@@ -3,7 +3,8 @@ import inspect
 from pathlib import Path
 from typing import Iterable, Literal
 
-from hygeos_core.static import interface, abstract
+from hygeos_core.static.interface import interface
+from hygeos_core.static.abstract import abstract
 from hygeos_core import log
 
 from math import isnan

@@ -198,7 +198,7 @@ def set_lvl(lvl: lvl):
     _internal.min_global_level = lvl
 
 
-def silence(module, lvl_and_below : lvl = lvl.ERROR):  # blacklist only below certain level ? e.g Log.silence("hygeos_core.filegen", bellow_level=lvl.ERROR)
+def silence(module, lvl_and_below : lvl = lvl.ERROR):  # blacklist only below certain level ? e.g Log.silence("hygeos_core.files.fileutils", bellow_level=lvl.ERROR)
     if lvl_and_below == lvl.PROMPT:
         error("Cannot silence prompts, max level authorized: lvl.ERROR", e=ValueError)
         

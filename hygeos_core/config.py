@@ -4,7 +4,7 @@ from copy import deepcopy
 import toml
 
 from hygeos_core.static import constraint
-from hygeos_core.static import interface
+from hygeos_core.static.interface import interface
 from hygeos_core import log
 
 from warnings import warn

@@ -22,7 +22,7 @@ How to use it
 
 - To use this module, please create the file `tests/conftest.py` in your repository,
   with the following content:
-    from hygeos_core.conftest import *
+    from hygeos_core.tests.conftest import *
 
 - Run pytest with the following options (can be added to pytest.ini):
     --html=tests/test_report.html --self-contained-html
