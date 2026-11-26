@@ -56,7 +56,7 @@ def get_pattern(name: str) -> dict:
     
     # Find patterns
     db = read_csv(Path(__file__).parent/'patterns.csv')
-    sensors = _find_pattern(name.split('.')[0], db)
+    sensors = _find_pattern(name, db)
     
     # Check patterns contentpattern
     if len(sensors) == 0: log.error(f'No pattern matches product ID : {name}', e=Exception)
@@ -75,12 +75,19 @@ def _find_pattern(name: str, database) -> list:
     Returns:
         list: List of name of sensor
     """
-    out = []
-    for _, row in database.iterrows():
-        regexp = row['regexp'].strip().split(' ')
-        regexp = '_'.join(regexp)
-        if check(name, regexp): out.append(row['Name'])
-    return out
+    # Product names use both '_' and '.' as separators between tokens.
+    # A trailing dot-separated chunk may be a file extension (e.g. '.SEN3',
+    # '.N1'), so try the full name first, then without its last chunk.
+    candidates = [name]
+    if '.' in name: candidates.append(name.rsplit('.', 1)[0])
+    for candidate in candidates:
+        out = []
+        for _, row in database.iterrows():
+            regexp = row['regexp'].strip().split(' ')
+            regexp = '_'.join(regexp)
+            if check(candidate.replace('.', '_'), regexp): out.append(row['Name'])
+        if len(out) != 0: return out
+    return []
 
 def check(name: str, regexp: str) -> bool:
     """
@@ -91,25 +98,28 @@ def check(name: str, regexp: str) -> bool:
 def decompose(name: str, regexps: list[str], sep: str = '_') -> dict:
     """
     Decompose a string according to the list of regexp, 
-    assumming that every regexp block are splitted by sep
+    assumming that every regexp block are splitted by `sep` (or by '.';
+    product names use both as separators between tokens)
     """
     l = []
-    seps = [sep for i in range(len(regexps[:-1]))] + ['']
+    sep_re = f'[{re.escape(sep)}.]'
+    seps = [sep_re for i in range(len(regexps[:-1]))] + ['']
     for i in range(100): # Prefer using for loop rather than while loop
         if i == len(seps): break
-        check = re.match(regexps[i] + seps[i], name)
+        check = re.match(f'({regexps[i]}){seps[i]}', name)
         if check: 
-            l.append(name[:check.span()[1]-len(seps[i])])
+            l.append(check.group(1))
             name = name[check.span()[1]:]
         else: 
             log.error('name cannot be decompose by regexp list. '
                       f'{name} does not match {regexps[i]}')
     return l
 
-def get_fields(name: str, out: list = []):
+def get_fields(name: str, out: list = None):
     """
     Returns every field name that can be change in product name
     """
+    if out is None: out = []
     if len(name) == 0: return out
     check = re.match('[{_]*', name)
     name = name[check.span()[1]:]
@@ -126,7 +136,7 @@ def get_level(name: str, pattern: dict):
     """
     decomp = decompose(name, pattern['regexp'].split(' '))
     fields = [f.strip('{}') for f in pattern['pattern'].split('_')]
-    level = {fields[i]: d for i,d in enumerate(decomp)}['level']
+    level = dict(zip(fields, decomp))['level']
     level = re.search('[123]', level)
     assert level is not None
     return int(level[0])
