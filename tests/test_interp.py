@@ -1,4 +1,5 @@
 from matplotlib import pyplot as plt
+import importlib.util
 import numpy as np
 import pytest
 from typing import Callable
@@ -27,8 +28,14 @@ from hygeos_core.tests import conftest
 import xarray as xr
 from hygeos_core.tests.pytest_utils import parametrize_dict
 
+# numba is an optional dependency: skip the numba backend tests if not installed
+HAS_NUMBA = importlib.util.find_spec("numba") is not None
+NUMBA = pytest.param(
+    "numba", marks=pytest.mark.skipif(not HAS_NUMBA, reason="numba not installed")
+)
 
-@pytest.fixture(autouse=True, params=["numpy", "numba"])
+
+@pytest.fixture(autouse=True, params=["numpy", NUMBA])
 def default_backend(request, monkeypatch):
     """
     Run all tests with each backend of hygeos_core.interpolate, by changing the default
@@ -593,7 +600,7 @@ def test_align_lists():
 # ---------------------------------------------------------------------------
 
 
-BACKENDS = ["scipy", "numba"]
+BACKENDS = ["scipy", NUMBA]
 
 
 @pytest.mark.parametrize("backend", BACKENDS)

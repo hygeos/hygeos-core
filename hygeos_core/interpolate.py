@@ -246,7 +246,7 @@ def check_backend(backend: str):
         except ImportError:
             raise ImportError(
                 'numba backend requested but numba is not installed. '
-                'Install with `pip install numba` or use backend="numpy".'
+                'Install with `pip install "hygeos-core[numba]"` or use backend="numpy".'
             )
     else:
         raise ValueError(
@@ -279,7 +279,7 @@ def find_indices(grid, xi, backend: str = "scipy") -> tuple[NDArray[np.intp], ND
         except ImportError:
             raise ImportError(
                 'numba backend requested but numba is not installed. '
-                'Install with `pip install numba` or use backend="scipy".'
+                'Install with `pip install "hygeos-core[numba]"` or use backend="scipy".'
             )
     else:
         raise ValueError(

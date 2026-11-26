@@ -10,6 +10,10 @@ authors = [
 requires-python = ">=3.10"
 dependencies = ["tqdm", "xarray", "dask", "h5netcdf", "python-dotenv", "toml", "lxml", "scipy"]
 
+[project.optional-dependencies]
+# accelerated backend for hygeos_core.interpolate (backend="numba")
+numba = ["numba"]
+
 [build-system]
 requires = ["poetry-core>=1.0.0"]
 build-backend = "poetry.core.masonry.api"

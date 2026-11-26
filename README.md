@@ -12,3 +12,9 @@ To install or update this module from github in your current python environment,
 To install it from a cloned folder, in editable mode:
 
     pip install -e <dir/to/hygeos-core/>
+
+### Optional dependencies
+
+- `numba`: accelerated backend for `hygeos_core.interpolate` (`backend="numba"`).
+  Install with `pip install "hygeos-core[numba]"`, or `conda install numba`.
+  The default backend (`"numpy"`) does not require numba.

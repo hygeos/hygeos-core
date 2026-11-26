@@ -11,6 +11,8 @@ import numpy as np
 import pytest
 import xarray as xr
 
+pytest.importorskip("numba")  # optional dependency
+
 from hygeos_core.interpolate import Interpolator, Linear, Nearest, Spline, interp
 from hygeos_core.tests.pytest_utils import parametrize_dict
 

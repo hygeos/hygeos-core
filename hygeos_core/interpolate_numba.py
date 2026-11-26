@@ -1,5 +1,5 @@
 """
-Numba-accelerated functions for core.interpolate
+Numba-accelerated functions for hygeos_core.interpolate
 
 Index lookup:
     - find_indices_numba: drop-in replacement for scipy's find_indices
@@ -19,7 +19,14 @@ within dask threads, to avoid oversubscription.
 from typing import Tuple
 
 import numpy as np
-from numba import njit, prange
+try:
+    from numba import njit, prange
+except ImportError as e:
+    raise ImportError(
+        'The numba backend of hygeos_core.interpolate requires numba, an optional '
+        'dependency. Install it with `pip install "hygeos-core[numba]"` (or '
+        '`conda install numba`), or use backend="numpy".'
+    ) from e
 
 # Out-of-bounds handling modes (see Locator.handle_oob)
 OOB_NONE = 0  # no handling (bounds="cycle")
