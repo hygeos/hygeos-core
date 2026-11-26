@@ -1,4 +1,4 @@
-from functools import reduce
+from functools import cache, reduce
 from itertools import product
 from typing import Any, Dict, Iterable, List, Literal, Callable
 
@@ -29,10 +29,13 @@ class Interpolator(BlockProcessor):
 
     Args:
         data (xr.Dataset): The input Dataset containing variables to interpolate.
-        backend (str): computation backend, either "numpy" (default) or "numba".
-            The numpy backend uses scipy's find_indices for the index lookup on
-            irregular grids. The numba backend accelerates both the index lookup and
-            the interpolation (it requires numba to be installed).
+        backend (str): computation backend, either "auto" (default), "numpy" or
+            "numba". The numpy backend uses scipy's find_indices for the index lookup
+            on irregular grids. The numba backend accelerates both the index lookup
+            and the interpolation (it requires numba to be installed). "auto" uses
+            the numba backend if numba is installed, and the numpy backend otherwise.
+            The backend actually used is stored in the attribute
+            `interpolation_backend` of the output variables.
         parallel (bool): with the numba backend, parallelize the interpolation over
             the output points. Should not be used when the Interpolator is run from
             multiple threads (e.g. dask's threaded scheduler), to avoid
@@ -66,11 +69,11 @@ class Interpolator(BlockProcessor):
     def __init__(
         self,
         data: xr.Dataset,
-        backend: Literal["numpy", "numba"] = "numpy",
+        backend: Literal["auto", "numpy", "numba"] = "auto",
         parallel: bool = False,
         **kwargs,
     ):
-        check_backend(backend)
+        backend = resolve_backend(backend)
         self.backend = backend
         self.parallel = parallel
 
@@ -93,7 +96,17 @@ class Interpolator(BlockProcessor):
         return [Var(x) for x in self.varnames.values()]
 
     def created_vars(self) -> List[Var]:
-        return [Var(str(x), attrs=self.data[x].attrs) for x in self.data]
+        return [Var(str(x), attrs=self.output_attrs(x)) for x in self.data]
+
+    def output_attrs(self, var) -> Dict:
+        """
+        Attributes of the output variable `var`: those of the input variable,
+        and the interpolation backend.
+        """
+        return {**self.data[var].attrs, "interpolation_backend": self.backend}
+
+    def global_attrs(self) -> Dict[str, Any]:
+        return {"interpolation_backend": self.backend}
     
     def created_dims(self) -> Dict[str, Any]:
         cdims = {}
@@ -230,8 +243,32 @@ class Interpolator(BlockProcessor):
                 result,
                 dims=out_dims[var],
                 coords={k: v for k, v in coords.coords.items() if k in out_dims[var]},
-                attrs=self.data[var].attrs,
+                attrs=self.output_attrs(var),
             )
+
+
+@cache
+def numba_available() -> bool:
+    """
+    Whether the numba backend of the interpolation is available (numba is installed)
+    """
+    try:
+        import hygeos_core.interpolate_numba  # noqa: F401
+        return True
+    except ImportError:
+        return False
+
+
+def resolve_backend(backend: str) -> str:
+    """
+    Return the interpolation backend ("numpy" or "numba") corresponding to `backend`.
+
+    "auto" resolves to "numba" if numba is installed, and "numpy" otherwise.
+    """
+    if backend == "auto":
+        return "numba" if numba_available() else "numpy"
+    check_backend(backend)
+    return backend
 
 
 def check_backend(backend: str):
@@ -628,7 +665,7 @@ def interp_var_numba(
     return result.astype(dtype, copy=False)
 
 
-def interp(da: xr.DataArray, backend: str = "numpy", **kwargs) -> xr.DataArray:
+def interp(da: xr.DataArray, backend: str = "auto", **kwargs) -> xr.DataArray:
     """
     Interpolate/select a DataArray onto new coordinates.
 
@@ -644,8 +681,8 @@ def interp(da: xr.DataArray, backend: str = "numpy", **kwargs) -> xr.DataArray:
 
     Args:
         da (xr.DataArray): The input DataArray
-        backend (str): computation backend, either "numpy" (default) or "numba"
-            (see Interpolator).
+        backend (str): computation backend, either "auto" (default), "numpy" or
+            "numba" (see Interpolator).
         **kwargs: definition of the selection/interpolation coordinates for each
             dimension, using the following classes:
                 - Linear: linear interpolation (like xr.DataArray.interp)

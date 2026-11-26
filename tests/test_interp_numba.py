@@ -126,3 +126,25 @@ def test_numba_vs_numpy(monkeypatch, case, kind, dtype, nan_in_data, chunk,
     for d in ref.coords:
         np.testing.assert_array_equal(res.coords[d].values, ref.coords[d].values)
     np.testing.assert_allclose(res.values, ref.values, rtol=1e-6, equal_nan=True)
+
+
+def test_default_backend_auto():
+    """
+    The default backend is "auto": numba when it is installed, and it is
+    stored in the attributes of the interpolated variables
+    """
+    from hygeos_core.interpolate import Interpolator, resolve_backend
+
+    assert resolve_backend("auto") == "numba"
+    data = xr.DataArray(
+        np.arange(10, dtype="float32"),
+        dims=["x"],
+        coords={"x": np.arange(10.)},
+        attrs={"units": "m"},
+    )
+    res = interp(data, x=Linear(xr.DataArray([1.5, 2.5], dims=["y"])))
+    assert res.attrs["interpolation_backend"] == "numba"
+    assert res.attrs["units"] == "m"
+    assert Interpolator(data.to_dataset(name="a"), x=Linear("x")).backend == "numba"
+    res = interp(data, backend="numpy", x=Linear(xr.DataArray([1.5], dims=["y"])))
+    assert res.attrs["interpolation_backend"] == "numpy"
