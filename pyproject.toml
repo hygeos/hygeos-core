@@ -8,11 +8,14 @@ authors = [
     {name = "Nathan Capon", email = "nathan.capon@hygeos.com"}
 ]
 requires-python = ">=3.10"
-dependencies = ["tqdm", "xarray", "dask", "h5netcdf", "python-dotenv", "toml", "lxml", "scipy"]
+dependencies = ["tqdm", "xarray", "dask", "h5netcdf", "python-dotenv", "toml", "lxml"]
 
 [project.optional-dependencies]
 # accelerated backend for hygeos_core.interpolate (backend="numba")
 numba = ["numba"]
+# required for irregular-grid interpolation with the numpy backend, and used as a
+# reference implementation in the hygeos_core.interpolate tests
+scipy = ["scipy"]
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
@@ -36,7 +39,6 @@ docs-preview = { cmd = "quarto preview docs/", depends-on = ["docs-build"] }
 tqdm = "*"
 xarray = "*"
 dask = "*"
-scipy = "*" # used for hygeos_core.interpolate tests
 h5netcdf = "*"
 python-dotenv = "*"
 toml = "*"
@@ -57,6 +59,7 @@ pytest-html = "*"
 pytest-xdist = "*"
 pooch = "*"
 numba = "*"
+scipy = "*" # used for hygeos_core.interpolate tests and the scipy find_indices backend
 
 [tool.pixi.feature.sys.dependencies]
 sphinx_rtd_theme = "*"

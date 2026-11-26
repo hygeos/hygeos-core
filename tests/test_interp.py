@@ -34,6 +34,12 @@ NUMBA = pytest.param(
     "numba", marks=pytest.mark.skipif(not HAS_NUMBA, reason="numba not installed")
 )
 
+# scipy is an optional dependency: skip the scipy backend tests if not installed
+HAS_SCIPY = importlib.util.find_spec("scipy") is not None
+SCIPY = pytest.param(
+    "scipy", marks=pytest.mark.skipif(not HAS_SCIPY, reason="scipy not installed")
+)
+
 
 @pytest.fixture(autouse=True, params=["numpy", NUMBA])
 def default_backend(request, monkeypatch):
@@ -600,7 +606,7 @@ def test_align_lists():
 # ---------------------------------------------------------------------------
 
 
-BACKENDS = ["scipy", NUMBA]
+BACKENDS = [SCIPY, NUMBA]
 
 
 @pytest.mark.parametrize("backend", BACKENDS)
@@ -750,6 +756,7 @@ def test_find_indices_backend_invalid():
         find_indices(grid, xi, backend="unknown")
 
 
+@pytest.mark.skipif(not HAS_SCIPY, reason="scipy not installed (reference backend)")
 @pytest.mark.parametrize("backend", BACKENDS)
 def test_find_indices_consistency_with_scipy(backend):
     """All backends should return results consistent with scipy for non-NaN points."""

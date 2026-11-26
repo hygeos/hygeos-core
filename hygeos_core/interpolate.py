@@ -1,3 +1,4 @@
+import importlib.util
 from functools import cache, reduce
 from itertools import product
 from typing import Any, Dict, Iterable, List, Literal, Callable
@@ -31,9 +32,10 @@ class Interpolator(BlockProcessor):
         data (xr.Dataset): The input Dataset containing variables to interpolate.
         backend (str): computation backend, either "auto" (default), "numpy" or
             "numba". The numpy backend uses scipy's find_indices for the index lookup
-            on irregular grids. The numba backend accelerates both the index lookup
-            and the interpolation (it requires numba to be installed). "auto" uses
-            the numba backend if numba is installed, and the numpy backend otherwise.
+            on irregular grids (it requires scipy to be installed). The numba backend
+            accelerates both the index lookup and the interpolation (it requires numba
+            to be installed). "auto" uses the numba backend if numba is installed, and
+            the numpy backend otherwise.
             The backend actually used is stored in the attribute
             `interpolation_backend` of the output variables.
         parallel (bool): with the numba backend, parallelize the interpolation over
@@ -259,6 +261,14 @@ def numba_available() -> bool:
         return False
 
 
+@cache
+def scipy_available() -> bool:
+    """
+    Whether scipy is installed (required by the numpy backend for irregular coordinates)
+    """
+    return importlib.util.find_spec("scipy") is not None
+
+
 def resolve_backend(backend: str) -> str:
     """
     Return the interpolation backend ("numpy" or "numba") corresponding to `backend`.
@@ -305,11 +315,18 @@ def find_indices(grid, xi, backend: str = "scipy") -> tuple[NDArray[np.intp], ND
         distances: Normalized distances within each interval.
 
     Raises:
-        ImportError: If backend is "numba" but numba is not installed.
+        ImportError: If the requested backend's dependency is not installed
+            ("scipy" for "scipy", numba for "numba").
         ValueError: If backend is not recognized.
     """
     if backend == "scipy":
-        from scipy.interpolate._rgi_cython import find_indices as _fi
+        try:
+            from scipy.interpolate._rgi_cython import find_indices as _fi
+        except ImportError:
+            raise ImportError(
+                'scipy backend requested but scipy is not installed. '
+                'Install with `pip install "hygeos-core[scipy]"` or use backend="numba".'
+            ) from None
     elif backend == "numba":
         try:
             from hygeos_core.interpolate_numba import find_indices_numba as _fi
@@ -816,6 +833,13 @@ class Locator:
             if n_oob:
                 self.handle_oob(values)  # raises the error
             return indices.reshape(values.shape), dist.reshape(values.shape)
+
+        if not scipy_available():
+            raise ImportError(
+                'Interpolation on irregular coordinates with the numpy backend requires scipy. '
+                'Install it with `pip install "hygeos-core[scipy]"`, or use '
+                'Interpolator(backend="numba") (which requires numba to be installed).'
+            )
 
         values = self.handle_oob(values)
 
