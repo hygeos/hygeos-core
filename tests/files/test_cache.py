@@ -3,9 +3,19 @@ import pytest
 from hygeos_core.files import cache
 from xarray.tutorial import open_dataset
 from tempfile import TemporaryDirectory
-import matplotlib.pyplot as plt
 from hygeos_core.tools import only
 from hygeos_core.tests.conftest import savefig
+
+# matplotlib is an optional dependency, only needed by cache_figure:
+# skip those tests instead of failing collection when it is not installed
+try:
+    import matplotlib.pyplot as plt
+except ImportError:
+    plt = None
+
+requires_matplotlib = pytest.mark.skipif(
+    plt is None, reason="matplotlib is not installed"
+)
 
 
 @pytest.mark.parametrize('cache_function,var', [

@@ -12,11 +12,7 @@ from pandas.testing import assert_frame_equal
 from hygeos_core import log
 from hygeos_core.files.save import to_netcdf
 from hygeos_core.files.fileutils import filegen, safe_move
-from matplotlib.figure import Figure
-from numpy import array
-from PIL import Image
 
-import matplotlib.pyplot as plt
 import hashlib
 import re
 
@@ -247,7 +243,17 @@ def cache_figure(
     Other kwargs are passed to fig.savefig()
 
     Returns the path to the cached png file.
+
+    Requires matplotlib (and Pillow) to be installed, which are not
+    dependencies of hygeos_core itself.
     """
+    # lazy imports: matplotlib and PIL are optional dependencies, only
+    # needed by this decorator (importing this module must not require them)
+    import matplotlib.pyplot as plt
+    from matplotlib.figure import Figure
+    from numpy import array
+    from PIL import Image
+
     cache_dir = Path(cache_dir)
 
     def decorator(f):
