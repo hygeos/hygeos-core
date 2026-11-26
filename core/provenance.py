@@ -25,7 +25,7 @@ import platform
 import subprocess
 from functools import lru_cache
 from pathlib import Path
-from typing import Iterable, Optional
+from typing import Iterable, Mapping, Optional
 
 UNKNOWN = "unknown"
 
@@ -66,22 +66,31 @@ def _git(directory: Path, *args: str) -> Optional[str]:
     return res.stdout.strip()
 
 
-def git_describe(directory: Path) -> Optional[str]:
+def git_describe(
+    directory: Path,
+    tracked_only: bool = True,
+    tags: bool = True,
+) -> Optional[str]:
     """
-    Version of the git checkout containing `directory`, provided that the
-    files of `directory` are tracked in this checkout (so that a module
-    installed in an environment located within an unrelated git repository is
-    not mistaken for a checkout).
+    Version of the git checkout containing `directory`:
+    `git describe [--tags] --always --dirty`, or None.
 
-    Returns `git describe --tags --always --dirty`, or None.
+    Args:
+        directory: a directory within the git checkout
+        tracked_only: require that the files of `directory` are tracked in
+            this checkout (so that a module installed in an environment
+            located within an unrelated git repository is not mistaken for a
+            checkout)
+        tags: whether to use lightweight tags (`--tags`), in addition to
+            annotated tags
     """
     directory = Path(directory)
     if not directory.is_dir():
         return None
-    tracked = _git(directory, "ls-files", "--", ".")
-    if not tracked:
+    if tracked_only and not _git(directory, "ls-files", "--", "."):
         return None
-    return _git(directory, "describe", "--tags", "--always", "--dirty")
+    args = ["describe", *(["--tags"] if tags else []), "--always", "--dirty"]
+    return _git(directory, *args)
 
 
 def _distribution(module: str) -> Optional[importlib.metadata.Distribution]:
@@ -154,3 +163,18 @@ def get_versions(modules: Iterable[str]) -> dict[str, str]:
     {module: version}. The special name "python" gives the Python version.
     """
     return {module: get_version(module) for module in modules}
+
+
+def version_attrs(modules: Iterable[str] | Mapping[str, str]) -> dict[str, str]:
+    """
+    Versions of `modules` as attributes {"<name>_version": version}, e.g. for
+    the global attributes of an output file.
+
+    `modules` is either a list of module names (the names of the attributes
+    are the module names), or a dict {name: module name}, e.g.
+    {"hygeos_core": "core"} -> {"hygeos_core_version": "v1.3.0"}
+    """
+    if not isinstance(modules, Mapping):
+        modules = {module: module for module in modules}
+    return {f"{name}_version": get_version(module)
+            for name, module in modules.items()}

@@ -2,14 +2,16 @@
 # -*- coding: utf-8 -*-
 
 
+import warnings
 from contextlib import nullcontext
 from pathlib import Path
-from typing import Literal, Optional
+from typing import Iterable, Literal, Mapping, Optional
 
 import xarray as xr
 from dask.diagnostics.progress import ProgressBar
 
 from core.files.fileutils import filegen, get_git_commit
+from core.provenance import version_attrs
 from core import log
 
 def to_netcdf(
@@ -22,7 +24,8 @@ def to_netcdf(
     verbose: bool = True,
     tmpdir: Optional[Path] = None,
     lock_timeout: int = 0,
-    git_comit: bool = True,
+    git_comit: bool = False,
+    versions: Optional[Iterable[str] | Mapping[str, str]] = None,
     if_exists: Literal["skip", "overwrite", "backup", "error"] = "error",
     clean_attrs: bool = True,
     **kwargs
@@ -42,7 +45,13 @@ def to_netcdf(
         verbose (bool, optional): Verbosity. Defaults to True.
         tmpdir (Path, optional): use a given temporary directory. Defaults to None.
         lock_timeout (int, optional): timeout in case of existing lock file
-        git_commit (bool, optional): Option to add git commit tag to input dataset attributes
+        git_comit (bool, optional): deprecated, use `versions` instead.
+            Add the git version of the current working directory to the
+            dataset attributes (`git_commit`). Defaults to False.
+        versions (optional): modules whose versions are added to the dataset
+            attributes, as "<name>_version" (see core.provenance.version_attrs):
+            a list of module names, or a dict {name: module name}.
+            Example: ["core", "numpy"] -> core_version, numpy_version
         if_exists (str, optional): what to do if output file exists. Defaults to 'error'.
         clean_attrs: whether to remove attributes in the xarray object, that cannot
             be written to netcdf.
@@ -69,7 +78,8 @@ def to_netcdf(
         if verbose:
             log.info("Writing:", filename)
             
-        if git_comit: ds.attrs.update(git_commit=get_git_commit())
+        _add_git_commit(ds, git_comit)
+        if versions: ds.attrs.update(version_attrs(versions))
 
         filegen(
             0,
@@ -78,6 +88,22 @@ def to_netcdf(
             if_exists=if_exists,
             verbose=verbose,
         )(ds.to_netcdf)(filename, engine=engine, encoding=encoding, **kwargs)
+
+
+def _add_git_commit(ds: xr.Dataset, git_comit: bool):
+    """
+    Deprecated `git_comit` option of to_netcdf and to_zarr
+    """
+    if git_comit:
+        warnings.warn(
+            "The `git_comit` option is deprecated: the `git_commit` attribute "
+            "is the git version of the current working directory, not of the "
+            "code used for the processing. Use `versions` instead "
+            "(e.g. versions=['core', 'numpy']).",
+            DeprecationWarning,
+            stacklevel=3,
+        )
+        ds.attrs.update(git_commit=get_git_commit())
 
 
 def clean_attributes(obj: xr.Dataset|xr.DataArray):
@@ -106,7 +132,8 @@ def to_zarr(
     verbose: bool = True,
     tmpdir: Optional[Path] = None,
     lock_timeout: int = 0,
-    git_comit: bool = True,
+    git_comit: bool = False,
+    versions: Optional[Iterable[str] | Mapping[str, str]] = None,
     if_exists: Literal["skip", "overwrite", "backup", "error"] = "error",
     clean_attrs: bool = True,
     **kwargs
@@ -125,7 +152,12 @@ def to_zarr(
         verbose (bool, optional): Verbosity. Defaults to True.
         tmpdir (Path, optional): use a given temporary directory. Defaults to None.
         lock_timeout (int, optional): timeout in case of existing lock file
-        git_comit (bool, optional): Option to add git commit tag to input dataset attributes
+        git_comit (bool, optional): deprecated, use `versions` instead.
+            Add the git version of the current working directory to the
+            dataset attributes (`git_commit`). Defaults to False.
+        versions (optional): modules whose versions are added to the dataset
+            attributes, as "<name>_version" (see core.provenance.version_attrs):
+            a list of module names, or a dict {name: module name}.
         if_exists (str, optional): what to do if output file exists. Defaults to 'error'.
         clean_attrs: whether to remove attributes in the xarray object that cannot
             be written to zarr.
@@ -156,8 +188,9 @@ def to_zarr(
         if verbose:
             log.info("Writing:", filename)
 
-        if git_comit:
-            ds.attrs.update(git_commit=get_git_commit())
+        _add_git_commit(ds, git_comit)
+        if versions:
+            ds.attrs.update(version_attrs(versions))
 
         filegen(
             1,

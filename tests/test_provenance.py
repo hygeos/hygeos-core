@@ -4,7 +4,8 @@ from pathlib import Path
 
 import pytest
 
-from core.provenance import UNKNOWN, get_version, get_versions
+from core.provenance import (
+    UNKNOWN, get_version, get_versions, git_describe, version_attrs)
 
 
 @pytest.fixture(autouse=True)
@@ -87,3 +88,18 @@ def test_get_versions(repo):
         "provtestpkg": "v0.1.0",
         "python": platform.python_version(),
     }
+
+
+def test_version_attrs(repo):
+    assert version_attrs(["provtestpkg"]) == {"provtestpkg_version": "v0.1.0"}
+    assert version_attrs({"pkg": "provtestpkg"}) == {"pkg_version": "v0.1.0"}
+
+
+def test_get_git_commit(repo, monkeypatch):
+    from core.files.fileutils import get_git_commit
+    monkeypatch.chdir(repo)
+    expected = git_describe(repo, tracked_only=False, tags=False)
+    assert expected  # (commit hash: lightweight tags are not used)
+    assert get_git_commit() == expected
+    monkeypatch.chdir(repo.parent)  # not a git repository
+    assert get_git_commit() == "<could not get git commit>"

@@ -7,7 +7,6 @@ import inspect
 import json
 import os
 import shutil
-import subprocess
 from datetime import datetime
 from functools import wraps
 from pathlib import Path
@@ -251,23 +250,16 @@ class filegen:
 
 def get_git_commit():
     """
-    Returns the current git commit hash, or a placeholder if it cannot be obtained.
-    Captures both stdout and stderr to handle cases where the command fails (e.g., not a git repository).
+    Returns the git version (`git describe --always --dirty`) of the current
+    working directory, or a placeholder if it cannot be obtained.
+
+    Note: this identifies the checkout from which the processing is launched;
+    the versions of the modules used are given by `core.provenance`.
     """
-    try:
-        cmd = "git describe --always --dirty"
-        res = subprocess.run(cmd, shell=True, capture_output=True)
-        std = res.stdout.decode().strip()
-        err = res.stderr.decode().strip()
-        
-        if "not a git repository" in err.lower():
-            return '<could not get git commit>'
-        
-        return std
-        
-    except subprocess.CalledProcessError:
-        return '<could not get git commit>'
-        
+    from core.provenance import git_describe
+    return (git_describe(Path.cwd(), tracked_only=False, tags=False)
+            or '<could not get git commit>')
+
 
 def mdir(directory: Union[Path,str],
          mdir_filename: str='mdir.json',
