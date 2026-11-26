@@ -424,27 +424,20 @@ def test_oob_sel_nearest(fixed_sample):
     )
 
 
-def test_oob_interp(fixed_sample):
-    # Interpolation failing because of out of bounds
+@pytest.mark.parametrize("kind", [Linear, Spline])
+@pytest.mark.parametrize("value", [-2, 10])
+def test_oob_interp_error(fixed_sample, kind, value):
+    # Interpolation failing because of out of bounds (one call per pytest.raises,
+    # otherwise the calls after the first raising one are not executed)
     with pytest.raises(ValueError):
         interp(
             fixed_sample,
-            b = Linear(xr.DataArray([-2]))
-        )
-        interp(
-            fixed_sample,
-            b = Spline(xr.DataArray([-2]))
-        )
-    with pytest.raises(ValueError):
-        interp(
-            fixed_sample,
-            b = Linear(xr.DataArray([10])),
-        )
-        interp(
-            fixed_sample,
-            b = Spline(xr.DataArray([10])),
+            b = kind(xr.DataArray([value])),
         )
 
+
+def test_oob_interp(fixed_sample):
+    # Interpolation at the upper edge (in bounds)
     interp(
         fixed_sample,
         b = Linear(xr.DataArray([9])),
@@ -516,18 +509,17 @@ def test_interp_2D(request, spacing, kind):
 
 @pytest.mark.parametrize("spacing", ["regular", "irregular"])
 def test_spline(request, spacing):
-    if spacing == "regular" :
-        Y = xr.DataArray([1.0, 1.0, 1.0, 1.0], dims=["X"], coords=[np.array([0,1,2,3])])
-    else :
+    # a spline through constant values is constant
+    if spacing == "irregular":
+        # irregular coordinates (only valid with spacing="irregular")
         Y = xr.DataArray([1.0, 1.0, 1.0], dims=["X"], coords=[np.array([0,1,3])])
-        
         assert np.isclose(interp(Y, X=Spline(xr.DataArray([0.5]), tension=0.5, spacing=spacing)), 1.0)
         assert np.isclose(interp(Y, X=Spline(xr.DataArray([1.5]), tension=0.5, spacing=spacing)), 1.0)
-        
-        Y = xr.DataArray([1.0, 1.0, 1.0, 1.0], dims=["X"], coords=[np.array([0,1,2,3])])
-        assert np.isclose(interp(Y, X=Spline(xr.DataArray([0.5]), tension=0.5, spacing=spacing)), 1.0)
-        assert np.isclose(interp(Y, X=Spline(xr.DataArray([1.5]), tension=0.5, spacing=spacing)), 1.0)
-        assert np.isclose(interp(Y, X=Spline(xr.DataArray([2.5]), tension=0.5, spacing=spacing)), 1.0)
+
+    Y = xr.DataArray([1.0, 1.0, 1.0, 1.0], dims=["X"], coords=[np.array([0,1,2,3])])
+    assert np.isclose(interp(Y, X=Spline(xr.DataArray([0.5]), tension=0.5, spacing=spacing)), 1.0)
+    assert np.isclose(interp(Y, X=Spline(xr.DataArray([1.5]), tension=0.5, spacing=spacing)), 1.0)
+    assert np.isclose(interp(Y, X=Spline(xr.DataArray([2.5]), tension=0.5, spacing=spacing)), 1.0)
     
 
 def test_inverse_func():
