@@ -25,7 +25,15 @@ import os
 import logging
 
 from hygeos_core import progressbar as _pbar_module
-from hygeos_core.progressbar import progressbar as pbar
+
+
+def __getattr__(name):
+    # `pbar` is resolved lazily to avoid a circular import with
+    # hygeos_core.progressbar (which itself imports this module)
+    if name == "pbar":
+        from hygeos_core.progressbar import progressbar
+        return progressbar
+    raise AttributeError(f"module {__name__!r} has no attribute {name!r}")
 
 class config:
     show_color = True

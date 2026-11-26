@@ -2,7 +2,6 @@ from dotenv import load_dotenv, find_dotenv
 from os import environ
 from pathlib import Path
 from typing import Optional
-from hygeos_core import log
 
 
 def find_dotenvs(
@@ -188,6 +187,8 @@ def getdir(
 
 
 if __name__ == "__main__":
+    from hygeos_core import log
+
     dotenvs = find_dotenvs()
     log.info(f"all dotenv files (closest first): {dotenvs}")
     loaded = load_dotenvs()
