@@ -229,3 +229,91 @@ def test_is_numpy_backed(obj, expected):
         "numpy_ds_coords": numpy_ds_coords,
     }
     assert is_numpy_backed(fixtures[obj]) is expected
+
+def test_reglob_matches_file_name(tmp_path):
+    from pathlib import Path
+    for name in ['S2_001.nc', 'S2_002.nc', 'L8_001.nc']:
+        (tmp_path / name).touch()
+    assert reglob(tmp_path, r'^S2.*') == [tmp_path / 'S2_001.nc',
+                                          tmp_path / 'S2_002.nc']
+    assert reglob(str(tmp_path), r'S2_\d+') == [tmp_path / 'S2_001.nc',
+                                               tmp_path / 'S2_002.nc']
+    assert all(isinstance(x, Path) for x in reglob(tmp_path, 'nc$'))
+    assert len(reglob(tmp_path, 'nc$')) == 3
+
+
+@pytest.mark.parametrize("dtype", ["uint32", "int64"])
+def test_raiseflag_high_bit(dtype):
+    from hygeos_core.tools import raiseflag, getflags
+    A = xr.DataArray(np.zeros(3, dtype=dtype), dims="x")
+    raiseflag(A, "LOW", 1, A > -1)
+    raiseflag(A, "HIGH", 2**16, xr.DataArray([True, False, True], dims="x"))
+    assert A.dtype == dtype
+    assert list(A.values) == [2**16 + 1, 1, 2**16 + 1]
+    assert getflags(A)["HIGH"] == 2**16
+
+
+def test_split_dataset_sep():
+    from hygeos_core.tools import split
+    ds = xr.Dataset(
+        {"rho": (("bands", "x"), np.zeros((2, 3)))},
+        coords={"bands": [400, 500]},
+    )
+    out = split(ds, "bands", sep="-")
+    assert set(out.data_vars) == {"rho-400", "rho-500"}
+
+
+def test_trim_dims_single_group():
+    from hygeos_core.tools import trim_dims
+    ds = xr.Dataset({"a": ("x", np.zeros(3))})
+    out = trim_dims(ds)
+    assert out.sizes == {"x": 3}
+
+
+def test_trim_dims_renames_duplicates():
+    from hygeos_core.tools import trim_dims
+    ds = xr.Dataset({
+        "a": ("x", np.zeros(3)),
+        "b": ("y", np.zeros(3)),
+    })
+    out = trim_dims(ds)
+    assert out["a"].dims == out["b"].dims
+
+
+def test_datetime_iso_strings():
+    from datetime import datetime as dt
+    from hygeos_core.tools import datetime
+    ds = xr.Dataset(attrs={"start_time": "2020-01-01T00:00:00",
+                           "end_time": "2020-01-01T02:00:00"})
+    assert datetime(ds) == dt(2020, 1, 1, 1)
+    ds = xr.Dataset(attrs={"start_time": dt(2020, 1, 1),
+                           "end_time": dt(2020, 1, 1, 2)})
+    assert datetime(ds) == dt(2020, 1, 1, 1)
+
+
+def test_xr_sample_seed_zero():
+    from hygeos_core.tools import xr_sample
+    ds = xr.Dataset({"a": ("index", np.arange(100))})
+    np.random.seed(0)
+    ref = xr_sample(ds, 10)["a"].values
+    np.random.seed(123)
+    out = xr_sample(ds, 10, seed=0)["a"].values
+    assert (ref == out).all()
+
+
+def test_mapblocksoutput_dataarray_model():
+    from hygeos_core.tools import MapBlocksOutput, Var
+    ds = xr.Dataset({
+        "a": (("x", "y"), np.zeros((2, 3), dtype="float32")),
+        "b": (("x", "y"), np.zeros((2, 3), dtype="float32")),
+    })
+    model = MapBlocksOutput([
+        Var("a", dtype="float32", dims=("x", "y")),
+        ds["b"].rename("c"),
+    ])
+    res = ds.rename({"b": "c"}).assign(d=ds.a)
+    assert set(model.subset(res).data_vars) == {"a", "c"}
+    out = model.conform(res.transpose("y", "x"), transpose=True)
+    assert out["c"].dims == ("x", "y")
+    with pytest.raises(RuntimeError):
+        model.conform(res.transpose("y", "x"))

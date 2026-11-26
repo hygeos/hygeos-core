@@ -14,6 +14,18 @@ The final product can be written by filtering the Dataset for only keeping the
 """
 
 
+def _get_tags(da: xr.DataArray) -> List[str]:
+    """
+    Return the tags of `da` as a list
+
+    A single tag may be stored as a plain str (e.g. after a netCDF round-trip)
+    """
+    tags = da.attrs.get("tags", [])
+    if isinstance(tags, str):
+        return [tags]
+    return list(tags)
+
+
 def tag_add(da: xr.DataArray, tag: Union[List[str], str]):
     """
     Add one or several tags to DataArray A
@@ -21,10 +33,7 @@ def tag_add(da: xr.DataArray, tag: Union[List[str], str]):
     tag: either a single tag (ex: "level2")
          or multiple tags (ex: ["level2", "ancillary"])
     """
-    if "tags" in da.attrs:
-        existing_tags = da.attrs["tags"]
-    else:
-        existing_tags = []
+    existing_tags = _get_tags(da)
 
     if isinstance(tag, str):
         new_tags = [tag]
@@ -50,11 +59,9 @@ def tag_filter(ds: xr.Dataset, tag: Union[List[str], str]):
         raise ValueError
 
     def match(da: xr.DataArray) -> bool:
-        if "tags" not in da.attrs:
-            return False
-
+        da_tags = _get_tags(da)
         for t in tags:
-            if t in da.attrs["tags"]:
+            if t in da_tags:
                 return True
 
         return False

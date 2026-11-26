@@ -94,6 +94,10 @@ def datetime(ds: xr.Dataset):
     if ('start_time' in ds.attrs) and ('end_time' in ds.attrs):
         st = ds.start_time
         et = ds.end_time
+        if isinstance(st, str):
+            st = parse(st).replace(tzinfo=None)
+        if isinstance(et, str):
+            et = parse(et).replace(tzinfo=None)
         return st + (et - st)/2
     elif 'datetime' in ds.attrs:
         return parse(ds.attrs['datetime']).replace(tzinfo=None)
@@ -283,7 +287,7 @@ def split(d: xr.Dataset | xr.DataArray, dim: str, sep: str = '_'):
             ])
     elif isinstance(d, xr.Dataset):
         m = xr.merge(
-            [split(d[x], dim)
+            [split(d[x], dim, sep=sep)
              if dim in d[x].dims
              else d[x]
              for x in d])
@@ -436,7 +440,7 @@ def raiseflag(A: xr.DataArray, flag_name: str | Enum, flag_value: int, condition
     if not np.issubdtype(A.dtype, np.integer):
         raise ValueError(f"raiseflag can only be used on integer DataArrays, got {A.dtype}")
     flags = getflags(A)
-    dtype_flag_masks = 'uint16'
+    dtype_flag_masks = A.dtype
 
     if flags_meanings not in A.attrs:
         A.attrs[flags_meanings] = ''
@@ -462,7 +466,7 @@ def raiseflag(A: xr.DataArray, flag_name: str | Enum, flag_value: int, condition
 
     if condition is not None:
         notraised = (A & flag_value) == 0
-        A += flag_value * ((condition != 0) & notraised).astype(flags_dtype)
+        A += flag_value * ((condition != 0) & notraised).astype(A.dtype)
 
 
 def wrap(ds: xr.Dataset, dim: str, vmin: float, vmax: float):
@@ -548,8 +552,9 @@ def trim_dims(A: xr.Dataset):
 
         groups += groups_current
 
-    # check that intersection of all groups is empty
-    assert not set.intersection(*[set(x) for x in groups])
+    # check that groups are pairwise disjoint (no dimension in several groups)
+    all_dims = sum(groups, [])
+    assert len(all_dims) == len(set(all_dims))
 
     rename_dict = dict(sum([[(dim, 'new_'+group[0])
                              for dim in group]
@@ -568,14 +573,16 @@ def only(iterable):
         raise ValueError
     return x[0] 
 
-def reglob(path: Path|str, regexp: str):
-    files = []
+def reglob(path: Path|str, regexp: str) -> List[Path]:
+    """
+    Returns the sorted list of paths in directory `path` whose file name
+    matches the regular expression `regexp` (using `re.search`)
+
+    Ex: reglob(dir, r'^S2_\d+\.nc$')
+    """
     assert regexp[0] != '*', 'Avoid using wildcard in regular expression'
-    for p in Path(path).iterdir(): 
-        a = re.search(regexp, str(p))
-        if a is not None:
-            files.append(a.group())
-    return files
+    return sorted(p for p in Path(path).iterdir()
+                  if re.search(regexp, p.name) is not None)
 
 @overload
 def xrcrop(A: xr.Dataset, **kwargs) -> xr.Dataset: ...
@@ -634,6 +641,11 @@ def xrcrop(
     return A.isel(isel_dict)
 
 
+def _model_name(m) -> str:
+    """Name of a MapBlocksOutput model item (Var or DataArray)"""
+    return m.name if isinstance(m, xr.DataArray) else str(m)
+
+
 class MapBlocksOutput:
     def __init__(
         self,
@@ -665,7 +677,7 @@ class MapBlocksOutput:
     def __add__(self, other):
         concatenated = MapBlocksOutput(self.model + other.model,
                                new_dims={**self.new_dims, **other.new_dims})
-        names = [str(x) for x in concatenated.model]
+        names = [_model_name(x) for x in concatenated.model]
         assert len(set(names)) == len(names)
         return concatenated
 
@@ -681,7 +693,7 @@ class MapBlocksOutput:
         )
 
     def subset(self, ds: xr.Dataset) -> xr.Dataset:
-        return ds[[str(var) for var in self.model]]
+        return ds[[_model_name(var) for var in self.model]]
 
     def conform(self, ds: xr.Dataset, transpose: bool = False) -> xr.Dataset:
         """
@@ -692,6 +704,8 @@ class MapBlocksOutput:
         """
         list_vars = []
         for var in self.model:
+            if isinstance(var, xr.DataArray):
+                var = Var(var.name, dtype=var.dtype, dims=var.dims)
             da = ds[var]
             list_vars.append(var.conform(da, transpose=transpose))
 
@@ -1300,7 +1314,7 @@ def xr_sample(ds: xr.Dataset, nb_sample: int|float, seed: int | None = None) -> 
         seed (int, optional): Random seed to use. Defaults to None.
     """
     
-    if seed:
+    if seed is not None:
         np.random.seed(seed)
     
     # Retrieve index dimension

@@ -31,8 +31,10 @@ def read_csv(path: str|Path, **kwargs) -> pd.DataFrame:
     df = pd.read_csv(csv_file, skipinitialspace=True, **kwargs)
     
     # remove trailing whitespaces
-    df = df.apply(lambda x: x.str.strip() if x.dtype == 'object' else x) 
-    df.columns = [c.strip() for c in df.columns]
+    df = df.apply(lambda x: x.str.strip()
+                  if (pd.api.types.is_string_dtype(x) or pd.api.types.is_object_dtype(x))
+                  else x)
+    df.columns = [c.strip() if isinstance(c, str) else c for c in df.columns]
     return df
 
 def select(table, where:tuple, cols:str|list = None):
@@ -94,6 +96,9 @@ class _XML_parser:
             if node.prefix: 
                 prefix = '{'+node.nsmap[node.prefix]+'}'
                 tag = tag.replace(prefix,'')
+            elif tag.startswith('{'):
+                # default namespace
+                tag = tag.split('}', 1)[1]
             return tag.strip()
         else: return node.attrib['name']
 
@@ -123,7 +128,7 @@ class _XML_parser:
                 result[tag] = child_res
         
         # Handle text content if no children
-        if not node.getchildren() and node.pyval:
+        if not node.getchildren() and node.text is not None:
             result['values'] = node.pyval
         
         return result
